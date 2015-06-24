@@ -1,0 +1,824 @@
+Grand total #/Total global #,Grand total $/Total global $,Loss and nil #/Perte et néant # ,Loss and nil $/Perte et néant $,1 - 4999 #,1 - 4999 $,CODE1,iteme,itemf,CODE2
+17023050,0,750,0,43930,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+8745880,0,322130,0,2385500,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+25768930,0,322880,0,2429430,0,A,Total number of returns,Nombre total de déclarations,3
+16987640,665992470,13850,139516,1486870,2066963,B,Employment income,Revenus d'emploi,4
+463590,11599032,280,4387,10720,5256,B,Commissions (from employment),Commissions (d'emploi),5
+2341440,10944075,2380,9935,72650,115167,B,Other employment income,Autres revenus d'emploi,6
+4441190,25462625,3010,17004,69010,52386,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+5942900,37713426,7180,32801,130610,231340,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+3687260,67750972,1510,16402,17310,32558,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+1008360,10225654,700,5007,11240,25330,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+1688420,2518165,9450,14138,372000,589020,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+3001210,20133198,2290,14117,42810,94657,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+3943840,46484535,7550,21280,94910,45648,B,Taxable amount of dividends,Montant imposable des dividendes,13
+7438660,18657773,19330,34186,358660,218607,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+205330,191495,4600,-50019,2630,-561,B,Net partnership income,Revenus nets de société de personnes,15
+80,364,0,0,10,0,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+1332670,3950780,15450,-162398,39420,12132,B,Net rental income,Revenus nets de location,17
+1205440,12580594,3530,31647,31200,25962,B,Taxable capital gains,Gains en capital imposables,18
+105880,1061221,230,1185,5330,6675,B,Support payments received,Pension alimentaire reçue,19
+2339120,11512284,7160,26487,71930,82952,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+4399040,21130689,10800,23884,209250,236700,B,Other income,Autres revenus,21
+1963610,23828395,49710,-896832,125400,169161,B,Net business income,Revenus nets d'entreprise,22
+319240,20173415,3300,-37190,10540,14711,B,Net professional income,Revenus nets de profession libérale,23
+200840,3677419,4300,-27874,12450,12304,B,Net commission income,Revenus nets de commissions,24
+367590,1645308,13570,-369361,14050,-56879,B,Net farming income,Revenus nets d'agriculture,25
+29840,322387,310,-10502,870,-1606,B,Net fishing income,Revenus nets de pêche,26
+636380,5437791,620,3711,8590,16821,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+1508820,10024217,700,1909,116700,300218,B,Social assistance payments,Prestations d'assistance sociale,28
+1845780,8115507,1730,7237,33990,57639,B,Net federal supplements,Versement net des suppléments fédéraux,29
+25526020,1041133791,79970,-1149345,2429430,4353161,C,Total income assessed,Revenu total établi,30
+4613410,14936813,1100,1659,20190,5911,D,Registered pension plan contributions,Cotisations à un RPA,31
+6171340,33335823,2470,4915,25050,26147,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+10630,5810,30,16,260,128,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+1008940,10223327,50,232,440,505,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+5616720,3585411,3610,9157,128210,13095,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+10740,6483,120,110,2720,1859,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+1221640,3967624,1600,2621,33760,26622,D,Child care expenses,Frais de garde d'enfants,37
+1400,6814,0,0,30,33,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+12060,326529,90,2389,280,7304,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+110080,430792,180,451,3840,3202,D,Moving expenses,Frais de déménagement,40
+89480,1037257,180,1312,580,1694,D,Support payments made,Pension alimentaire payée,41
+2568100,4079714,4220,13984,32370,22081,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+1538130,1187028,860,378,32130,2374,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+395550,27718,350,15,14410,200,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+82380,1123574,140,1202,480,745,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+836320,4015578,470,2265,3000,4328,D,Other employment expenses,Autres dépenses d'emploi,46
+28580,352059,10,66,70,117,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+860360,1842743,2860,18728,30560,14360,D,Other deductions,Autres déductions,48
+14014800,80491096,14800,59499,280150,130704,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+426910,1060172,0,0,0,0,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+25416510,961034413,0,0,2406870,4264583,F,Net income after adjustments,Revenu net après rajustement,51
+12650,260346,0,0,10,9,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+1750,456,0,0,10,0,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+34310,1546229,0,0,70,682,G,Security options deductions,Déductions pour options d'achat de titres,54
+3710200,23574432,2760,12857,157230,374679,G,Other payments deductions,Déduction pour autres paiements,55
+2340,54721,0,0,10,5,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+33630,332440,480,4641,1790,5070,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+272780,996514,30,108,1970,1595,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+56150,3312170,40,776,370,531,G,Capital gains deduction,Déduction pour gains en capital,59
+247710,845110,20,15,2380,1191,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+194440,1055470,140,539,4840,14138,G,Additional deductions,Déductions supplémentaires,61
+12530,106386,100,940,170,639,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+4468740,32135265,3500,20006,167900,399023,G,Total deductions from net income,Total des déductions du revenu net,63
+24776550,929005489,0,0,2329330,3882157,H,Taxable income assessed,Revenu imposable établi,64
+25724480,263923957,316490,3236528,2411600,24042785,I,Basic personal amount,Montant personnel de base,65
+4559780,26536628,9550,60710,99710,606698,I,Age amount,Montant en raison de l'âge,66
+2081850,14330781,13420,120169,110410,910056,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+961920,9450550,4410,43767,66950,656240,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+3746580,13469918,16220,60494,172790,647137,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+13070,43985,40,149,240,719,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+15192820,20412403,10330,4652,543160,65663,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+1538130,1187028,860,378,32130,2374,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+14615180,6880480,7580,1702,537770,54243,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+3623110,561015,1190,73,129140,3336,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+110090,17878,40,3,2630,50,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+398130,35695,360,19,14600,260,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+17003780,17129889,14260,12390,917120,825341,I,Canada employment amount,Montant canadien pour emploi,77
+1528690,1113522,4560,2180,76580,31201,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+1528760,792418,2530,1209,16590,6637,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+3174410,15439874,2040,9469,8290,31917,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+203580,935502,150,636,1400,5884,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+3100,20161,10,26,30,83,I,Adoption expenses,Frais d'adoption,82
+4299010,8167064,2110,3654,26180,34535,I,Pension income amount,Montant pour revenu de pension,83
+188460,805876,590,2495,3240,13158,I,Caregiver amount,Montant pour aidants naturels,84
+585780,4209351,2660,19688,25030,182095,I,Disability amount,Montant pour personnes handicapées,85
+193500,1803591,600,5579,4990,50508,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+643350,323297,380,205,4610,1771,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+1628680,7036001,0,0,600,678,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+688930,3358578,100,366,540,1709,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+1170840,5354088,15230,66045,135370,581841,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+4065660,9805392,11710,15410,85310,81079,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+25732240,64971738,316510,550200,2413180,4325700,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+5800930,8232264,250,276,13590,7555,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+5950,60757,10,1,60,1477,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+5752400,2276029,20,1,12370,1084,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+25732890,67247767,316520,550200,2413270,4326783,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+3463770,6972725,670,0,10340,40,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+15960820,105714037,140,1637,17720,8709,L,Basic federal tax,Impôt fédéral de base,98
+15914430,104178273,140,1598,17310,4317,M,Net federal tax,Impôt fédéral net,99
+1181850,1827464,590,508,24890,3347,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+12243660,46861009,110,505,8980,1749,N,Net provincial tax,Impôt provincial ou territorial net,101
+17023050,153931645,750,2610,43930,9413,O,Total tax payable,Total de l'impôt à payer,102
+5000 - 9999 #,5000 - 9999 $,10000 - 14999 # ,10000 - 14999 $,15000 - 19999 #,15000 - 19999 $,CODE1,iteme,itemf,CODE2
+189510,0,630600,0,1074440,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+1873690,0,1924220,0,1426680,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+2063200,0,2554810,0,2501120,0,A,Total number of returns,Nombre total de déclarations,3
+1098620,6694556,1154790,11025350,1132210,15295189,B,Employment income,Revenus d'emploi,4
+22360,19378,28230,44020,28890,73391,B,Commissions (from employment),Commissions (d'emploi),5
+98430,320006,108130,380203,104780,370132,B,Other employment income,Autres revenus d'emploi,6
+149430,695880,567510,2839888,1001810,5845872,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+313890,1166780,685130,2848531,1097290,6089130,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+44010,118070,127100,388565,400110,1404500,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+30800,128903,87440,539618,147870,1036170,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+166890,253573,185760,274858,151060,223367,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+128330,543719,265750,1494602,345860,2360299,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+93250,81806,154480,159629,223250,285725,B,Taxable amount of dividends,Montant imposable des dividendes,13
+316650,332665,477780,559353,688260,972816,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+2450,178,3120,-1033,4540,472,B,Net partnership income,Revenus nets de société de personnes,15
+10,0,20,7,10,7,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+51600,83211,72980,136041,90220,170124,B,Net rental income,Revenus nets de location,17
+33350,57605,46730,89272,62430,110781,B,Taxable capital gains,Gains en capital imposables,18
+8170,26590,11570,52308,12600,70633,B,Support payments received,Pension alimentaire reçue,19
+75610,187915,113610,338679,147640,466140,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+257540,609217,293660,769690,306490,735149,B,Other income,Autres revenus,21
+216680,1095269,258290,2058329,209080,2050127,B,Net business income,Revenus nets d'entreprise,22
+17230,82719,20670,155029,18160,172805,B,Net professional income,Revenus nets de profession libérale,23
+17950,70212,20440,123731,18330,140099,B,Net commission income,Revenus nets de commissions,24
+24950,27909,36320,94409,32920,81538,B,Net farming income,Revenus nets d'agriculture,25
+1470,-180,2770,4043,3740,14578,B,Net fishing income,Revenus nets de pêche,26
+19820,66567,40590,200825,61370,370977,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+418640,2655249,519360,4367440,251570,1451670,B,Social assistance payments,Prestations d'assistance sociale,28
+129380,386551,490180,2865484,800460,3781883,B,Net federal supplements,Versement net des suppléments fédéraux,29
+2063200,15704348,2554810,31808871,2501120,43573575,C,Total income assessed,Revenu total établi,30
+38170,11017,60500,27083,92670,53421,D,Registered pension plan contributions,Cotisations à un RPA,31
+36040,44462,86750,108030,158140,244943,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+360,184,610,321,700,364,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+1510,2122,4160,5961,15770,26941,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+198350,29448,222950,41878,236620,54545,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+1740,938,1910,1029,1160,631,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+52750,77201,74100,136780,91510,201239,D,Child care expenses,Frais de garde d'enfants,37
+50,95,90,174,110,315,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+260,6458,340,7624,430,10107,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+6970,6352,8460,9411,9040,13293,D,Moving expenses,Frais de déménagement,40
+800,2103,1410,3884,1950,5834,D,Support payments made,Pension alimentaire payée,41
+39910,29511,73630,45907,136210,81267,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+194100,33916,247270,85395,191320,97173,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+43940,1070,62500,2292,51770,2456,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+380,787,530,986,900,1251,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+6100,9433,12170,21575,21470,44508,D,Other employment expenses,Autres dépenses d'emploi,46
+170,541,340,1538,680,3389,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+37030,19661,60320,33027,80910,45387,D,Other deductions,Autres déductions,48
+515780,275298,680980,532894,778280,887065,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+0,0,0,0,0,0,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+2060920,15443416,2553640,31288357,2500450,42709833,F,Net income after adjustments,Revenu net après rajustement,51
+10,8,30,27,20,42,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+10,1,10,3,10,1,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+90,127,160,254,170,322,G,Security options deductions,Déductions pour options d'achat de titres,54
+553770,3108369,990400,7433756,986080,5604545,G,Other payments deductions,Déduction pour autres paiements,55
+10,7,10,8,20,7,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+1190,4954,4270,10257,4970,17093,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+2320,3920,4800,6433,7980,10327,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+390,1018,870,2083,1260,4110,G,Capital gains deduction,Déduction pour gains en capital,59
+3470,4837,7840,15848,13080,32850,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+6620,21659,16620,63508,29880,100765,G,Additional deductions,Déductions supplémentaires,61
+180,754,900,2037,1140,3744,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+564840,3147154,1013390,7536217,1018700,5775634,G,Total deductions from net income,Total des déductions du revenu net,63
+1820410,12305693,2307390,23766899,2462930,36945807,H,Taxable income assessed,Revenu imposable établi,64
+2059410,20996266,2552140,26193349,2499230,25706182,I,Basic personal amount,Montant personnel de base,65
+190760,1207748,605370,3871888,1029790,6595813,I,Age amount,Montant en raison de l'âge,66
+116170,785795,175910,1196240,215550,1319690,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+81150,807746,116350,1169412,102300,1019455,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+158330,550100,225020,796240,228970,821080,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+260,854,430,1525,760,2582,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+909050,182670,1056140,379082,1069620,588107,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+194100,33916,247270,85395,191320,97173,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+948260,105102,1007020,170433,1021760,236981,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+231690,7367,260490,12599,278440,18818,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+5990,141,6740,239,6490,323,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+44150,1377,62820,2952,52070,3164,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+1123800,1132083,1181280,1191715,1164940,1179931,I,Canada employment amount,Montant canadien pour emploi,77
+101440,43990,123610,61856,124210,72709,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+17730,6959,30190,12019,43560,17934,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+11640,45836,34570,124262,81200,296400,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+1330,5811,2900,12369,5750,24843,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+40,127,50,198,80,267,I,Adoption expenses,Frais d'adoption,82
+69480,106823,199020,325851,504860,857422,I,Pension income amount,Montant pour revenu de pension,83
+3560,13776,6190,23632,10160,39391,I,Caregiver amount,Montant pour aidants naturels,84
+47390,340403,93440,669014,82270,590134,I,Disability amount,Montant pour personnes handicapées,85
+4330,42909,6760,63767,9130,79028,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+5460,1934,18240,6872,37660,16044,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+1320,2459,210480,269781,264650,994064,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+680,2139,3460,7774,11270,39555,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+80010,337574,157950,780260,165920,836269,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+124880,141056,263620,396916,504600,1292024,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+2060600,4035444,2552880,5673846,2499730,6411808,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+22880,9157,81650,43435,207400,106874,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+90,66,170,99,310,162,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+21470,2148,79290,8358,203190,26921,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+2060650,4037592,2552920,5682204,2499760,6438728,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+9000,80,59360,4718,109870,16842,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+26090,13239,466630,109598,929390,551006,L,Basic federal tax,Impôt fédéral de base,98
+25760,12978,460940,109819,923490,549893,M,Net federal tax,Impôt fédéral net,99
+155010,53040,188440,129190,142470,144425,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+23370,4594,193390,36647,577250,204662,N,Net provincial tax,Impôt provincial ou territorial net,101
+189510,70611,630600,275658,1074440,899002,O,Total tax payable,Total de l'impôt à payer,102
+20000 - 24999 #,20000 - 24999 $,25000 - 29999 #,25000 - 29999 $,30000 - 34999 #,30000 - 34999 $,CODE1,iteme,itemf,CODE2
+1489510,0,1496380,0,1529100,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+447910,0,168020,0,80080,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+1937420,0,1664400,0,1609180,0,A,Total number of returns,Nombre total de déclarations,3
+1121010,19788781,1109340,24468076,1134010,30651075,B,Employment income,Revenus d'emploi,4
+29150,111509,28750,148063,28430,195095,B,Commissions (from employment),Commissions (d'emploi),5
+122670,436582,139050,471812,156420,504153,B,Other employment income,Autres revenus d'emploi,6
+576630,3483832,383990,2331473,339240,2068806,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+703100,4892814,508990,3700365,461410,3409110,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+485270,3075937,387640,4007918,373660,5155289,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+125730,1072394,93690,1031756,106810,1262340,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+129000,186750,116000,166807,105180,150750,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+364170,2828612,357380,2901991,322010,2473513,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+231870,401749,220280,539831,238000,700140,B,Taxable amount of dividends,Montant imposable des dividendes,13
+598610,1087125,503690,999930,497890,1033164,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+5780,511,6120,1695,6890,1466,B,Net partnership income,Revenus nets de société de personnes,15
+10,29,10,40,0,0,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+91230,191533,84430,169701,85350,173794,B,Net rental income,Revenus nets de location,17
+65920,134261,62240,148394,66200,167292,B,Taxable capital gains,Gains en capital imposables,18
+11410,82037,9190,75264,8240,72569,B,Support payments received,Pension alimentaire reçue,19
+166110,586226,167340,630045,180150,710049,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+294210,710863,272730,696398,278930,729227,B,Other income,Autres revenus,21
+166330,1889849,133890,1693360,113930,1494033,B,Net business income,Revenus nets d'entreprise,22
+15720,180991,14030,188915,12820,187681,B,Net professional income,Revenus nets de profession libérale,23
+15630,143621,13240,145243,12070,145257,B,Net commission income,Revenus nets de commissions,24
+28020,94165,24050,93531,23070,111632,B,Net farming income,Revenus nets d'agriculture,25
+4200,25923,3700,30182,2900,32718,B,Net fishing income,Revenus nets de pêche,26
+73480,568236,71560,634567,67470,623747,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+110050,700008,41240,261867,19850,116113,B,Social assistance payments,Prestations d'assistance sociale,28
+271490,675190,60080,179370,25860,73098,B,Net federal supplements,Versement net des suppléments fédéraux,29
+1937420,43349526,1664400,45716592,1609180,52242144,C,Total income assessed,Revenu total établi,30
+135290,102916,190440,186368,274000,347311,D,Registered pension plan contributions,Cotisations à un RPA,31
+228490,410569,299490,609299,380290,860043,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+760,404,860,461,820,442,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+58700,154023,82680,354009,95250,509159,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+270040,76098,314340,107174,372740,154255,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+690,359,490,266,420,247,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+101610,256242,109030,303080,111940,341799,D,Child care expenses,Frais de garde d'enfants,37
+130,438,110,309,100,367,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+570,10167,580,11281,650,13855,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+9090,16327,9010,20058,7830,20134,D,Moving expenses,Frais de déménagement,40
+2760,9443,3480,13726,4210,17919,D,Support payments made,Pension alimentaire payée,41
+157480,88801,151670,100952,161480,110408,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+148820,96596,118250,91848,97620,85267,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+38630,2161,29030,1810,22870,1501,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+1340,1823,1580,2921,1800,4514,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+30290,72858,38950,102671,46080,134646,D,Other employment expenses,Autres dépenses d'emploi,46
+1040,6483,1800,12406,2370,18560,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+86320,53213,82640,57038,76340,57855,D,Other deductions,Autres déductions,48
+868220,1358922,924130,1975675,1011860,2678282,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+0,0,0,0,0,0,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+1936920,41997735,1664030,43749606,1608870,49575116,F,Net income after adjustments,Revenu net après rajustement,51
+40,199,50,369,70,803,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+10,1,10,0,10,1,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+220,366,250,560,370,660,G,Security options deductions,Déductions pour options d'achat de titres,54
+404000,1943445,159240,1075807,108210,812959,G,Other payments deductions,Déduction pour autres paiements,55
+30,23,20,19,30,33,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+4210,19969,3320,18957,2630,18559,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+11520,15005,12130,17269,13910,19996,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+1550,6692,1910,11356,2110,15797,G,Capital gains deduction,Déduction pour gains en capital,59
+14600,38714,14760,41390,14060,41556,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+30890,100480,20420,82127,16910,75013,G,Additional deductions,Déductions supplémentaires,61
+1130,5653,1090,6456,860,5982,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+447350,2132720,205590,1256028,154160,993302,G,Total deductions from net income,Total des déductions du revenu net,63
+1918840,39869031,1656880,42496283,1604550,48584282,H,Taxable income assessed,Revenu imposable établi,64
+1935870,19926003,1663250,17130549,1608190,16573163,I,Basic personal amount,Montant personnel de base,65
+600280,3845111,407450,2609335,360960,2282714,I,Age amount,Montant en raison de l'âge,66
+188440,1174838,148330,958328,130820,868568,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+85240,843484,73470,722667,68570,671552,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+223760,798292,221050,779300,229340,801621,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+990,3287,1000,3319,1010,3236,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+1065360,805668,1058020,1032505,1083610,1327329,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+148820,96596,118250,91848,97620,85267,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+1025130,306159,1027560,379310,1052320,473550,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+283840,24924,294960,32262,309050,41408,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+6010,401,5900,502,6150,650,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+38880,2784,29240,2331,23060,1933,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+1172130,1180227,1167900,1172982,1200080,1202389,I,Canada employment amount,Montant canadien pour emploi,77
+117350,77418,108520,78581,104560,79889,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+54970,22895,65740,27563,78770,33403,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+124300,480478,153700,629131,187430,793018,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+9320,41291,13160,58639,17130,77216,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+100,485,130,625,150,792,I,Adoption expenses,Frais d'adoption,82
+566020,1078562,442720,864714,423380,832307,I,Pension income amount,Montant pour revenu de pension,83
+13180,53364,14910,61737,15750,66389,I,Caregiver amount,Montant pour aidants naturels,84
+72740,521778,56270,404441,46250,332677,I,Disability amount,Montant pour personnes handicapées,85
+10880,91871,12490,106983,14010,121943,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+50540,22142,60250,27318,65770,31002,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+197100,1049436,160280,903484,135410,755948,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+19160,78097,26200,111944,33130,146771,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+135990,688718,102130,483444,81610,354260,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+552530,1078026,472680,997842,427230,951533,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+1936260,5143850,1663570,4450752,1608490,4336580,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+323070,191591,362610,247343,414460,313000,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+390,241,410,486,410,387,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+318240,48137,357930,64540,409730,82723,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+1936290,5191987,1663610,4515292,1608540,4419302,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+173740,38220,194520,61679,226780,89064,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+1273920,1224019,1360380,1990921,1451430,2874867,L,Basic federal tax,Impôt fédéral de base,98
+1267580,1220440,1356120,1983810,1448130,2863214,M,Net federal tax,Impôt fédéral net,99
+112280,146644,90670,143204,75940,136148,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+1042200,558709,1074520,947826,1099310,1306856,N,Net provincial tax,Impôt provincial ou territorial net,101
+1489510,1925867,1496380,3074984,1529100,4306363,O,Total tax payable,Total de l'impôt à payer,102
+35000 - 39999 #,35000 - 39999 $40000 - 44999 #,40000 - 44999 #,40000 - 44999 $,45000 - 49999 #,45000 - 49999 $,CODE1,iteme,itemf,CODE2
+1461250,0,1329760,0,1114720,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+44000,0,25170,0,15420,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+1505260,0,1354920,0,1130140,0,A,Total number of returns,Nombre total de déclarations,3
+1117660,35744431,1021770,37260130,896990,37052823,B,Employment income,Revenus d'emploi,4
+28100,240373,26700,285993,23990,314139,B,Commissions (from employment),Commissions (d'emploi),5
+164030,489998,159670,466323,143040,426912,B,Other employment income,Autres revenus d'emploi,6
+270400,1650511,232450,1420410,159980,976453,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+388250,2888990,341540,2527107,248210,1868177,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+328850,5808313,300650,6285641,223620,5657529,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+87700,1123997,98510,1253238,42050,513535,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+91310,131104,74590,107578,59720,86537,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+269440,1927323,213840,1443986,163580,1059513,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+246020,928739,253570,1128641,219560,1124263,B,Taxable amount of dividends,Montant imposable des dividendes,13
+474610,1000177,451150,1002113,374600,816713,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+7500,2005,8780,4035,7980,2266,B,Net partnership income,Revenus nets de société de personnes,15
+10,9,10,89,0,0,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+84920,163033,81230,166125,72070,147815,B,Net rental income,Revenus nets de location,17
+67130,188552,70340,205880,61560,209705,B,Taxable capital gains,Gains en capital imposables,18
+7240,70562,5850,60727,4980,56748,B,Support payments received,Pension alimentaire reçue,19
+184430,745518,177200,757075,153950,663587,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+274290,759325,266370,767011,223360,672948,B,Other income,Autres revenus,21
+99710,1336997,88580,1228620,72390,1038353,B,Net business income,Revenus nets d'entreprise,22
+12130,193023,11870,203022,10870,206378,B,Net professional income,Revenus nets de profession libérale,23
+10840,145235,9800,148187,8140,137439,B,Net commission income,Revenus nets de commissions,24
+20980,105967,20660,140150,16230,90351,B,Net farming income,Revenus nets d'agriculture,25
+2370,34164,1780,29840,1260,23600,B,Net fishing income,Revenus nets de pêche,26
+60070,574135,49410,484980,40560,411206,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+10960,63275,6400,35633,3980,23280,B,Social assistance payments,Prestations d'assistance sociale,28
+13250,35106,6380,16731,3420,9760,B,Net federal supplements,Versement net des suppléments fédéraux,29
+1505260,56350861,1354920,57429267,1130140,53590072,C,Total income assessed,Revenu total établi,30
+346650,545624,362620,695930,360360,815532,D,Registered pension plan contributions,Cotisations à un RPA,31
+443000,1127732,459640,1328266,443130,1471496,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+950,519,820,450,690,385,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+104320,658986,102350,786476,91800,890150,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+417610,204214,410090,226771,388280,244150,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+300,212,220,151,190,102,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+105980,347965,91760,322093,77670,289995,D,Child care expenses,Frais de garde d'enfants,37
+100,419,80,263,80,322,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+630,9529,690,13448,610,11707,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+7180,21048,6440,22238,5620,21943,D,Moving expenses,Frais de déménagement,40
+4730,22308,4870,24414,4850,26562,D,Support payments made,Pension alimentaire payée,41
+165240,124487,165610,135080,146610,132176,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+83960,79815,73930,76583,56240,64834,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+19000,1327,16060,1213,13330,1084,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+2060,4378,2490,5369,2440,6581,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+50970,161306,54520,187330,54750,204860,D,Other employment expenses,Autres dépenses d'emploi,46
+2400,21169,2690,26913,2630,29588,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+66900,57668,55660,51216,43950,47495,D,Other deductions,Autres déductions,48
+1054480,3388706,1012310,3904205,906310,4258962,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+0,0,0,0,0,0,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+1505020,52969191,1354720,53531124,1129980,49335422,F,Net income after adjustments,Revenu net après rajustement,51
+120,1477,330,4196,450,6400,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+20,2,20,2,20,3,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+520,824,600,1027,670,1163,G,Security options deductions,Déductions pour options d'achat de titres,54
+81760,672516,60830,537423,47080,444246,G,Other payments deductions,Déduction pour autres paiements,55
+50,71,60,130,60,128,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+1960,15352,1560,14282,1290,12648,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+14600,22635,16010,25263,14490,25269,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+2160,19894,2260,23365,2280,29259,G,Capital gains deduction,Déduction pour gains en capital,59
+13580,41366,13310,41402,12150,39649,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+13470,64634,11140,54141,7790,43604,G,Additional deductions,Déductions supplémentaires,61
+820,6261,740,5442,580,4660,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+125070,846787,103720,707907,84270,608481,G,Total deductions from net income,Total des déductions du revenu net,63
+1502060,52124799,1352970,52824635,1128760,48728323,H,Taxable income assessed,Revenu imposable établi,64
+1504430,15509161,1354310,13965285,1129510,11648630,I,Basic personal amount,Montant personnel de base,65
+291450,1702289,249250,1316803,173770,827621,I,Age amount,Montant en raison de l'âge,66
+115650,784381,99240,680037,86390,595739,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+62210,606729,51570,501672,42290,410110,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+229970,802615,215230,752179,196620,688961,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+1010,3332,900,2978,780,2505,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+1070070,1575904,976360,1661938,859960,1635647,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+83960,79815,73930,76583,56240,64834,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+1038810,552557,948220,573758,833090,532791,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+296200,46808,247800,44205,210750,42591,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+6100,790,6010,915,6290,1103,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+19180,1710,16230,1562,13470,1397,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+1181620,1185277,1078120,1083283,938700,949307,I,Canada employment amount,Montant canadien pour emploi,77
+101020,80820,90880,75435,79910,67733,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+88160,38163,89810,40324,88440,40763,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+208560,906886,215840,961026,207880,941999,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+19320,87635,19770,90254,18430,84671,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+160,938,170,1027,180,1071,I,Adoption expenses,Frais d'adoption,82
+369980,728824,343360,677791,247410,487532,I,Pension income amount,Montant pour revenu de pension,83
+15770,67425,14870,63531,13060,56928,I,Caregiver amount,Montant pour aidants naturels,84
+36360,261524,28530,205272,20630,148402,I,Disability amount,Montant pour personnes handicapées,85
+14410,129649,13930,127372,12370,116055,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+65010,32090,58440,29680,50720,27169,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+113840,616498,94680,483763,78030,380713,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+38960,176516,40780,187441,40190,186554,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+61520,251446,41750,173172,30860,132392,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+354570,826932,287280,725648,200950,521869,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+1504670,4058507,1354490,3675440,1129660,3089263,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+433700,349727,424780,366941,385800,351724,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+440,607,410,649,390,676,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+429300,93194,421020,98302,382640,94643,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+1504700,4151701,1354520,3773742,1129700,3183906,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+241370,122147,252290,155419,219600,159960,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+1415080,3598640,1300400,4090030,1096620,4271460,L,Basic federal tax,Impôt fédéral de base,98
+1412330,3582386,1298230,4071000,1094840,4250360,M,Net federal tax,Impôt fédéral net,99
+65880,128645,58570,124552,44620,104766,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+1066140,1620785,994900,1904781,841620,1937234,N,Net provincial tax,Impôt provincial ou territorial net,101
+1461250,5332078,1329760,6100633,1114720,6292659,O,Total tax payable,Total de l'impôt à payer,102
+50000 - 54999 #,50000 - 54999 $,55000 - 59999 #,55000 - 59999 $,60000 - 69999 #,60000 - 69999 $,CODE1,iteme,itemf,CODE2
+957080,0,807740,0,1298890,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+9550,0,6050,0,7120,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+966630,0,813790,0,1306010,0,A,Total number of returns,Nombre total de déclarations,3
+788260,36314382,676020,34212021,1100400,63146476,B,Employment income,Revenus d'emploi,4
+21500,340353,19620,357169,32610,726821,B,Commissions (from employment),Commissions (d'emploi),5
+127070,381593,113510,332254,198410,601817,B,Other employment income,Autres revenus d'emploi,6
+122430,746762,97660,594833,152300,926696,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+193340,1467430,154610,1170914,231860,1753357,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+176430,5007902,142820,4386617,215600,7059749,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+26790,321528,22470,287797,45210,646364,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+48020,69763,37400,54059,52450,76402,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+124120,780235,94190,563700,128550,722702,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+199970,1233114,178690,1119344,313780,2361045,B,Taxable amount of dividends,Montant imposable des dividendes,13
+327680,718605,283330,647906,475650,1172782,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+7640,1972,7360,3273,14640,7545,B,Net partnership income,Revenus nets de société de personnes,15
+0,0,0,0,0,0,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+64030,135438,56900,126073,96590,230981,B,Net rental income,Revenus nets de location,17
+56220,210923,51270,213341,92340,459105,B,Taxable capital gains,Gains en capital imposables,18
+3960,51317,3110,43456,4600,76418,B,Support payments received,Pension alimentaire reçue,19
+134180,604898,116700,559531,185580,970868,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+194670,616703,170100,569602,289680,1058040,B,Other income,Autres revenus,21
+60890,916480,51590,804432,81710,1378867,B,Net business income,Revenus nets d'entreprise,22
+9940,203918,9460,208528,17470,431675,B,Net professional income,Revenus nets de profession libérale,23
+7160,136622,6130,130910,10040,250264,B,Net commission income,Revenus nets de commissions,24
+13790,80896,11770,74303,20080,138156,B,Net farming income,Revenus nets d'agriculture,25
+910,17764,730,17025,960,25357,B,Net fishing income,Revenus nets de pêche,26
+31160,298198,24710,236764,33290,318516,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+2530,13958,1710,8951,1950,9371,B,Social assistance payments,Prestations d'assistance sociale,28
+2120,5917,1540,4511,2020,5765,B,Net federal supplements,Versement net des suppléments fédéraux,29
+966630,50676696,813790,46727316,1306010,84555182,C,Total income assessed,Revenu total établi,30
+348750,915352,317470,949536,544360,1932845,D,Registered pension plan contributions,Cotisations à un RPA,31
+413270,1532310,369240,1489051,633470,2908367,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+600,337,450,251,770,433,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+77320,902664,62620,837479,90360,1312031,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+364360,256994,326270,252584,549960,476742,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+170,128,110,86,180,124,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+65300,254699,53350,216676,80270,343524,D,Child care expenses,Frais de garde d'enfants,37
+50,194,50,203,90,431,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+590,10356,530,10659,960,18274,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+4990,22734,4470,22335,7170,41263,D,Moving expenses,Frais de déménagement,40
+4790,29155,4330,27263,8000,56633,D,Support payments made,Pension alimentaire payée,41
+133020,129354,118440,121697,207240,239713,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+40650,53058,30880,43159,45560,67843,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+11100,981,9420,905,13350,1532,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+2640,7958,2620,8698,5200,19381,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+52990,211261,49970,211530,86920,395903,D,Other employment expenses,Autres dépenses d'emploi,46
+2680,33820,2410,34270,3730,59081,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+35130,45066,28220,39571,42620,71609,D,Other deductions,Autres déductions,48
+805750,4406422,696640,4265951,1141780,7945730,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+6340,1528,28310,19437,77910,73309,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+966500,46273689,813700,42445407,1305840,76543130,F,Net income after adjustments,Revenu net après rajustement,51
+1150,20012,1350,24668,3230,62212,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+20,30,20,3,90,22,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+650,1250,760,1524,1570,3616,G,Security options deductions,Déductions pour options d'achat de titres,54
+35300,318073,27600,250227,36810,333652,G,Other payments deductions,Déduction pour autres paiements,55
+70,173,70,113,140,288,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+930,9970,770,8733,1110,14202,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+13520,26994,12580,27197,23290,53341,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+2250,33025,2160,37211,4440,97176,G,Capital gains deduction,Déduction pour gains en capital,59
+11590,39240,11040,38487,19990,71966,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+5700,27754,4750,27860,7210,42384,G,Additional deductions,Déductions supplémentaires,61
+520,4341,500,4873,820,7668,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+69580,482577,59640,422013,95480,688558,G,Total deductions from net income,Total des déductions du revenu net,63
+966090,45792177,813340,42024507,1305440,75856037,H,Taxable income assessed,Revenu imposable établi,64
+966140,9964117,813410,8389757,1305300,13463959,I,Basic personal amount,Montant personnel de base,65
+133690,561961,106900,382945,165830,423804,I,Age amount,Montant en raison de l'âge,66
+76440,530272,67060,468692,114900,808957,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+34760,336842,28490,275134,43720,422212,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+181310,639138,162540,577172,283910,1018026,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+760,2530,620,2078,1070,3629,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+756690,1494230,649720,1300178,1058750,2144544,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+40650,53058,30880,43159,45560,67843,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+733030,479422,631170,417717,1021740,684277,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+179130,40400,149530,37032,234470,63861,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+6620,1325,6310,1392,10530,2593,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+11210,1264,9510,1165,13450,1972,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+819710,832781,699850,713381,1134120,1160498,I,Canada employment amount,Montant canadien pour emploi,77
+70170,60347,60010,52376,95220,83739,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+86500,41106,81700,39642,151570,76978,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+198110,917119,183030,861520,328370,1592294,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+16990,78518,14860,69251,22860,107116,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+190,1144,150,1067,330,2273,I,Adoption expenses,Frais d'adoption,82
+192730,379538,155800,306926,237170,467299,I,Pension income amount,Montant pour revenu de pension,83
+10940,47382,9270,39863,14360,63091,I,Caregiver amount,Montant pour aidants naturels,84
+15280,109967,11580,83292,15910,114440,I,Disability amount,Montant pour personnes handicapées,85
+11100,105643,9710,92569,16250,157791,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+44160,24539,37340,21347,56520,32814,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+66030,304484,54480,264619,81580,354415,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+38720,181584,36000,169829,68180,326984,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+24500,105880,19790,84581,31230,131978,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+150640,410990,113750,328033,160140,500657,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+966300,2655837,813530,2253707,1305540,3641706,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+353310,338228,315270,316801,540750,599490,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+330,791,330,890,540,1788,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+350650,91159,313310,85532,537770,162846,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+966310,2746996,813560,2339239,1305570,3804553,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+200750,176570,179730,164422,315680,349785,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+944630,4454011,800340,4454006,1290300,8839217,L,Basic federal tax,Impôt fédéral de base,98
+943060,4431859,799110,4430874,1288240,8792016,M,Net federal tax,Impôt fédéral net,99
+32350,85537,24350,68937,35780,107892,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+728770,1986600,621040,1950017,1012450,3789820,N,Net provincial tax,Impôt provincial ou territorial net,101
+957080,6505864,807740,6469679,1298890,12763871,O,Total tax payable,Total de l'impôt à payer,102
+70000 - 79999 #,70000 - 79999 $,80000 - 89999 #,80000 - 89999 $,90000 - 99999 #,90000 - 99999 $,CODE1,iteme,itemf,CODE2
+963210,0,708390,0,473560,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+3330,0,1740,0,1110,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+966540,0,710130,0,474670,0,A,Total number of returns,Nombre total de déclarations,3
+846390,56642649,633000,48286969,424520,35799548,B,Employment income,Revenus d'emploi,4
+25280,682348,19660,626221,15420,564881,B,Commissions (from employment),Commissions (d'emploi),5
+155780,487203,112140,393301,80630,315482,B,Other employment income,Autres revenus d'emploi,6
+85950,519718,53620,321046,34070,201174,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+135170,1022560,84760,641987,54470,412259,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+128960,4615248,82410,3089371,54270,2099355,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+26210,355970,17930,231938,9760,97021,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+33390,48985,21940,32288,11490,17103,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+76210,400826,40850,210651,22580,113991,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+248550,2126335,197400,1894084,148090,1585324,B,Taxable amount of dividends,Montant imposable des dividendes,13
+359470,888768,274040,704825,193500,546244,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+12610,8026,10900,6937,9100,5787,B,Net partnership income,Revenus nets de société de personnes,15
+0,0,0,0,0,0,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+75220,189767,59050,161504,42760,140086,B,Net rental income,Revenus nets de location,17
+74580,419440,60390,402948,46790,368200,B,Taxable capital gains,Gains en capital imposables,18
+2980,57460,1940,41720,1290,36122,B,Support payments received,Pension alimentaire reçue,19
+134110,734550,95960,565723,63550,437636,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+224420,931344,171890,822119,125170,732239,B,Other income,Autres revenus,21
+59620,1071150,43920,864323,30110,668132,B,Net business income,Revenus nets d'entreprise,22
+15280,437187,12960,439708,10690,441610,B,Net professional income,Revenus nets de profession libérale,23
+7550,223716,5790,208549,4210,170590,B,Net commission income,Revenus nets de commissions,24
+14920,111548,11370,96522,7860,74030,B,Net farming income,Revenus nets d'agriculture,25
+560,15861,370,11975,220,7371,B,Net fishing income,Revenus nets de pêche,26
+19900,185201,12700,117484,7520,78475,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+1040,5221,650,3096,380,1780,B,Social assistance payments,Prestations d'assistance sociale,28
+1020,3011,630,1679,460,1295,B,Net federal supplements,Versement net des suppléments fédéraux,29
+966540,72184091,710130,60176969,474670,44915735,C,Total income assessed,Revenu total établi,30
+451930,1968351,358900,1943566,228590,1311976,D,Registered pension plan contributions,Cotisations à un RPA,31
+521900,2769310,409080,2516605,292260,2173389,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+590,335,420,239,260,150,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+60050,886519,39150,605258,26930,447643,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+447190,432239,340230,355655,208000,218983,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+130,73,100,73,40,25,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+56250,253046,38780,187553,22790,114677,D,Child care expenses,Frais de garde d'enfants,37
+50,311,70,430,40,185,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+820,18169,670,14360,530,13453,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+5250,37508,3870,31361,2750,25153,D,Moving expenses,Frais de déménagement,40
+7080,58463,6030,57044,4860,52548,D,Support payments made,Pension alimentaire payée,41
+166010,222812,134400,193115,101390,164690,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+31170,48943,23090,37383,16790,28053,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+7940,1133,5720,890,4140,692,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+4860,21631,4480,23691,3810,21678,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+68470,330886,55500,275459,43010,232186,D,Other employment expenses,Autres dépenses d'emploi,46
+2290,40124,1270,23282,770,14498,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+29710,62364,21090,56219,14860,54203,D,Other deductions,Autres déductions,48
+876090,7152218,655750,6322181,441180,4874180,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+84630,97850,56240,105651,36680,96438,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+966400,64941294,710040,53752639,474600,39948440,F,Net income after adjustments,Revenu net après rajustement,51
+2190,48100,1360,31827,830,21399,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+90,19,120,24,140,33,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+1630,4582,1610,4768,1700,6639,G,Security options deductions,Déductions pour options d'achat de titres,54
+21740,193396,13830,122163,8230,81434,G,Other payments deductions,Déduction pour autres paiements,55
+140,247,130,146,110,245,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+710,9578,520,9173,320,6294,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+19330,47750,15670,42860,12830,41109,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+3440,87184,2940,91717,2410,86939,G,Capital gains deduction,Déduction pour gains en capital,59
+18410,69839,16340,66781,13000,56878,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+4600,30853,3180,24199,2140,19990,G,Additional deductions,Déductions supplémentaires,61
+550,5554,460,4548,350,3536,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+70480,499159,54380,399993,40580,325974,G,Total deductions from net income,Total des déductions du revenu net,63
+966120,64443643,709820,53353713,474440,39623697,H,Taxable income assessed,Revenu imposable établi,64
+965990,9964543,709700,7320732,474280,4891869,I,Basic personal amount,Montant personnel de base,65
+83370,142287,26560,48095,11650,19595,I,Age amount,Montant en raison de l'âge,66
+93720,670964,74260,535424,55000,402623,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+31840,306670,23010,221779,13850,132983,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+237460,861611,190650,701522,134030,496543,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+740,2567,620,2096,420,1398,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+819890,1679441,616040,1269539,413280,853282,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+31170,48943,23090,37383,16790,28053,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+786380,534622,587540,405750,390330,270255,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+167900,47363,101830,28817,66980,19032,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+7650,1962,5830,1537,4340,1165,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+7980,1459,5740,1145,4150,891,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+866710,891567,646100,666510,433330,447352,I,Canada employment amount,Montant canadien pour emploi,77
+73180,64424,54030,48607,39110,35658,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+137740,74025,117820,67541,85060,50544,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+275110,1382806,223870,1161684,161530,863154,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+14980,70770,9340,44416,5320,25411,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+270,1947,240,1637,170,1184,I,Adoption expenses,Frais d'adoption,82
+144970,285065,94420,185286,62070,121315,I,Pension income amount,Montant pour revenu de pension,83
+11200,49780,8640,39648,5850,26850,I,Caregiver amount,Montant pour aidants naturels,84
+9380,67507,5950,42782,3800,27368,I,Disability amount,Montant pour personnes handicapées,85
+13030,127429,10340,100879,7120,70189,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+35610,20086,20600,11090,11180,5880,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+56450,211043,39230,136871,23880,89261,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+64710,318844,56800,286513,43270,222631,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+22790,93234,17110,69213,11620,45959,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+96800,316828,60430,214710,40190,153088,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+966130,2735668,709840,2047681,474410,1395530,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+439310,518216,348650,450670,248300,353439,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+440,1654,300,1192,210,1388,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+437340,141454,347410,123459,247540,96982,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+966150,2877122,709860,2171140,474420,1492512,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+250330,316409,198610,281643,148870,235630,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+958790,8237303,706050,7278264,472270,5725795,L,Basic federal tax,Impôt fédéral de base,98
+957170,8190920,704740,7234709,471240,5688344,M,Net federal tax,Impôt fédéral net,99
+24440,77172,17950,58447,12990,43390,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+764760,3516465,586100,3232885,392550,2573371,N,Net provincial tax,Impôt provincial ou territorial net,101
+963210,11883101,708390,10632183,473560,8401717,O,Total tax payable,Total de l'impôt à payer,102
+100000 - 149999 #,100000 - 149999 $,150000 - 249999 #,150000 - 249999 $,250000 and over #/250 000 et plus #,250000 and over $/250 000 et plus $,CODE1,iteme,itemf,CODE2
+922770,0,348990,0,182480,0,A,Number of taxable returns,Nombre de déclarations imposables,1
+2480,0,1200,0,480,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2
+925250,0,350200,0,182960,0,A,Total number of returns,Nombre total de déclarations,3
+808000,81494598,286020,40324281,137930,49584659,B,Employment income,Revenus d'emploi,4
+41560,2077828,21580,1916034,10780,2865774,B,Commissions (from employment),Commissions (d'emploi),5
+175380,1034798,71530,905135,35750,2501269,B,Other employment income,Autres revenus d'emploi,6
+75200,427972,38620,205298,27860,136612,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7
+115220,883546,53310,419711,34550,286518,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8
+118560,4907319,52550,2562239,25940,2072451,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9
+18090,214230,6170,56816,3210,21704,B,Elected split-pension amount,Choix du montant de pension fractionné,10
+16830,25576,4650,7382,1300,2126,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11
+31220,154967,6750,35365,1310,8429,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12
+361660,5974364,186440,5756530,126530,19016943,B,Taxable amount of dividends,Montant imposable des dividendes,13
+427300,1610411,200540,1277401,135920,3033983,B,Interest and other investment income,Intérêts et autres revenus de placements,14
+29240,24188,23940,37774,29520,134977,B,Net partnership income,Revenus nets de société de personnes,15
+0,0,0,0,0,0,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+95910,439866,44630,385718,28690,890234,B,Net rental income,Revenus nets de location,17
+122370,1393814,72100,1678964,58760,6064508,B,Taxable capital gains,Gains en capital imposables,18
+2330,100087,650,49477,230,29867,B,Support payments received,Pension alimentaire reçue,19
+115700,1149460,35820,664392,12400,630554,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+290410,2709389,147110,2700441,97970,4280400,B,Other income,Autres revenus,21
+62490,1949741,25010,1278977,14280,1739027,B,Net business income,Revenus nets d'entreprise,22
+34910,2223813,31070,4035109,30130,10203785,B,Net professional income,Revenus nets de profession libérale,23
+10140,594658,4710,447802,1930,330856,B,Net commission income,Revenus nets de commissions,24
+18460,237108,8570,197121,5960,222212,B,Net farming income,Revenus nets d'agriculture,25
+460,19332,170,12515,90,12425,B,Net fishing income,Revenus nets de pêche,26
+10610,152686,2320,64037,660,30658,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+710,3182,250,1140,160,854,B,Social assistance payments,Prestations d'assistance sociale,28
+990,2882,490,1421,310,978,B,Net federal supplements,Versement net des suppléments fédéraux,29
+925250,109805814,350200,65021114,182960,104101802,C,Total income assessed,Revenu total établi,30
+362080,2220675,91460,645173,27900,256569,D,Registered pension plan contributions,Cotisations à un RPA,31
+606800,6630780,239520,4244122,123320,2835985,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+470,272,160,89,50,29,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+58590,1095105,25960,508177,10930,239886,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+316500,329902,77320,78074,24070,23453,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+70,61,10,6,10,1,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+37300,196618,11600,68724,4300,26472,D,Child care expenses,Frais de garde d'enfants,37
+90,908,30,395,30,1023,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+1400,40824,830,33267,620,63298,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+5380,57974,1940,26612,600,11396,D,Moving expenses,Frais de déménagement,40
+12410,183085,6890,169092,5300,274774,D,Support payments made,Pension alimentaire payée,41
+247460,527445,129310,467563,96400,1128672,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+45940,80835,32320,60603,27240,52972,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+12140,2277,10580,2199,9270,1981,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+13800,105020,12910,152888,17940,732071,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+98570,669645,42280,409949,19870,332977,D,Other employment expenses,Autres dépenses d'emploi,46
+1010,20730,180,4607,30,876,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+32920,208816,17830,265918,14510,583331,D,Other deductions,Autres déductions,48
+857900,12370974,324070,7137462,168350,6565767,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+78500,336514,35560,197238,22730,132207,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+925050,97110366,350080,57704147,182890,97450915,F,Net income after adjustments,Revenu net après rajustement,51
+1220,33950,150,4068,30,579,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+550,140,400,120,210,50,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+7140,44127,7120,100998,9020,1372631,G,Security options deductions,Déductions pour options d'achat de titres,54
+11830,157710,2650,65493,860,31682,G,Other payments deductions,Déduction pour autres paiements,55
+400,1157,360,2077,650,49821,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+810,20784,430,19598,380,92323,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+35620,146579,21940,141966,18270,320897,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+7640,374626,6980,646613,8720,1742798,G,Capital gains deduction,Déduction pour gains en capital,59
+31320,137435,14220,56255,2580,9412,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+4550,76564,2340,86113,1260,99146,G,Additional deductions,Déductions supplémentaires,61
+870,11430,440,9156,290,12709,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+97960,1011293,53540,1140839,38630,3741600,G,Total deductions from net income,Total des déductions du revenu net,63
+924620,96103402,349800,56567503,182780,93712901,H,Taxable income assessed,Revenu imposable établi,64
+924060,9529142,349180,3598551,182000,1873384,I,Basic personal amount,Montant personnel de base,65
+10770,21008,1800,6932,870,3270,I,Age amount,Montant en raison de l'âge,66
+121110,904580,51440,396179,27610,219249,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+22450,213809,6600,62658,2700,25628,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+271940,1021695,108150,417502,59270,238690,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+870,3203,370,1328,190,669,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+781270,1608694,271090,552179,124410,251153,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+45940,80835,32320,60603,27240,52972,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+707640,489768,224420,154106,85430,57977,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+121010,34268,39400,10835,19310,5015,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+7890,2103,1990,536,580,148,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+12170,2931,10590,2830,9270,2549,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+826820,853014,294620,303378,142600,146481,I,Canada employment amount,Montant canadien pour emploi,77
+73460,68046,22730,20784,8160,7728,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+177360,112006,74020,51695,40520,31014,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+343800,1963655,144730,910348,80430,566871,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+8040,38437,1940,9398,600,2935,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+390,3046,180,1454,90,770,I,Adoption expenses,Frais d'adoption,82
+131940,257819,57110,111240,28290,54563,I,Pension income amount,Montant pour revenu de pension,83
+11600,53776,3810,17200,1490,6460,I,Caregiver amount,Montant pour aidants naturels,84
+7370,53039,3100,22298,1840,13230,I,Disability amount,Montant pour personnes handicapées,85
+14050,137337,5430,51639,2570,24450,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+15680,8483,3950,2167,1250,665,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+37230,157963,9830,44898,3610,15624,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+98120,520954,43470,242597,25230,149776,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+23160,90091,8520,32841,3790,14888,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+88250,388182,41550,233057,28570,231511,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+924490,2792682,349550,1097885,182410,599651,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+525170,970951,226000,707190,133980,1989655,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+440,5800,160,5363,140,37040,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+523870,271254,225480,200438,133840,582858,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+924530,3063936,349580,1298323,182470,1182508,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+362350,881967,185330,859087,124590,3059042,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+920570,15437545,348180,10817791,181930,21735979,L,Basic federal tax,Impôt fédéral de base,98
+917930,15300838,346810,10674835,181270,20784064,M,Net federal tax,Impôt fédéral net,99
+34410,120061,22050,81334,18190,70226,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+770880,7089119,293010,4892229,152320,9306154,N,Net provincial tax,Impôt provincial ou territorial net,101
+922770,22846949,348990,15845752,182480,30292651,O,Total tax payable,Total de l'impôt à payer,102
+50000 and over #/50 000 $ et plus #,50000 and over $/50 000 $ et plus $,CODE1,iteme,itemf,CODE2,,,,
+6663120,0,A,Number of taxable returns,Nombre de déclarations imposables,1,,,,
+33060,0,A,Number of non-taxable returns,Nombre de déclarations non imposables,2,,,,
+6696180,0,A,Total number of returns,Nombre total de déclarations,3,,,,
+5700540,445805581,B,Employment income,Revenus d'emploi,4,,,,
+208010,10157428,B,Commissions (from employment),Commissions (d'emploi),5,,,,
+1070190,6952852,B,Other employment income,Autres revenus d'emploi,6,,,,
+687730,4080111,B,Old Age Security pension,Pension de la sécurité de la vieillesse,7,,,,
+1057300,8058282,B,CPP or QPP benefits,Prestations du RPC ou du RRQ,8,,,,
+997540,35800250,B,Other pensions or superannuation,Autres pensions et pensions de retraite,9,,,,
+175830,2233366,B,Elected split-pension amount,Choix du montant de pension fractionné,10,,,,
+227460,333684,B,Universal Child Care Benefit,Prestation universelle pour la garde d'enfants (PUGE),11,,,,
+525770,2990867,B,Employment Insurance benefits,Prestations d'assurance-emploi et autres prestations,12,,,,
+1961110,41067084,B,Taxable amount of dividends,Montant imposable des dividendes,13,,,,
+2677420,10600925,B,Interest and other investment income,Intérêts et autres revenus de placements,14,,,,
+144940,230480,B,Net partnership income,Revenus nets de société de personnes,15
+10,108,B,RDSP income,Revenus d'un régime enregistré d'épargne-invalidité (REEI),16
+563780,2699667,B,Net rental income,Revenus nets de location,17
+634830,11211243,B,Taxable capital gains,Gains en capital imposables,18
+21080,485924,B,Support payments received,Pension alimentaire reçue,19
+893990,6317611,B,Registered Retirement Savings Plan income,Revenu d'un REER,20
+1711420,14420276,B,Other income,Autres revenus,21
+429620,10671129,B,Net business income,Revenus nets d'entreprise,22
+171910,18625331,B,Net professional income,Revenus nets de profession libérale,23
+57650,2493966,B,Net commission income,Revenus nets de commissions,24
+112760,1231896,B,Net farming income,Revenus nets d'agriculture,25
+4470,139626,B,Net fishing income,Revenus nets de pêche,26
+142860,1482017,B,Workers' compensation benefits,Indemnités pour accidents du travail,27
+9380,47554,B,Social assistance payments,Prestations d'assistance sociale,28
+9580,27460,B,Net federal supplements,Versement net des suppléments fédéraux,29
+6696180,638164719,C,Total income assessed,Revenu total établi,30
+2731430,12144043,D,Registered pension plan contributions,Cotisations à un RPA,31
+3608860,27099920,D,Registered Retirement Savings Plan deduction,Cotisations à un REER,32
+3780,2136,D,Saskatchewan Pension Plan deduction,Déduction pour le Régime de pensions de la Saskatchewan,33
+451910,6834763,D,Deduction for elected split-pension amount,Déduction pour le choix du montant de pension fractionné,34
+2653880,2424626,D,"Annual union, professional, or like dues","Cotisations annuelles syndicales, professionnelles et semblables",35
+810,578,D,Universal Child Care Benefit repayment,Remboursement de la prestation universelle pour la garde d'enfants (PUGE),36
+369920,1661988,D,Child care expenses,Frais de garde d'enfants,37
+510,4079,D,Disability supports deductions,Déductions pour produits et services de soutien aux personnes handicapées,38
+6950,222661,D,Business investment loss,Perte au titre d'un placement d'entreprise,39
+36420,276337,D,Moving expenses,Frais de déménagement,40
+59680,908057,D,Support payments made,Pension alimentaire payée,41
+1333670,3195061,D,Carrying charges and interest expenses,Frais financiers et frais d'intérêts,42
+293640,472849,D,Deductions for CPP/QPP contributions on self-employment/other earnings,Déd. pour cotisations au RPC/RRQ pour revenu d'un travail indép./autres revenus,43
+83660,12590,D,Deduction for PPIP premiums on self-employment income,Déduction pour cotisations au RPAP pour le revenu d'un travail indépendant,44
+68250,1093016,D,Exploration and development expenses,Frais d'exploration et d'aménagement,45
+517560,3069798,D,Other employment expenses,Autres dépenses d'emploi,46
+14370,231288,D,Clergy residence deduction,Déduction pour la résidence d'un membre du clergé,47
+236880,1387096,D,Other deductions,Autres déductions,48
+5967500,61040884,D,Total deductions before adjustments,Total des déductions avant rajustements,49
+426910,1060172,E,Social benefits repayment,Remboursement des prestations de programmes sociaux,50
+6695090,576170028,F,Net income after adjustments,Revenu net après rajustement,51
+11520,246814,G,Canadian Forces personnel and police deduction,"Déduction pour le personnel des Forces canadiennes, des forces policières",52
+1630,442,G,Employee home relocation loan deduction,Déduction pour prêts à la réinstallation d'employés,53
+31200,1540134,G,Security options deductions,Déductions pour options d'achat de titres,54
+158850,1553830,G,Other payments deductions,Déduction pour autres paiements,55
+2050,54268,G,Limited partnership losses of other years,Pertes comme commanditaire d'autres années,56
+5960,190656,G,Non-capital losses of other years,Pertes autres que des pertes en capital d'autres années,57
+173040,848692,G,Net capital losses of other years,Pertes en capital nettes d'autres années,58
+40970,3197290,G,Capital gains deduction,Déduction pour gains en capital,59
+138480,546292,G,Northern residents deductions,Déductions pour les habitants de régions éloignées,60
+35730,434862,G,Additional deductions,Déductions supplémentaires,61
+4810,63816,G,Farming/fishing losses of prior years,"Pertes provenant de la pêche, pertes agricoles d'autres années",62
+580270,8712006,G,Total deductions from net income,Total des déductions du revenu net,63
+6692440,567477580,H,Taxable income assessed,Revenu imposable établi,64
+6690050,68996055,I,Basic personal amount,Montant personnel de base,65
+541450,1609898,I,Age amount,Montant en raison de l'âge,66
+681540,4936940,I,Spouse or common-law partner amount,Montant pour époux ou conjoint de fait,67
+207410,1997716,I,Amount for eligible dependant,Montant pour personne à charge admissible,68
+1629270,5971899,I,Amount for children 17 and under,Montant pour enfants âgés de 17 ans ou moins,69
+5660,19499,I,Amount for infirm dependents age 18 or older,Montant pour personnes à charge âgées de 18 ans ou plus ayant une déficience,70
+5491140,11153239,I,CPP or QPP contributions employment,Cotisations d'employé au RPC ou au RRQ,71
+293640,472849,I,CPP or QPP contributions self-employment,"Cotisations pour le revenu d'un travail indépendant, pour d'autres revenus",72
+5167660,3493893,I,Employment Insurance premiums,Cotisations à l'assurance-emploi,73
+1079570,286622,I,Provincial Parental Insurance Plan (PPIP) premiums paid,Cotisations au Régime provincial d'assurance parentale (RPAP),74
+51740,12760,I,PPIP premiums payable on employment income,Cotisations au RPAP à payer sur le revenu d'emploi,75
+84070,16206,I,PPIP premiums payable on self-employment income,Cotisations au RPAP à payer sur le revenu d'un travail indépendant,76
+5863850,6014963,I,Canada employment amount,Montant canadien pour emploi,77
+496060,441709,I,Public transit amount,Montant pour le coût des laissez-passer de transport en commun,78
+952290,544550,I,Children's fitness amount,Montant pour la condition physique des enfants,79
+1938960,10219451,I,Home renovation expenses,Dépenses pour la rénovation domiciliaire,80
+94930,446253,I,Home buyers' amount,Montant pour l'achat d'une habitation,81
+2000,14522,I,Adoption expenses,Frais d'adoption,82
+1104500,2169050,I,Pension income amount,Montant pour revenu de pension,83
+77180,344051,I,Caregiver amount,Montant pour aidants naturels,84
+74200,533922,I,Disability amount,Montant pour personnes handicapées,85
+89610,867925,I,Disability amount transferred from a dependent,Montant pour personnes handicapées transféré d'une personne à charge,86
+226280,127069,I,Interest paid on student loans,Intérêts payés sur des prêts étudiants,87
+372310,1579178,I,"Tuition, education, and textbook amounts","Frais de scolarité, montant relatif aux études, montant pour manuels",88
+474480,2419712,I,"Tuition, education, and textbook amounts transferred from a child","Frais de scolarité, montant relatif aux études, manuels transférés d'un enfant",89
+162510,668665,I,Amounts transferred from spouse,Montants transférés d'un époux ou conjoint de fait,90
+780310,2777055,I,Allowable portion of medical expenses,Montant admissible des frais médicaux,91
+6692200,19220348,I,Total tax credits on personal amounts,Crédits d'impôt nets alloués,92
+3130730,6244641,J,Allowable charitable donations and government gifts,"Dons de bienfaisance, dons aux gouvernements admissibles",93
+2880,55905,J,"Eligible cultural, ecological gifts",Montants admissibles des dons de biens culturels ou écosensibles,94
+3117200,1755980,J,Total tax credit on donations and gifts,Total des crédits d'impôt pour les dons,95
+6692430,20976328,K,Total federal non-refundable tax credits,Total des crédits d'impôt non remboursables fédéraux,96
+1966230,6324556,L,Federal dividend tax credit,Crédit d'impôt fédéral pour dividendes,97
+6623040,86979910,L,Basic federal tax,Impôt fédéral de base,98
+6609570,85528458,M,Net federal tax,Impôt fédéral net,99
+222510,712995,M,CPP contributions on self-employment,"Cotisations au RPC à payer pour le revenu d'un travail indép., autres revenus",100
+5321880,38336660,N,Net provincial tax,Impôt provincial ou territorial net,101
+6663120,125641768,O,Total tax payable,Total de l'impôt à payer,102
