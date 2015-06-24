@@ -68,56 +68,56 @@ df11.to_csv('../data/cleaned_tax_data_2011.csv')
 
 ##### Clean 2010 data
 
-# In[18]:
+# In[40]:
 
 write_online_table_to_file(tax_by_income_url[2010], "../data/raw_tax_data_2010.csv")
 rough_df = pd.DataFrame.from_csv("../data/raw_tax_data_2010.csv", index_col=None)
 
 
-# In[25]:
+# In[41]:
 
 header_lines = rough_df.query("code2 == '1'").index
 df10 = clean_the_df(rough_df, header_lines)
 df10['Item'] = df10['item_e_r1']
-df10 = delete_extra_cols(clean_df)
+df10 = delete_extra_cols(df10)
 df10.to_csv('../data/cleaned_tax_data_2010.csv')
 
 
 ##### Clean 2009 data
 
-# In[27]:
+# In[35]:
 
 write_online_table_to_file(tax_by_income_url[2009], "../data/raw_tax_data_2009.csv")
 rough_df = pd.DataFrame.from_csv("../data/raw_tax_data_2009.csv", index_col=None)
 
 
-# In[28]:
+# In[36]:
 
 header_lines = rough_df.query("CODE2 == '1'").index
 df09 = clean_the_df(rough_df, header_lines)
 df09['Item'] = df09['iteme_r1']
-df09 = delete_extra_cols(clean_df)
+df09 = delete_extra_cols(df09)
 df09.to_csv('../data/cleaned_tax_data_2009.csv')
 
 
 ##### Clean 2008 data
 
-# In[29]:
+# In[38]:
 
 write_online_table_to_file(tax_by_income_url[2008], "../data/raw_tax_data_2008.csv")
 rough_df = pd.DataFrame.from_csv("../data/raw_tax_data_2008.csv", index_col=None)
 
 
-# In[31]:
+# In[39]:
 
 header_lines = rough_df.query("CODE2 == '1'").index
 df08 = clean_the_df(rough_df, header_lines)
 df08['Item'] = df08['iteme_r1']
-df08 = delete_extra_cols(clean_df)
+df08 = delete_extra_cols(df08)
 df08.to_csv('../data/cleaned_tax_data_2008.csv')
 
 
 ### Compiling the datasets
 
-# In[ ]:
+# In[32]:
 
