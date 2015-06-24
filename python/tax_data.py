@@ -154,18 +154,24 @@ number_cols
 
 ##### Loading the data
 
-# In[13]:
+# In[48]:
 
-df = pd.DataFrame.from_csv('../data/cleaned_tax_data_2011.csv')
-del df["#"]
+df = pd.DataFrame.from_csv('../data/cleaned_tax_data_2009.csv')
 
-
-# In[ ]:
+#del df["#"]
 
 
+# In[51]:
+
+df["Item"] = df["item_e"]
 
 
-# In[6]:
+# In[52]:
+
+df.head()
+
+
+# In[53]:
 
 f, ax = plot_item(df, 'Total tax payable', divisor_fn="per_dollar_income")
 
@@ -243,5 +249,5 @@ f, ax = plot_item(df, 'Carrying charges and interest expenses', divisor_fn="per_
 f, ax = plot_item(df, 'Interest paid on student loans', divisor_fn="per_return")
 
 
-# In[5]:
+# In[38]:
 
