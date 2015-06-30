@@ -60,7 +60,7 @@ mpl_number_formatter = FuncFormatter(_mpl_number_formatter)
 mpl_dollar_formatter = FuncFormatter(_mpl_dollar_formatter)
 mpl_percent_formatter = FuncFormatter(_mpl_percent_formatter)
 
-def bar_plot(values, labels, title, xformatter=None):
+def bar_plot(values, title, labels=[], xformatter=None):
     f, ax = plt.subplots(1, 1, figsize=(8, 8))
     ax.barh(range(len(values)), values, align='center', color='grey', edgecolor='grey');
     ax.set_ylim([-1, len(values)])
@@ -72,63 +72,46 @@ def bar_plot(values, labels, title, xformatter=None):
     return f, ax
 
 
-# In[3]:
+# In[32]:
 
-unit_figuring = {'$':{'$':'%', '-':'$'},
-                 '-':{'$':'1/$', '-':'-'}}
+unit_figuring = {'$': {'$': '%', '#': '$', '-': '$'},
+                 '#': {'$': '1/$', '#': '#', '-':'#'}}
 
-def by_income_bin(df, item_name, col_list): 
-    return [int(df.query("Item == @item_name")[col]) for col in col_list]
+x_label_figuring = {'$': {'$': '(as % of income)', '#': '(per return)', '-': ''},
+                 '#': {'$': '# of returns per dollar of income', '#': '# of returns per return', '-': ''}}
+
+mpl_formatters = {'$':mpl_dollar_formatter, '#':mpl_number_formatter, 
+                  '%':mpl_percent_formatter}
 
 def vector_division(numerator, denomonator):
-    result = np.divide([float(i) for i in numerator], [float(i) for i in denomonator])
+    result = np.divide([float(n) for n in numerator], [float(n) for n in denomonator])
     return result
 
-def plot_item(df, item_name, divisor_fn=None, col_type='dollar'):
+def get_row_data_as_list(df, cols, item_name, item_unit, tax_year):
+    row = df.query("item == @item_name and type == @item_unit and tax_year == @tax_year")
+    row_data = [row[c][row.index[0]] for c in cols]
+    return row_data
+
+def plot_item(df, item_name='', item_unit='$', divisor='', tax_year=2009):
     
-    dollar_cols = [c for c in df.columns if c.find('$') != -1]
-    number_cols = [c for c in df.columns if c.find('#') != -1]
-    number_of_returns_by_income = by_income_bin(df, 'Total number of returns', number_cols)
-    dollars_of_income_by_income = np.multiply(1000., by_income_bin(df, 'Total income assessed', dollar_cols))
+    income_cols = df.columns[4:] # excludes 'item', 'type', 'tax_year', 'total'
+    numerator_data = get_row_data_as_list(df, income_cols, item_name, item_unit, tax_year)
     
-    if col_type == 'dollar':
-        col_names = dollar_cols
-    elif col_type == 'number':
-        col_names = number_cols
-    else:
-        print 'wtf!'
-    
-    if col_names == dollar_cols:
-        numerator_unit = '$'
-    elif col_names == number_cols:
-        numerator_unit = '-'
-    else:
-        print 'wtf!'
-        
-    item_amount = by_income_bin(df, item_name, col_names)
-    item_amount = np.multiply(1000., item_amount)
-    
-    if divisor_fn == "per_return":
-        item_amount = vector_division(item_amount, number_of_returns_by_income)
-        denomonator_unit = '-'
-        xlabel_text = 'per return '
-    elif divisor_fn == "per_dollar_income":
-        item_amount = vector_division(item_amount, dollars_of_income_by_income)
+    if divisor == "per_return":    
+        denomonator_data = get_row_data_as_list(df, income_cols, 'Total number of returns', '#', tax_year)
+        denomonator_unit = '#'
+    elif divisor == "per_dollar_income":
+        denomonator_data = get_row_data_as_list(df, income_cols, 'Total income assessed', '$', tax_year)
         denomonator_unit = '$'
-        xlabel_text = 'per dollar of income '
     else:
+        denomonator_data = np.ones_like(numerator_data)
         denomonator_unit = '-'
-        xlabel_text = ''
-    final_unit = unit_figuring[numerator_unit][denomonator_unit]
     
-    mpl_formatters = {'$':mpl_dollar_formatter, '-':mpl_number_formatter, 
-                      '%':mpl_percent_formatter}
+    plot_data = vector_division(numerator_data, denomonator_data)
+    final_unit = unit_figuring[item_unit][denomonator_unit]
     
-    item_amount_plot = item_amount[1:-1]
-    labels = col_names[1:-1]
-    labels = [w[:-8] for w in labels]
-    f, ax = bar_plot(item_amount_plot, labels, '', xformatter=mpl_formatters[final_unit])
-    ax.set_xlabel(item_name + ' ' + xlabel_text + "\n")
+    f, ax = bar_plot(plot_data, '', labels=income_cols, xformatter=mpl_formatters[final_unit])
+    ax.set_xlabel(item_name + ' ' + x_label_figuring[item_unit][denomonator_unit] + "\n")
     ax.xaxis.set_label_position('top')
     ax.xaxis.set_ticks_position('top')
     us.remove_border(ax, top_ax=True, top_tick=True)
@@ -136,118 +119,100 @@ def plot_item(df, item_name, divisor_fn=None, col_type='dollar'):
     return f, ax
 
 
-# In[9]:
-
-dollar_cols = [c for c in df.columns if c.find('$') != -1]
-number_cols = [c for c in df.columns if c.find('#') != -1]
-
+##### Loading the data
 
 # In[10]:
 
-dollar_cols
+df = pd.DataFrame.from_csv('../data/all_clean_tax_data.csv')
 
 
 # In[11]:
 
-number_cols
-
-
-##### Loading the data
-
-# In[48]:
-
-df = pd.DataFrame.from_csv('../data/cleaned_tax_data_2009.csv')
-
-#del df["#"]
-
-
-# In[51]:
-
-df["Item"] = df["item_e"]
-
-
-# In[52]:
-
 df.head()
-
-
-# In[53]:
-
-f, ax = plot_item(df, 'Total tax payable', divisor_fn="per_dollar_income")
-
-
-##### Task: Make a bar graph that shows the number of tax returns in each income bin
-
-# In[25]:
-
-f, ax = plot_item(df, 'Total income assessed')
-
-
-# In[26]:
-
-f, ax = plot_item(df, 'Total number of returns', col_type='number')
-
-
-##### Task: Plot the tax income for each income bin
-
-# In[27]:
-
-f, ax = plot_item(df, 'Total tax payable', divisor_fn="per_return")
-
-
-##### More exploration
-
-# In[28]:
-
-f, ax = plot_item(df, "Children's fitness amount", divisor_fn="per_return")
-#f.savefig('childrens_fitness_by_income.png', bbox_inches='tight')
-
-
-# In[29]:
-
-f, ax = plot_item(df, "Children's arts amount", divisor_fn="per_return")
-
-
-# In[30]:
-
-f, ax = plot_item(df, "Net federal tax", divisor_fn="per_return")
-
-
-# In[31]:
-
-f, ax = plot_item(df, "Net Provincial Tax", divisor_fn="per_return")
-
-
-# In[32]:
-
-f, ax = plot_item(df, 'RRSP deduction', divisor_fn="per_return")
-
-
-# In[33]:
-
-f, ax = plot_item(df, 'Interest and other investment income', divisor_fn="per_return")
-#f.savefig('investment_income_by_income.png', bbox_inches='tight')
 
 
 # In[34]:
 
-f, ax = plot_item(df, 'Employment income', divisor_fn="per_return")
+f, ax = plot_item(df, item_name='Total tax payable', item_unit='$')
 
 
-# In[35]:
+# In[28]:
 
-f, ax = plot_item(df, 'Net income after adjustments', divisor_fn="per_return")
+f, ax = plot_item(df, item_name='Total tax payable', item_unit='$', divisor="per_dollar_income")
 
+
+##### Task: Make a bar graph that shows the number of tax returns in each income bin
+
+# In[29]:
+
+f, ax = plot_item(df, item_name='Total income assessed', item_unit='$')
+
+
+# In[30]:
+
+f, ax = plot_item(df, item_name='Total number of returns', item_unit='#')
+
+
+##### Task: Plot the tax income for each income bin
+
+# In[33]:
+
+f, ax = plot_item(df, 'Total tax payable', divisor="per_return")
+
+
+##### More exploration
 
 # In[36]:
 
-f, ax = plot_item(df, 'Carrying charges and interest expenses', divisor_fn="per_return")
+f, ax = plot_item(df, item_name="Children's fitness amount", divisor="per_return")
+#f.savefig('childrens_fitness_by_income.png', bbox_inches='tight')
 
 
-# In[37]:
+# In[39]:
 
-f, ax = plot_item(df, 'Interest paid on student loans', divisor_fn="per_return")
+f, ax = plot_item(df, item_name="Children's arts amount", divisor="per_return", tax_year=2011)
 
 
-# In[38]:
+# In[40]:
+
+f, ax = plot_item(df, item_name="Net federal tax", divisor="per_return")
+
+
+# In[42]:
+
+f, ax = plot_item(df, item_name="Net Provincial Tax", divisor="per_return", tax_year=2011)
+
+
+# In[45]:
+
+f, ax = plot_item(df, item_name='RRSP deduction', divisor="per_return", tax_year=2011)
+
+
+# In[46]:
+
+f, ax = plot_item(df, item_name='Interest and other investment income', divisor="per_return")
+#f.savefig('investment_income_by_income.png', bbox_inches='tight')
+
+
+# In[47]:
+
+f, ax = plot_item(df, item_name='Employment income', divisor="per_return")
+
+
+# In[48]:
+
+f, ax = plot_item(df, item_name='Net income after adjustments', divisor="per_return")
+
+
+# In[49]:
+
+f, ax = plot_item(df, item_name='Carrying charges and interest expenses', divisor="per_return")
+
+
+# In[50]:
+
+f, ax = plot_item(df, item_name='Interest paid on student loans', divisor="per_return")
+
+
+# In[54]:
 
