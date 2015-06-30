@@ -1,16 +1,16 @@
 
 # coding: utf-8
 
-### Cleaning Historical Data
+## Cleaning Income Tax Data
 
-# In[20]:
+# In[1]:
 
 import pandas as pd
 import urllib
 import os
 
 
-# In[4]:
+# In[2]:
 
 tax_by_income_url = {2008: "http://www.cra-arc.gc.ca/gncy/stts/gb08/pst/fnl/csv/t02ca.csv",
                      2009: "http://www.cra-arc.gc.ca/gncy/stts/gb09/pst/fnl/csv/t02ca.csv",
@@ -18,6 +18,8 @@ tax_by_income_url = {2008: "http://www.cra-arc.gc.ca/gncy/stts/gb08/pst/fnl/csv/
                      2011: "http://www.cra-arc.gc.ca/gncy/stts/gb11/pst/fnl/csv/t02ca.csv",
                      2012: None}
 
+
+### Preliminary cleaning
 
 # In[21]:
 
@@ -56,7 +58,9 @@ def write_online_table_to_file(url, datafile_name):
     return datafile_name
 
 
-##### Clean 2011 data
+### Save the online tables to files
+
+##### 2011 data
 
 # In[73]:
 
@@ -65,7 +69,7 @@ df11 = pd.DataFrame.from_csv("../data/raw_tax_data_2011.csv", index_col=None)
 df11.to_csv('../data/cleaned_tax_data_2011.csv')
 
 
-##### Clean 2010 data
+##### 2010 data
 
 # In[60]:
 
@@ -82,7 +86,7 @@ df10 = delete_extra_cols(df10)
 df10.to_csv('../data/cleaned_tax_data_2010.csv')
 
 
-##### Clean 2009 data
+##### 2009 data
 
 # In[62]:
 
@@ -99,7 +103,7 @@ df09 = delete_extra_cols(df09)
 df09.to_csv('../data/cleaned_tax_data_2009.csv')
 
 
-##### Clean 2008 data
+##### 2008 data
 
 # In[38]:
 
@@ -116,14 +120,25 @@ df08 = delete_extra_cols(df08)
 df08.to_csv('../data/cleaned_tax_data_2008.csv')
 
 
-### Compiling the datasets
+# I may come back to this but it looks like the 2008 data is in a different format.
 
-# In[64]:
+### Load the saved tables from files
+
+# In[3]:
+
+df09 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2009.csv')
+df10 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2010.csv')
+df11 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2011.csv')
+
+
+### Standardize the column names
+
+# In[4]:
 
 df11.columns
 
 
-# In[190]:
+# In[5]:
 
 df11["total #"] = df11[' Grand total/Total global #']
 df11["total $"] = df11['Grand total/Total global $ (000)']
@@ -133,12 +148,12 @@ df11['>250000 #'] = df11['250000 and over/et plus #']
 df11['>250000 $'] = df11['250000 and over/et plus $ (000)']
 
 
-# In[191]:
+# In[6]:
 
 df10.columns
 
 
-# In[192]:
+# In[7]:
 
 df10['total #'] = df10['Grand total/Total global #']
 df10['total $'] = df10['Grand total/Total global $']
@@ -148,12 +163,12 @@ df10['>250000 #'] = df10['250000 and over/et plus #']
 df10['>250000 $'] = df10['250000 and over/et plus $']
 
 
-# In[193]:
+# In[8]:
 
 df09.columns
 
 
-# In[194]:
+# In[9]:
 
 df09['35000 - 39999 $'] = df09['35000 - 39999 $40000 - 44999 #']
 df09['10000 - 14999 #'] = df09['10000 - 14999 # ']
@@ -165,7 +180,9 @@ df09['>250000 #'] = df09['250000 and over #/250 000 et plus #']
 df09['>250000 $'] = df09['250000 and over $/250 000 et plus $']
 
 
-# In[195]:
+# Create a tax year column so we can combine into a single table
+
+# In[10]:
 
 df11["tax_year"] = pd.Series([2011]*len(df11), index=df11.index)
 df10["tax_year"] = pd.Series([2010]*len(df10), index=df10.index)
@@ -174,24 +191,24 @@ df09["tax_year"] = pd.Series([2009]*len(df09), index=df09.index)
 
 # After examining the datafiles, it appears that the dollar columns in all files are in thousands, even though the 2011 file is the only one that says this explicitly. I will remove the ' (000)' from the column titles for the 2011 file, and modify the dollar amounts later.
 
-# In[196]:
+# In[11]:
 
 for c in df11.columns:
     if c.find('$') != -1:
         df11[c[:-6]] = df11[c]
 
 
-# In[197]:
+# In[12]:
 
 common_cols = set(df11.columns).intersection(set(df10.columns)).intersection(set(df09.columns))
 
 
-# In[198]:
+# In[13]:
 
 common_cols
 
 
-# In[199]:
+# In[14]:
 
 clean_cols = []
 clean_cols.append('item')
@@ -201,17 +218,17 @@ for c in common_cols:
     if '#' in c: clean_cols.append(c[:-2])
 
 
-# In[200]:
+# In[15]:
 
 half_n_rows = len(df11) + len(df10) + len(df09)
 
 
-# In[201]:
+# In[16]:
 
 df_master = pd.DataFrame(columns=clean_cols, index=range(2*half_n_rows))
 
 
-# In[202]:
+# In[17]:
 
 for c in df_master.columns:
     if c == 'item':
@@ -224,17 +241,19 @@ for c in df_master.columns:
         df_master[c] = list(df11[c + ' #']) + list(df10[c + ' #']) + list(df09[c + ' #'])         + list(df11[c + ' $']) + list(df10[c + ' $']) + list(df09[c + ' $'])
 
 
-# In[204]:
+# In[18]:
 
 df_master.head()
 
 
-# In[205]:
+### Standardize the item titles
+
+# In[19]:
 
 len(set(df_master['item']))
 
 
-# In[206]:
+# In[20]:
 
 items_to_change = {"Universal Child Care Benefit (UCCB)": 'Universal Child Care Benefit',
                    'Social Benefits repayment': 'Social benefits repayment',
@@ -264,19 +283,21 @@ items_to_change = {"Universal Child Care Benefit (UCCB)": 'Universal Child Care 
                    'Registered retirement savings plan income (RRSP)': 'Registered Retirement Savings Plan income'}
 
 
-# In[207]:
+# In[21]:
 
 for i in df_master.index:
     if df_master.item[i] in items_to_change.keys():
         df_master.ix[i, 'item'] = items_to_change[df_master.item[i]]
 
 
-# In[208]:
+### Making the column headings more readable
+
+# In[22]:
 
 for c in df_master.columns: print c
 
 
-# In[209]:
+# In[23]:
 
 col_labels = {
 "<4999": "< $5k",
@@ -298,13 +319,38 @@ col_labels = {
 "100000 - 149999": "$100k - 150k",
 "150000 - 249999": "$150k - 250k",
 ">250000": "> $250k"}
-    
 
 
-# In[210]:
+# In[24]:
+
+for col in df_master.columns:
+    if col in col_labels:
+        df_master[col_labels[col]] = df_master[col]
+        del df_master[col]
+
+
+# In[27]:
+
+df_master.query("type == '$'").head()
+
+
+### Multiply the dollar amounts by 1000
+
+# In[26]:
+
+for i in df_master.index:
+    if df_master.type[i] == '$':
+        for col in set(df_master.columns).difference(set(['item', 'type', 'tax_year'])):
+            # all the dollar amounts are already integers, so I will keep them that way
+            df_master.ix[i, col] = 1000 * df_master[col][i]
+
+
+### Save the cleaned data
+
+# In[215]:
 
 df_master.to_csv('../data/all_clean_tax_data.csv')
 
 
-# In[183]:
+# In[217]:
 
