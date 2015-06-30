@@ -123,33 +123,37 @@ df08.to_csv('../data/cleaned_tax_data_2008.csv')
 df11.columns
 
 
-# In[100]:
+# In[190]:
 
 df11["total #"] = df11[' Grand total/Total global #']
 df11["total $"] = df11['Grand total/Total global $ (000)']
 df11["<4999 #"] = df11['4999 and under/Moins de 4 999 #']
 df11["<4999 $"] = df11['4999 and under/Moins de 4 999 $ (000)']
+df11['>250000 #'] = df11['250000 and over/et plus #']
+df11['>250000 $'] = df11['250000 and over/et plus $ (000)']
 
 
-# In[106]:
+# In[191]:
 
 df10.columns
 
 
-# In[110]:
+# In[192]:
 
 df10['total #'] = df10['Grand total/Total global #']
 df10['total $'] = df10['Grand total/Total global $']
 df10['<4999 #'] = df10[df10.columns[2]] + df10['1 - 4999 #']
 df10['<4999 $'] = df10[df10.columns[3]] + df10['1 - 4999 $']
+df10['>250000 #'] = df10['250000 and over/et plus #']
+df10['>250000 $'] = df10['250000 and over/et plus $']
 
 
-# In[111]:
+# In[193]:
 
 df09.columns
 
 
-# In[112]:
+# In[194]:
 
 df09['35000 - 39999 $'] = df09['35000 - 39999 $40000 - 44999 #']
 df09['10000 - 14999 #'] = df09['10000 - 14999 # ']
@@ -157,9 +161,11 @@ df09['total #'] = df09['Grand total #/Total global #']
 df09['total $'] = df09['Grand total $/Total global $']
 df09['<4999 #'] = df09[df09.columns[2]] + df09['1 - 4999 #']
 df09['<4999 $'] = df09[df09.columns[3]] + df09['1 - 4999 $']
+df09['>250000 #'] = df09['250000 and over #/250 000 et plus #']
+df09['>250000 $'] = df09['250000 and over $/250 000 et plus $']
 
 
-# In[154]:
+# In[195]:
 
 df11["tax_year"] = pd.Series([2011]*len(df11), index=df11.index)
 df10["tax_year"] = pd.Series([2010]*len(df10), index=df10.index)
@@ -168,24 +174,24 @@ df09["tax_year"] = pd.Series([2009]*len(df09), index=df09.index)
 
 # After examining the datafiles, it appears that the dollar columns in all files are in thousands, even though the 2011 file is the only one that says this explicitly. I will remove the ' (000)' from the column titles for the 2011 file, and modify the dollar amounts later.
 
-# In[155]:
+# In[196]:
 
 for c in df11.columns:
     if c.find('$') != -1:
         df11[c[:-6]] = df11[c]
 
 
-# In[156]:
+# In[197]:
 
 common_cols = set(df11.columns).intersection(set(df10.columns)).intersection(set(df09.columns))
 
 
-# In[157]:
+# In[198]:
 
 common_cols
 
 
-# In[158]:
+# In[199]:
 
 clean_cols = []
 clean_cols.append('item')
@@ -195,17 +201,17 @@ for c in common_cols:
     if '#' in c: clean_cols.append(c[:-2])
 
 
-# In[159]:
+# In[200]:
 
 half_n_rows = len(df11) + len(df10) + len(df09)
 
 
-# In[160]:
+# In[201]:
 
 df_master = pd.DataFrame(columns=clean_cols, index=range(2*half_n_rows))
 
 
-# In[161]:
+# In[202]:
 
 for c in df_master.columns:
     if c == 'item':
@@ -218,17 +224,17 @@ for c in df_master.columns:
         df_master[c] = list(df11[c + ' #']) + list(df10[c + ' #']) + list(df09[c + ' #'])         + list(df11[c + ' $']) + list(df10[c + ' $']) + list(df09[c + ' $'])
 
 
-# In[162]:
+# In[204]:
 
-df_master
-
-
-# In[181]:
-
-set(df_master['item'])
+df_master.head()
 
 
-# In[179]:
+# In[205]:
+
+len(set(df_master['item']))
+
+
+# In[206]:
 
 items_to_change = {"Universal Child Care Benefit (UCCB)": 'Universal Child Care Benefit',
                    'Social Benefits repayment': 'Social benefits repayment',
@@ -258,17 +264,47 @@ items_to_change = {"Universal Child Care Benefit (UCCB)": 'Universal Child Care 
                    'Registered retirement savings plan income (RRSP)': 'Registered Retirement Savings Plan income'}
 
 
-# In[180]:
+# In[207]:
 
 for i in df_master.index:
     if df_master.item[i] in items_to_change.keys():
         df_master.ix[i, 'item'] = items_to_change[df_master.item[i]]
 
 
-# In[182]:
+# In[208]:
+
+for c in df_master.columns: print c
+
+
+# In[209]:
+
+col_labels = {
+"<4999": "< $5k",
+"5000 - 9999": "$5k - 10k",
+"10000 - 14999": "$10k - 15k",
+"15000 - 19999": "$15k - 20k",
+"20000 - 24999": "$20k - 25k",
+"25000 - 29999": "$25k - 30k",
+"30000 - 34999": "$30k - 35k",
+"35000 - 39999": "$35k - 40k",
+"40000 - 44999": "$40k - 45k",
+"45000 - 49999": "$45k - 50k",
+"50000 - 54999": "$50k - 55k",
+"55000 - 59999": "$55k - 60k",
+"60000 - 69999": "$60k - 70k",
+"70000 - 79999": "$70k - 80k",
+"80000 - 89999": "$80k - 90k",
+"90000 - 99999": "$90k - 100k",
+"100000 - 149999": "$100k - 150k",
+"150000 - 249999": "$150k - 250k",
+">250000": "> $250k"}
+    
+
+
+# In[210]:
 
 df_master.to_csv('../data/all_clean_tax_data.csv')
 
 
-# In[42]:
+# In[183]:
 
