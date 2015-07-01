@@ -1,0 +1,52 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Income Tax</title>
+  <link rel="stylesheet" type="text/css" href="income_tax.css"/>
+  <script src="d3.v3.min.js"></script>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+<h1>Income Tax</h1>
+<select id='year_selector'>
+  <option value="2011" selected="selected">2011</option>
+  <option value="2010">2010</option>
+  <option value="2009">2009</option>
+</select>
+
+<select id='item_selector'>
+</select>
+
+<select id='divisor_selector'>
+  <option value="-">-</option>
+  <option value="per_dollar_income">per dollar income</option>
+  <option value="per_return">per return</option>
+</select>
+
+</body>
+
+<script>
+
+d3.csv("../data/all_clean_tax_data.csv", function(data) {
+
+function change() {
+  var selectedIndex = select.property('selectedIndex'),
+    data = options[0][selectedIndex].__data__;
+
+}
+
+var select  = d3.select("#item_selector").on("change", change),
+  options = select.selectAll('option').data(data); // Data join
+
+// Enter selection
+options.enter().append("option").text(function(d) { return d.item; });
+
+});
+
+
+
+</script>
+
+</html>
