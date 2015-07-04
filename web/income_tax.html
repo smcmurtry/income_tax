@@ -33,15 +33,33 @@
 <script>
 
 d3.csv("../data/all_clean_tax_data.csv", function(data) {
+  var width = 420,
+    barHeight = 20;
+
+  var zeros = Array.apply(null, Array(19)).map(Number.prototype.valueOf,0);
+  
+  var x = d3.scale.linear()
+      .domain([0, d3.max(zeros)])
+      .range([0, width]);
+
+  var chart = d3.select("#chart")
+    .attr("width", width)
+    .attr("height", barHeight * zeros.length);
+
+  var  bar = chart.selectAll("g").data(zeros)
+  .enter().append("g")
+    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+  bar.append("rect")
+    .attr("width", function(d) { return x(d); })
+    .attr("height", barHeight - 1);
+
 
   function update_plot() {
-
     var selected_year = get_selected('#year_selector'),
       selected_item = get_selected('#item_selector'),
       selected_plot = get_selected('#divisor_selector');
-
     var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item })[0];
-
     var numerator_data = [], 
       labels = [];
     for (var prop in numerator_row) {
@@ -51,37 +69,15 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
         numerator_data.push(+numerator_row[prop]); 
       }
     };
-    console.log(numerator_data);
-    draw_chart(numerator_data, labels);
-
+    return numerator_data;
   }
 
-  function draw_chart(data, labels) {
-    var width = 420,
-      barHeight = 20;
 
-    var x = d3.scale.linear()
-      .domain([0, d3.max(data)])
-      .range([0, width]);
-
-    var chart = d3.select("#chart")
-      .attr("width", width)
-      .attr("height", barHeight * data.length);
-
-    var bar = chart.selectAll("g")
-      .data(data)
-    .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-
-    bar.append("rect")
-      .attr("width", x)
-      .attr("height", barHeight - 1);
-
-    bar.append("text")
-      .attr("x", function(d) { return x(d) - 3; })
-      .attr("y", barHeight / 2)
-      .attr("dy", ".35em")
-      .text(function(d) { return d; });
+  function draw_chart(plot_data) {
+    x.domain([0, d3.max(plot_data)]);
+    chart.selectAll("rect").data(plot_data)
+          .transition(500)
+          .attr("width", function(d) { return x(d); });
   }
 
 
@@ -102,6 +98,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     return options[0][index].value;
   }
 
+
   function update_items() {
     var selected_year = get_selected('#year_selector');
     var valid_rows = get_rows({ tax_year: selected_year, item_unit:'$' });
@@ -114,21 +111,30 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
       .text(function(d) { return d.item; });
   }
 
+
   d3.select("#year_selector")
     .on("change", function() {
       update_items();
-      update_plot();
+      var p_data = update_plot();
+      draw_chart(p_data);
     });
 
   d3.select("#item_selector")
-    .on("change", update_plot);
+    .on("change", function() {
+      var p_data = update_plot();
+      draw_chart(p_data);
+    });
 
   d3.select("#divisor_selector")
-    .on("change", update_plot);
+    .on("change", function() { 
+      var p_data = update_plot();
+      draw_chart(p_data);
+    });
 
   update_items();
-  update_plot();
-  
+  var p_data = update_plot();
+  draw_chart(p_data);
+
 });
 
 </script>
