@@ -10,19 +10,23 @@
 
 <body>
 <h1>Income Tax</h1>
+
+<div>
 <select id='year_selector'>
   <option value="2011" selected="selected">2011</option>
   <option value="2010">2010</option>
   <option value="2009">2009</option>
 </select>
-
-<select id='item_selector'>
-</select>
-
+<select id='item_selector'></select>
 <select id='divisor_selector'>
   <option value="total_value" selected="selected">total value</option>
   <option value="total_number">total number</option>
 </select>
+</div>
+
+<div>
+<svg id='chart'></svg>
+</div>
 
 </body>
 
@@ -32,28 +36,52 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   function update_plot() {
 
-    var selected_year = get_selected('#year_selector');
-    var selected_item = get_selected('#item_selector');
-    var selected_plot = get_selected('#divisor_selector');
+    var selected_year = get_selected('#year_selector'),
+      selected_item = get_selected('#item_selector'),
+      selected_plot = get_selected('#divisor_selector');
 
     var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item })[0];
-    console.log(numerator_row);
-    // def get_row_data_as_list(df, cols, item_name, item_unit, tax_year):
-    //   row = df.query("item == @item_name and type == @item_unit and tax_year == @tax_year")
-    //   row_data = [row[c][row.index[0]] for c in cols]
-    //   return row_data
 
-    // def plot_item(df, item_name='', item_unit='$', divisor='', tax_year=2009):
-    
-    // income_cols = df.columns[4:] # excludes 'item', 'type', 'tax_year', 'total'
-    // numerator_data = get_row_data_as_list(df, income_cols, item_name, item_unit, tax_year)
-    
-    // if divisor == "per_return":    
-    //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total number of returns', '#', tax_year)
-    //     denomonator_unit = '#'
+    var numerator_data = [], 
+      labels = [];
+    for (var prop in numerator_row) {
+      // kind of hacky but all the data properties of numerator_row have a 'k' in them
+      if (prop.indexOf('k') != -1) {
+        labels.push(prop);
+        numerator_data.push(+numerator_row[prop]); 
+      }
+    };
+    console.log(numerator_data);
+    draw_chart(numerator_data, labels);
 
-    // var valid_rows = get_rows(selected_year);
+  }
 
+  function draw_chart(data, labels) {
+    var width = 420,
+      barHeight = 20;
+
+    var x = d3.scale.linear()
+      .domain([0, d3.max(data)])
+      .range([0, width]);
+
+    var chart = d3.select("#chart")
+      .attr("width", width)
+      .attr("height", barHeight * data.length);
+
+    var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+    bar.append("rect")
+      .attr("width", x)
+      .attr("height", barHeight - 1);
+
+    bar.append("text")
+      .attr("x", function(d) { return x(d) - 3; })
+      .attr("y", barHeight / 2)
+      .attr("dy", ".35em")
+      .text(function(d) { return d; });
   }
 
 
