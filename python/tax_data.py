@@ -12,7 +12,11 @@
 #  
 # <p>there are a bunch of other tax filing related datasets available here: http://www.cra-arc.gc.ca/gncy/stts/menu-eng.html including 'T1 preliminary statistics' which are similar to the first link but run from 2006 to 2012.
 
-# In[1]:
+# I may want to switch to the preliminary files and try to convert those: http://www.cra-arc.gc.ca/gncy/stts/ntrm-eng.html
+# 
+# And here is a description of all the line items: http://www.cra-arc.gc.ca/gncy/stts/gb11/pst/fnl/dsctm-eng.html
+
+# In[2]:
 
 import numpy as np
 import pandas as pd
@@ -24,7 +28,7 @@ from matplotlib.ticker import FuncFormatter
 
 ##### Data handling for plotting functions
 
-# In[2]:
+# In[3]:
 
 def number_formatter(n):
     "Find the correct suffix, divide the original number, and return the new number + suffix"
@@ -72,7 +76,7 @@ def bar_plot(values, title, labels=[], xformatter=None):
     return f, ax
 
 
-# In[32]:
+# In[4]:
 
 unit_figuring = {'$': {'$': '%', '#': '$', '-': '$'},
                  '#': {'$': '1/$', '#': '#', '-':'#'}}
@@ -103,6 +107,9 @@ def plot_item(df, item_name='', item_unit='$', divisor='', tax_year=2009):
     elif divisor == "per_dollar_income":
         denomonator_data = get_row_data_as_list(df, income_cols, 'Total income assessed', '$', tax_year)
         denomonator_unit = '$'
+    elif divisor == "avg_claim":
+        denomonator_data = get_row_data_as_list(df, income_cols, item_name, '#', tax_year)
+        denomonator_unit = '-'
     else:
         denomonator_data = np.ones_like(numerator_data)
         denomonator_unit = '-'
@@ -121,19 +128,57 @@ def plot_item(df, item_name='', item_unit='$', divisor='', tax_year=2009):
 
 ##### Loading the data
 
-# In[10]:
+# In[5]:
 
 df = pd.DataFrame.from_csv('../data/all_clean_tax_data.csv')
 
 
-# In[11]:
+# In[6]:
 
 df.head()
 
 
+# In[7]:
+
+set(df.item)
+
+
+# In[14]:
+
+f, ax = plot_item(df, item_name='Tuition, education, and textbook amounts transferred from a child')
+
+
+# In[15]:
+
+f, ax = plot_item(df, item_name='Tuition, education, and textbook amounts transferred from a child', item_unit='#')
+
+
+# In[10]:
+
+f, ax = plot_item(df, item_name='Tuition, education, and textbook amounts transferred from a child', divisor="per_return")
+
+
+# In[11]:
+
+f, ax = plot_item(df, item_name='Tuition, education, and textbook amounts transferred from a child', divisor="avg_claim")
+
+
+# In[13]:
+
+f, ax = plot_item(df, item_name='Tuition, education, and textbook amounts transferred from a child', item_unit='#',divisor="per_return")
+
+
+# There are a few distinct types of plots we can make, all by income bucket:
+# * total value of all claims
+# * average value of each claim
+# * average value of claim per return
+# * average value per return as fraction of income (this may only make sense for seeing the average tax rate?)
+# * total number of tax claims
+# * fraction of returns with claim
+
 # In[34]:
 
-f, ax = plot_item(df, item_name='Total tax payable', item_unit='$')
+f, ax = plot_item(df, item_name='Total tax payable')
 
 
 # In[28]:
@@ -173,9 +218,19 @@ f, ax = plot_item(df, item_name="Children's fitness amount", divisor="per_return
 f, ax = plot_item(df, item_name="Children's arts amount", divisor="per_return", tax_year=2011)
 
 
-# In[40]:
+# In[19]:
 
-f, ax = plot_item(df, item_name="Net federal tax", divisor="per_return")
+f, ax = plot_item(df, item_name="Net federal tax", divisor="per_dollar_income", tax_year=2011)
+
+
+# In[20]:
+
+f, ax = plot_item(df, item_name="Net federal tax", divisor="per_dollar_income", tax_year=2010)
+
+
+# In[21]:
+
+f, ax = plot_item(df, item_name="Net federal tax", divisor="per_dollar_income", tax_year=2009)
 
 
 # In[42]:
@@ -209,10 +264,10 @@ f, ax = plot_item(df, item_name='Net income after adjustments', divisor="per_ret
 f, ax = plot_item(df, item_name='Carrying charges and interest expenses', divisor="per_return")
 
 
-# In[50]:
+# In[17]:
 
-f, ax = plot_item(df, item_name='Interest paid on student loans', divisor="per_return")
+f, ax = plot_item(df, item_name='Interest paid on student loans', divisor="per_dollar_income")
 
 
-# In[54]:
+# In[22]:
 

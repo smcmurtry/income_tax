@@ -20,9 +20,8 @@
 </select>
 
 <select id='divisor_selector'>
-  <option value="-">-</option>
-  <option value="per_dollar_income">per dollar income</option>
-  <option value="per_return">per return</option>
+  <option value="total_value" selected="selected">total value</option>
+  <option value="total_number">total number</option>
 </select>
 
 </body>
@@ -31,21 +30,80 @@
 
 d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
-function change() {
-  var selectedIndex = select.property('selectedIndex'),
-    data = options[0][selectedIndex].__data__;
+  function update_plot() {
 
-}
+    var selected_year = get_selected('#year_selector');
+    var selected_item = get_selected('#item_selector');
+    var selected_plot = get_selected('#divisor_selector');
+    console.log(selected_plot);
 
-var select  = d3.select("#item_selector").on("change", change),
-  options = select.selectAll('option').data(data); // Data join
+    // var numerator_row = ;
 
-// Enter selection
-options.enter().append("option").text(function(d) { return d.item; });
+    // def get_row_data_as_list(df, cols, item_name, item_unit, tax_year):
+    //   row = df.query("item == @item_name and type == @item_unit and tax_year == @tax_year")
+    //   row_data = [row[c][row.index[0]] for c in cols]
+    //   return row_data
 
+    // def plot_item(df, item_name='', item_unit='$', divisor='', tax_year=2009):
+    
+    // income_cols = df.columns[4:] # excludes 'item', 'type', 'tax_year', 'total'
+    // numerator_data = get_row_data_as_list(df, income_cols, item_name, item_unit, tax_year)
+    
+    // if divisor == "per_return":    
+    //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total number of returns', '#', tax_year)
+    //     denomonator_unit = '#'
+
+    // var valid_rows = get_rows(selected_year);
+
+    console.log('update plot');
+
+  }
+
+
+  function get_rows(selected_year) {
+    var valid_rows = [];
+    for (var i = data.length - 1; i >= 0; i--) {
+      if (data[i].tax_year == selected_year && data[i].type == '$') {
+        valid_rows.push(data[i]);
+      };
+    };
+    return valid_rows;
+  }
+
+  function get_selected(id) {
+    var options = d3.select(id).selectAll('option');
+    var index = d3.select(id).property('selectedIndex');
+    return options[0][index].value;
+  }
+
+  function update_items() {
+    var selected_year = get_selected_year();
+    var valid_rows = get_rows(selected_year);
+    console.log(valid_rows);
+    d3.select("#item_selector")
+      .selectAll('option')
+      .data(valid_rows)
+      .enter()
+      .append("option")
+      .text(function(d) { return d.item; });
+  }
+
+  d3.select("#year_selector")
+    .on("change", function() {
+      update_items();
+      update_plot();
+    });
+
+  d3.select("#item_selector")
+    .on("change", update_plot);
+
+  d3.select("#divisor_selector")
+    .on("change", update_plot);
+
+  update_items();
+  update_plot();
+  
 });
-
-
 
 </script>
 
