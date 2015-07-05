@@ -40,13 +40,11 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
       selected_item = get_selected('#item_selector'),
       selected_plot = get_selected('#divisor_selector');
     var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item })[0];
-    var numerator_data = [], 
-      labels = [];
+    var numerator_data = [];
     for (var prop in numerator_row) {
       // kind of hacky but all the data properties of numerator_row have a 'k' in them
       if (prop.indexOf('k') != -1) {
-        labels.push(prop);
-        numerator_data.push(+numerator_row[prop]); 
+        numerator_data.push({'name': prop, 'value': +numerator_row[prop]}); 
       }
     };
     return numerator_data;
@@ -54,10 +52,11 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
 
   function draw_chart(plot_data) {
-    x.domain([0, d3.max(plot_data)]);
+    var max = Math.max.apply(Math, plot_data.map(function(d) { return d.value; }));
+    x.domain([0, max]);
     chart.selectAll("rect").data(plot_data)
           .transition(500)
-          .attr("width", function(d) { return x(d); });
+          .attr("width", function(d) { return x(d.value); });
 
     xAxis.scale(x);
     chart.select(".x").call(xAxis);
@@ -122,9 +121,9 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
   var init_data = get_numerator_data();
   var n_bars = init_data.length;
 
-  var margin = {top: 20, right: 30, bottom: 30, left: 40},
-      width = 420 + margin.left + margin.right,
-      height = barHeight*n_bars + margin.top + margin.bottom;
+  var margin = {top: 20, right: 30, bottom: 50, left: 40},
+      width = 420 - margin.left - margin.right,
+      height = barHeight*n_bars;// - margin.top - margin.bottom;
 
   var chart = d3.select("#chart")
       .attr("width", width + margin.left + margin.right)
@@ -132,8 +131,11 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  var max_val = Math.max.apply(Math, init_data.map(function(d) { return d.value; }));
+  var min_val = Math.min.apply(Math, init_data.map(function(d) { return d.value; }));
+
   var x = d3.scale.linear()
-    .domain([0, d3.max(init_data)])
+    .domain([0, max_val])
     .range([0, width]);
 
   var xAxis = d3.svg.axis()
@@ -142,20 +144,21 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .orient("bottom");
 
   var y = d3.scale.ordinal()
-    .rangeRoundBands([0, n_bars*barHeight], .1);
+    .domain(init_data.map(function(d) { return d.name; }))
+    .rangeBands([0, n_bars*barHeight], 1, 0);
 
   var bar = chart.selectAll(".gbars").data(init_data)
     .enter().append("g")
     .attr("class", 'gbars')
-    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+    .attr("transform", function(d) { return "translate(0," + y(d.name) + ")"; });
 
   bar.append("rect")
-    .attr("width", function(d) { return x(d); })
+    .attr("width", function(d) { return x(d.value); })
     .attr("height", barHeight - 1);
 
   chart.append("g")
     .attr("class", "x axis")
-    .attr("transform", "translate(0," + n_bars*barHeight + ")")
+    .attr("transform", "translate(0," + (height + margin.top) + ")")
     .call(xAxis);
 
 });
