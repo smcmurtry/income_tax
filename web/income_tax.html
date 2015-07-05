@@ -52,9 +52,8 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
 
   function draw_chart(plot_data) {
-    var max = Math.max.apply(Math, plot_data.map(function(d) { return d.value; }));
-    x.domain([0, max]);
-    chart.selectAll("rect").data(plot_data)
+    x.domain([0, d3.max(plot_data, function(d) { return d.value; })]);
+    chart.selectAll(".bar").data(plot_data)
           .transition(500)
           .attr("width", function(d) { return x(d.value); });
 
@@ -131,11 +130,8 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var max_val = Math.max.apply(Math, init_data.map(function(d) { return d.value; }));
-  var min_val = Math.min.apply(Math, init_data.map(function(d) { return d.value; }));
-
   var x = d3.scale.linear()
-    .domain([0, max_val])
+    .domain([0, d3.max(init_data, function(d) { return d.value; })])
     .range([0, width]);
 
   var xAxis = d3.svg.axis()
@@ -145,14 +141,13 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   var y = d3.scale.ordinal()
     .domain(init_data.map(function(d) { return d.name; }))
-    .rangeBands([0, n_bars*barHeight], 1, 0);
+    .rangeRoundBands([0, n_bars*barHeight], 1, 0);
 
-  var bar = chart.selectAll(".gbars").data(init_data)
-    .enter().append("g")
-    .attr("class", 'gbars')
-    .attr("transform", function(d) { return "translate(0," + y(d.name) + ")"; });
-
-  bar.append("rect")
+  var bar = chart.selectAll(".bar").data(init_data)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("transform", function(d) { return "translate(0," + y(d.name) + ")"; })
     .attr("width", function(d) { return x(d.value); })
     .attr("height", barHeight - 1);
 
