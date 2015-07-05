@@ -21,3 +21,8 @@ body {
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+.y.axis path,
+.y.axis line {
+  display: none;
+}
