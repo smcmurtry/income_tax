@@ -99,7 +99,30 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .attr("y", -margin.top/2)
     .text("Item Amount");
 
+  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
+  chart.selectAll(".tick-line")
+    .data(x_ticks)
+    .enter()
+    .append("line")
+    .attr("class", "tick-line")
+    .attr("x1", function(d) { return x(d); } )
+    .attr("x2", function(d) { return x(d); } )
+    .attr("y2", height);
+
 });
+
+
+function update_tick_lines() {
+  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
+  console.log(x_ticks);
+  var abc = chart.selectAll(".tick-line").data(x_ticks);
+  abc.exit().remove();
+  var xyz = chart.selectAll(".tick-line").data(x_ticks);
+  xyz.enter().append("line");
+  xyz.attr("class", "tick-line")    
+    .attr("x1", function(d) { return x(d); } )
+    .attr("x2", function(d) { return x(d); } );
+}
 
 
 function dollar_format(n) {
@@ -182,6 +205,7 @@ function draw_chart(plot_data) {
       .call(update_bars);
   xAxis.scale(x);
   chart.select(".x").call(xAxis);
+  update_tick_lines();
 }
 
 

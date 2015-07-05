@@ -31,3 +31,9 @@ body {
 .x-label {
   font: 16px sans-serif;
 }
+
+.tick-line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
