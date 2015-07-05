@@ -9,7 +9,10 @@
 </head>
 
 <body>
-<h1>Income Tax</h1>
+
+<div>
+<svg id='chart'></svg>
+</div>
 
 <div>
 <select id='year_selector'>
@@ -22,10 +25,6 @@
   <option value="total_value" selected="selected">total value</option>
   <option value="total_number">total number</option>
 </select>
-</div>
-
-<div>
-<svg id='chart'></svg>
 </div>
 
 </body>
@@ -135,7 +134,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
   var init_data = get_numerator_data();
   var n_bars = init_data.length;
 
-  var margin = {top: 50, right: 30, bottom: 50, left: 70},
+  var margin = {top: 50, right: 30, bottom: 50, left: 150},
       width = 600 - margin.left - margin.right,
       height = barHeight*n_bars;// - margin.top - margin.bottom;
 
@@ -146,8 +145,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var x = d3.scale.linear()
-    // .domain([0, d3.max(init_data, function(d) { return d.value; })])
-    .domain(get_x_domain(init_data))// d3.extent(init_data, function(d) { return d.value; } ))
+    .domain(get_x_domain(init_data))
     .range([0, width]);
 
   var xAxis = d3.svg.axis()
@@ -157,7 +155,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   var y = d3.scale.ordinal()
     .domain(init_data.map(function(d) { return d.name; }))
-    .rangeRoundBands([height, 0], 0.1, 0);
+    .rangeRoundBands([height, 0], 0.1, 0); // not sure what's up with the 2nd and 3rd arguments
 
   var yAxis = d3.svg.axis()
     .scale(y)
@@ -176,9 +174,24 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   chart.append("g")
     .attr("class", "y axis")
-    // .attr("y", )
-    // .attr("transform", "translate(" + margin.left + ", 0)")
     .call(yAxis);
+
+  var ylabel = chart.append("g")
+    .attr("class", "y-label")
+  .append("text")
+    .attr("transform", "rotate(-90)")
+    .style("text-anchor", "middle")
+    .attr("x", -height/2)
+    .attr("y", -margin.left * 2./3)
+    .text("Annual Income");
+
+  var xlabel = chart.append("g")
+    .attr("class", "x-label")
+  .append("text")
+    .style("text-anchor", "middle")
+    .attr("x", width/2)
+    .attr("y", -margin.top/2)
+    .text("Item Amount");
 
 });
 

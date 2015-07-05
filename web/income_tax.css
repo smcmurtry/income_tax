@@ -26,3 +26,7 @@ body {
 .y.axis line {
   display: none;
 }
+
+.y-label {
+  font: 16px sans-serif;
+}
