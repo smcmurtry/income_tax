@@ -138,14 +138,11 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   var xAxis = d3.svg.axis()
     .scale(x)
+    .tickFormat(dollar_format)
     .orient("bottom");
 
   var y = d3.scale.ordinal()
     .rangeRoundBands([0, n_bars*barHeight], .1);
-
-  // var chart = d3.select("#chart")
-  //   .attr("width", width)
-  //   .attr("height", height);
 
   var bar = chart.selectAll(".gbars").data(init_data)
     .enter().append("g")
@@ -162,6 +159,12 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .call(xAxis);
 
 });
+
+function dollar_format(n) {
+  var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
+  var suffix = d3.formatPrefix(n);
+  return '$' + suffix.scale(n) + dict[suffix.symbol];
+}
 
 </script>
 
