@@ -114,13 +114,17 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
 function update_tick_lines() {
   var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
-  console.log(x_ticks);
-  var abc = chart.selectAll(".tick-line").data(x_ticks);
-  abc.exit().remove();
-  var xyz = chart.selectAll(".tick-line").data(x_ticks);
-  xyz.enter().append("line");
-  xyz.attr("class", "tick-line")    
+  var tick_ln = chart.selectAll(".tick-line").data(x_ticks);
+  var enter = tick_ln.enter().append("line");
+
+  tick_ln.exit().remove();
+  
+  enter.attr("class", "tick-line")    
     .attr("x1", function(d) { return x(d); } )
+    .attr("x2", function(d) { return x(d); } )
+    .attr("y2", height);
+
+  tick_ln.attr("x1", function(d) { return x(d); } )
     .attr("x2", function(d) { return x(d); } );
 }
 
