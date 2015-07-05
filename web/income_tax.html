@@ -51,11 +51,30 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
   }
 
 
+  function get_x_domain(data) {
+    var extent = d3.extent(data, function(d) { return d.value; } );
+    if (extent[0] > 0) {
+      return [0, extent[1]];
+    } else {
+      return extent; 
+    }
+  }
+
+  function update_bars(selection) {
+    selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
+      .attr("x", function(d) { return x(Math.min(0, d.value)); })
+      .attr("y", function(d) { return y(d.name); })
+      .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); });
+  }
+
   function draw_chart(plot_data) {
-    x.domain([0, d3.max(plot_data, function(d) { return d.value; })]);
+    // x.domain([0, d3.max(plot_data, function(d) { return d.value; })]);
+
+    x.domain(get_x_domain(plot_data))
+
     chart.selectAll(".bar").data(plot_data)
           .transition(500)
-          .attr("width", function(d) { return x(d.value); });
+        .call(update_bars);
 
     xAxis.scale(x);
     chart.select(".x").call(xAxis);
@@ -131,7 +150,8 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var x = d3.scale.linear()
-    .domain([0, d3.max(init_data, function(d) { return d.value; })])
+    // .domain([0, d3.max(init_data, function(d) { return d.value; })])
+    .domain(get_x_domain(init_data))// d3.extent(init_data, function(d) { return d.value; } ))
     .range([0, width]);
 
   var xAxis = d3.svg.axis()
@@ -146,10 +166,9 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
   var bar = chart.selectAll(".bar").data(init_data)
     .enter()
     .append("rect")
-    .attr("class", "bar")
-    .attr("transform", function(d) { return "translate(0," + y(d.name) + ")"; })
-    .attr("width", function(d) { return x(d.value); })
+    .call(update_bars)
     .attr("height", barHeight - 1);
+    // .attr("height", y.rangeBand());
 
   chart.append("g")
     .attr("class", "x axis")
