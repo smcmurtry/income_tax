@@ -31,134 +31,42 @@
 
 <script>
 
+var x = d3.scale.linear(),
+  y = d3.scale.ordinal(),
+  xAxis = d3.svg.axis(), 
+  yAxis = d3.svg.axis(),
+  chart;
+
 d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
+  add_event_listeners(data);
 
-  function get_numerator_data() {
-    var selected_year = get_selected('#year_selector'),
-      selected_item = get_selected('#item_selector'),
-      selected_plot = get_selected('#divisor_selector');
-    var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item })[0];
-    var numerator_data = [];
-    for (var prop in numerator_row) {
-      // kind of hacky but all the data properties of numerator_row have a 'k' in them
-      if (prop.indexOf('k') != -1) {
-        numerator_data.push({'name': prop, 'value': +numerator_row[prop]}); 
-      }
-    };
-    return numerator_data;
-  }
+  update_items(data);
 
-
-  function get_x_domain(data) {
-    var extent = d3.extent(data, function(d) { return d.value; } );
-    if (extent[0] > 0) {
-      return [0, extent[1]];
-    } else {
-      return extent; 
-    }
-  }
-
-  function update_bars(selection) {
-    selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
-      .attr("x", function(d) { return x(Math.min(0, d.value)); })
-      .attr("y", function(d) { return y(d.name); })
-      .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); });
-  }
-
-  function draw_chart(plot_data) {
-    x.domain(get_x_domain(plot_data))
-    chart.selectAll(".bar").data(plot_data)
-          .transition(500)
-        .call(update_bars);
-    xAxis.scale(x);
-    chart.select(".x").call(xAxis);
-  }
-
-
-  function get_rows(arg) {
-    var valid_rows = [];
-    for (var i = data.length - 1; i >= 0; i--) {
-      if (arg.hasOwnProperty('tax_year') && data[i].tax_year != arg['tax_year']) { continue; }
-      if (arg.hasOwnProperty('item_unit') && data[i].type != arg['item_unit']) { continue; };
-      if (arg.hasOwnProperty('item_name') && data[i].item != arg['item_name']) { continue; };
-      valid_rows.push(data[i]);
-    };
-    return valid_rows;
-  }
-
-  function get_selected(id) {
-    var options = d3.select(id).selectAll('option');
-    var index = d3.select(id).property('selectedIndex');
-    return options[0][index].value;
-  }
-
-
-  function update_items() {
-    var selected_year = get_selected('#year_selector');
-    var valid_rows = get_rows({ tax_year: selected_year, item_unit:'$' });
-
-    d3.select("#item_selector")
-      .selectAll('option')
-      .data(valid_rows)
-      .enter()
-      .append("option")
-      .text(function(d) { return d.item; });
-  }
-
-
-  d3.select("#year_selector")
-    .on("change", function() {
-      update_items();
-      var p_data = get_numerator_data();
-      draw_chart(p_data);
-    });
-
-  d3.select("#item_selector")
-    .on("change", function() {
-      var p_data = get_numerator_data();
-      draw_chart(p_data);
-    });
-
-  d3.select("#divisor_selector")
-    .on("change", function() { 
-      var p_data = get_numerator_data();
-      draw_chart(p_data);
-    });
-
-  update_items();
-
-// start
   var barHeight = 20;
-
-  var init_data = get_numerator_data();
+  var init_data = get_numerator_data(data);
   var n_bars = init_data.length;
-
   var margin = {top: 50, right: 30, bottom: 50, left: 150},
       width = 600 - margin.left - margin.right,
       height = barHeight*n_bars;// - margin.top - margin.bottom;
 
-  var chart = d3.select("#chart")
+  chart = d3.select("#chart")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var x = d3.scale.linear()
-    .domain(get_x_domain(init_data))
+  x.domain(get_x_domain(init_data))
     .range([0, width]);
 
-  var xAxis = d3.svg.axis()
-    .scale(x)
+  xAxis.scale(x)
     .tickFormat(dollar_format)
     .orient("top");
 
-  var y = d3.scale.ordinal()
-    .domain(init_data.map(function(d) { return d.name; }))
+  y.domain(init_data.map(function(d) { return d.name; }))
     .rangeRoundBands([height, 0], 0.1, 0); // not sure what's up with the 2nd and 3rd arguments
 
-  var yAxis = d3.svg.axis()
-    .scale(y)
+  yAxis.scale(y)
     .orient("left");
 
   var bar = chart.selectAll(".bar").data(init_data)
@@ -195,10 +103,108 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
 });
 
+
 function dollar_format(n) {
   var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
   var suffix = d3.formatPrefix(n);
   return '$' + suffix.scale(n) + dict[suffix.symbol];
+}
+
+
+function get_x_domain(data) {
+  var extent = d3.extent(data, function(d) { return d.value; } );
+  if (extent[0] > 0) {
+    return [0, extent[1]];
+  } else {
+    return extent; 
+  }
+}
+
+
+function get_selected(id) {
+  var options = d3.select(id).selectAll('option');
+  var index = d3.select(id).property('selectedIndex');
+  return options[0][index].value;
+}
+
+function get_numerator_data(data) {
+  var selected_year = get_selected('#year_selector'),
+    selected_item = get_selected('#item_selector'),
+    selected_plot = get_selected('#divisor_selector');
+  var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item }, data)[0];
+  var numerator_data = [];
+  for (var prop in numerator_row) {
+    // kind of hacky but all the data properties of numerator_row have a 'k' in them
+    if (prop.indexOf('k') != -1) {
+      numerator_data.push({'name': prop, 'value': +numerator_row[prop]}); 
+    }
+  };
+  return numerator_data;
+}
+
+
+function get_rows(arg, data) {
+  var valid_rows = [];
+  for (var i = data.length - 1; i >= 0; i--) {
+    if (arg.hasOwnProperty('tax_year') && data[i].tax_year != arg['tax_year']) { continue; }
+    if (arg.hasOwnProperty('item_unit') && data[i].type != arg['item_unit']) { continue; };
+    if (arg.hasOwnProperty('item_name') && data[i].item != arg['item_name']) { continue; };
+    valid_rows.push(data[i]);
+  };
+  return valid_rows;
+}
+
+
+function update_items(data) {
+  var selected_year = get_selected('#year_selector');
+  var valid_rows = get_rows({ tax_year: selected_year, item_unit:'$' }, data);
+
+  d3.select("#item_selector")
+    .selectAll('option')
+    .data(valid_rows)
+    .enter()
+    .append("option")
+    .text(function(d) { return d.item; });
+}
+
+
+function update_bars(selection) {
+  selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
+    .attr("x", function(d) { return x(Math.min(0, d.value)); })
+    .attr("y", function(d) { return y(d.name); })
+    .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); });
+}
+
+
+function draw_chart(plot_data) {
+  x.domain(get_x_domain(plot_data))
+  chart.selectAll(".bar").data(plot_data)
+        .transition(500)
+      .call(update_bars);
+  xAxis.scale(x);
+  chart.select(".x").call(xAxis);
+}
+
+
+function add_event_listeners(data) {
+  d3.select("#year_selector")
+    .on("change", function() {
+      update_items(data);
+      var p_data = get_numerator_data(data);
+      draw_chart(p_data);
+    });
+
+  d3.select("#item_selector")
+    .on("change", function() {
+      var p_data = get_numerator_data(data);
+      draw_chart(p_data);
+    });
+
+  d3.select("#divisor_selector")
+    .on("change", function() { 
+      var p_data = get_numerator_data(data);
+      draw_chart(p_data);
+    });
 }
 
 </script>
