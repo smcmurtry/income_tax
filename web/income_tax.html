@@ -31,11 +31,24 @@
 
 <script>
 
-var x = d3.scale.linear(),
-  y = d3.scale.ordinal(),
-  xAxis = d3.svg.axis(), 
-  yAxis = d3.svg.axis(),
-  chart;
+var margin = {top: 70, right: 30, bottom: 50, left: 150},
+    width = 700 - margin.left - margin.right,
+    height = 550 - margin.top - margin.bottom;
+
+var chart = d3.select("#chart")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scale.linear()
+          .range([0, width]);
+
+var y = d3.scale.ordinal()
+          .rangeRoundBands([height, 0], 0.1, 0); // not sure what's up with the 2nd and 3rd arguments
+
+var xAxis = d3.svg.axis(), 
+  yAxis = d3.svg.axis();
 
 d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
@@ -43,28 +56,14 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   update_items(data);
 
-  var barHeight = 20;
   var init_data = get_numerator_data(data);
-  var n_bars = init_data.length;
-  var margin = {top: 50, right: 30, bottom: 50, left: 150},
-      width = 600 - margin.left - margin.right,
-      height = barHeight*n_bars;// - margin.top - margin.bottom;
 
-  chart = d3.select("#chart")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  x.domain(get_x_domain(init_data))
-    .range([0, width]);
+  x.domain(get_x_domain(init_data));
+  y.domain(init_data.map(function(d) { return d.name; }));
 
   xAxis.scale(x)
     .tickFormat(dollar_format)
     .orient("top");
-
-  y.domain(init_data.map(function(d) { return d.name; }))
-    .rangeRoundBands([height, 0], 0.1, 0); // not sure what's up with the 2nd and 3rd arguments
 
   yAxis.scale(y)
     .orient("left");
@@ -73,8 +72,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .enter()
     .append("rect")
     .call(update_bars)
-    .attr("height", barHeight - 1);
-    // .attr("height", y.rangeBand());
+    .attr("height", y.rangeBand());
 
   chart.append("g")
     .attr("class", "x axis")
@@ -126,6 +124,7 @@ function get_selected(id) {
   var index = d3.select(id).property('selectedIndex');
   return options[0][index].value;
 }
+
 
 function get_numerator_data(data) {
   var selected_year = get_selected('#year_selector'),

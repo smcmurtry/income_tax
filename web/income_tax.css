@@ -27,6 +27,7 @@ body {
   display: none;
 }
 
-.y-label {
+.y-label,
+.x-label {
   font: 16px sans-serif;
 }
