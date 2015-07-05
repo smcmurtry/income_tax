@@ -33,29 +33,9 @@
 <script>
 
 d3.csv("../data/all_clean_tax_data.csv", function(data) {
-  var width = 420,
-    barHeight = 20;
-
-  var zeros = Array.apply(null, Array(19)).map(Number.prototype.valueOf,0);
-  
-  var x = d3.scale.linear()
-      .domain([0, d3.max(zeros)])
-      .range([0, width]);
-
-  var chart = d3.select("#chart")
-    .attr("width", width)
-    .attr("height", barHeight * zeros.length);
-
-  var  bar = chart.selectAll("g").data(zeros)
-  .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-
-  bar.append("rect")
-    .attr("width", function(d) { return x(d); })
-    .attr("height", barHeight - 1);
 
 
-  function update_plot() {
+  function get_numerator_data() {
     var selected_year = get_selected('#year_selector'),
       selected_item = get_selected('#item_selector'),
       selected_plot = get_selected('#divisor_selector');
@@ -78,6 +58,9 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     chart.selectAll("rect").data(plot_data)
           .transition(500)
           .attr("width", function(d) { return x(d); });
+
+    xAxis.scale(x);
+    chart.select(".x").call(xAxis);
   }
 
 
@@ -115,25 +98,68 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
   d3.select("#year_selector")
     .on("change", function() {
       update_items();
-      var p_data = update_plot();
+      var p_data = get_numerator_data();
       draw_chart(p_data);
     });
 
   d3.select("#item_selector")
     .on("change", function() {
-      var p_data = update_plot();
+      var p_data = get_numerator_data();
       draw_chart(p_data);
     });
 
   d3.select("#divisor_selector")
     .on("change", function() { 
-      var p_data = update_plot();
+      var p_data = get_numerator_data();
       draw_chart(p_data);
     });
 
   update_items();
-  var p_data = update_plot();
-  draw_chart(p_data);
+
+// start
+  var barHeight = 20;
+
+  var init_data = get_numerator_data();
+  var n_bars = init_data.length;
+
+  var margin = {top: 20, right: 30, bottom: 30, left: 40},
+      width = 420 + margin.left + margin.right,
+      height = barHeight*n_bars + margin.top + margin.bottom;
+
+  var chart = d3.select("#chart")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var x = d3.scale.linear()
+    .domain([0, d3.max(init_data)])
+    .range([0, width]);
+
+  var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+  var y = d3.scale.ordinal()
+    .rangeRoundBands([0, n_bars*barHeight], .1);
+
+  // var chart = d3.select("#chart")
+  //   .attr("width", width)
+  //   .attr("height", height);
+
+  var bar = chart.selectAll(".gbars").data(init_data)
+    .enter().append("g")
+    .attr("class", 'gbars')
+    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+  bar.append("rect")
+    .attr("width", function(d) { return x(d); })
+    .attr("height", barHeight - 1);
+
+  chart.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + n_bars*barHeight + ")")
+    .call(xAxis);
 
 });
 
