@@ -15,21 +15,29 @@
 </div>
 
 <div>
-<select id='year_selector'>
-  <option value="2011" selected="selected">2011</option>
-  <option value="2010">2010</option>
-  <option value="2009">2009</option>
-</select>
+<select id='year_selector'></select>
 <select id='item_selector'></select>
-<select id='divisor_selector'>
-  <option value="total_value" selected="selected">total value</option>
-  <option value="total_number">total number</option>
-</select>
+<select id='divisor_selector'></select>
 </div>
 
 </body>
 
 <script>
+
+function populate_dropdown(id, data) {
+  d3.select(id)
+    .selectAll('option')
+    .data(data)
+    .enter()
+    .append("option")
+    .text(function(d) { return d; });
+}
+
+var years = [2011, 2010, 2009];
+var charts = ['Total Value', 'Total Number'];
+
+populate_dropdown("#year_selector", years);
+populate_dropdown("#divisor_selector", charts);
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -118,7 +126,7 @@ function update_tick_lines() {
   var enter = tick_ln.enter().append("line");
 
   tick_ln.exit().remove();
-  
+
   enter.attr("class", "tick-line")    
     .attr("x1", function(d) { return x(d); } )
     .attr("x2", function(d) { return x(d); } )
@@ -133,6 +141,12 @@ function dollar_format(n) {
   var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
   var suffix = d3.formatPrefix(n);
   return '$' + suffix.scale(n) + dict[suffix.symbol];
+}
+
+function number_format(n) {
+  var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
+  var suffix = d3.formatPrefix(n);
+  return suffix.scale(n) + dict[suffix.symbol];
 }
 
 
