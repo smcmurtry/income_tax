@@ -50,9 +50,9 @@ var transition_duration = 500; // in ms
 
 var plot_variable = [
   {'id':0, 'name': 'Total item amount', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
-  {'id':1, 'name': 'Number of non-zero claims', 'title_text': ['Number of returns with ', ' greater than zero'], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
+  {'id':1, 'name': 'Number of returns with non-zero item amount', 'title_text': ['Number of returns with non-zero ', ''], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
   {'id':2, 'name': 'Average item amount per return', 'title_text': ['Average ', ' per return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'id':3, 'name': 'Average item amount per return (excluding zeros)', 'title_text': ['Average ', ' per return (excluding zeros)'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':3, 'name': 'Average non-zero item amount per return', 'title_text': ['Average non-zero ', ' per return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns with non-zero item amount', 'title_text': ['Percentage of returns with non-zero ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
@@ -242,8 +242,10 @@ function get_rows(arg, all_data) {
 
 
 function populate_items(all_data) {
+  var items_to_exclude = ['Total number of returns', 'Number of taxable returns', 'Number of non-taxable returns'];
   var unique_items = []; 
   for (var i = all_data.length - 1; i >= 0; i--) {
+    if (items_to_exclude.indexOf(all_data[i].item) != -1 ) { continue; }
     if (unique_items.indexOf(all_data[i].item) == -1) { unique_items.push(all_data[i].item); }
   };
   populate_dropdown("#item_selector", unique_items, function(d) { return d; } );
