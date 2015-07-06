@@ -38,13 +38,15 @@ function populate_dropdown(id, data, text_accessor) {
     .text(function(d) { return text_accessor(d); });
 }
 
+var transition_duration = 500; // in ms
+
 var plot_variable = [
-  {'name': 'Total value of all claims', 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
-  {'name': 'Total number of tax claims', 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
-  {'name': 'Average value of each claim', 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'name': 'Average value of claim per return', 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'name': 'Average value per return as fraction of income', 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
-  {'name': 'Fraction of returns with claim', 'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
+  {'id':0, 'name': 'Value of all claims', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
+  {'id':1, 'name': 'Number of non-zero claims', 'title_text': ['Number of returns with ', ' greater than zero'], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
+  {'id':2, 'name': 'Average claim amount', 'title_text': ['Average ', ''], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':3, 'name': 'Average non-zero claim amount', 'title_text': ['Average amount of ', 'excluding zeros'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':4, 'name': 'Average claim amount as percent of income', 'title_text': ['Average amount of ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
+  {'id':5, 'name': 'Percentage of returns with non-zero claim amount', 'title_text': ['Percentage of returns with a non-zero claim of ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -64,6 +66,13 @@ var y = d3.scale.ordinal()
 
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
+
+var xlabel = chart.append("g")
+    .attr("class", "x-label")
+  .append("text")
+    .style("text-anchor", "middle")
+    .attr("x", width/2)
+    .attr("y", -margin.top/2);
 
 d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
@@ -108,13 +117,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
     .attr("y", -margin.left * 2./3)
     .text("Annual Income");
 
-  var xlabel = chart.append("g")
-    .attr("class", "x-label")
-  .append("text")
-    .style("text-anchor", "middle")
-    .attr("x", width/2)
-    .attr("y", -margin.top/2)
-    .text("Item Amount");
+  xlabel.text(get_chart_title());
 
   var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
   chart.selectAll(".tick-line")
@@ -129,20 +132,10 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 });
 
 
-function update_tick_lines() {
-  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
-  var tick_ln = chart.selectAll(".tick-line").data(x_ticks);
-  var enter = tick_ln.enter().append("line");
-
-  tick_ln.exit().remove();
-
-  enter.attr("class", "tick-line")    
-    .attr("x1", function(d) { return x(d); } )
-    .attr("x2", function(d) { return x(d); } )
-    .attr("y2", height);
-
-  tick_ln.attr("x1", function(d) { return x(d); } )
-    .attr("x2", function(d) { return x(d); } );
+function get_chart_title() {
+  var selected_item = get_selected('#item_selector'),
+    selected_plot = get_selected('#plot_variable_selector');
+  return selected_plot['title_text'][0] + selected_item.toLowerCase() + selected_plot['title_text'][1];
 }
 
 function number_format(n) {
@@ -165,7 +158,6 @@ function get_x_domain(data) {
 function get_selected(id) {
   var options = d3.select(id).selectAll('option');
   var index = d3.select(id).property('selectedIndex');
-  // console.log(options);
   return options[0][index].__data__;
 
 }
@@ -178,21 +170,21 @@ function get_plot_data(all_data) {
   var numerator_row = get_rows({ tax_year: selected_year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
   var numerator_data = get_data_from_row(numerator_row);
 
-  if (selected_plot.denominator_unit == '-') { return numerator_data; }
+  if (selected_plot.id == 0 || selected_plot.id == 1) { return numerator_data; }
 
-  if (selected_plot.name == 'Average value of each claim') {
+  if (selected_plot.id == 3) {
     var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: selected_item }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
     return divide(numerator_data, denominator_data);
   }
 
-  if (selected_plot.name == 'Average value of claim per return' || selected_plot.name == 'Fraction of returns with claim') {
+  if ( selected_plot.id == 2 || selected_plot.id == 5) {
     var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
     return divide(numerator_data, denominator_data);
   }
 
-  if (selected_plot.name == 'Average value per return as fraction of income') {
+  if (selected_plot.id == 4) {
     var denominator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: 'Total income assessed' }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
     return divide(numerator_data, denominator_data);
@@ -254,16 +246,29 @@ function update_bars(selection) {
 
 function draw_chart(plot_data) {
   var x_format = get_selected('#plot_variable_selector')['x_format'];
-
-
   x.domain(get_x_domain(plot_data))
   chart.selectAll(".bar").data(plot_data)
-        .transition(500)
+        .transition(transition_duration)
       .call(update_bars);
   xAxis.scale(x)
     .tickFormat(x_format);
-  chart.select(".x").call(xAxis);
+  xlabel.text(get_chart_title());
+  chart.select(".x").transition(transition_duration).call(xAxis);
   update_tick_lines();
+}
+
+function update_tick_lines() {
+  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
+  var tick_ln = chart.selectAll(".tick-line").data(x_ticks);
+  
+  tick_ln.enter().append("line").attr("class", "tick-line");
+  tick_ln.exit().remove();
+
+  chart.selectAll(".tick-line")
+    .transition(transition_duration)
+    .attr("x1", function(d) { return x(d); } )
+    .attr("x2", function(d) { return x(d); } )
+    .attr("y2", height);
 }
 
 
@@ -279,9 +284,7 @@ function add_event_listeners(all_data) {
     .on("change", function() { draw_chart(get_plot_data(all_data)); });
 
   d3.select("#year_selector")
-    .on("change", function() {
-      draw_chart(get_plot_data(all_data));
-    });
+    .on("change", function() { draw_chart(get_plot_data(all_data)); });
 }
 
 function update_plot_variables() {
