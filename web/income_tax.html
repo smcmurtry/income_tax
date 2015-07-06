@@ -15,10 +15,18 @@
 </div>
 
 <div>
-<select id='item_selector'></select>
-<select id='plot_variable_selector'></select>
-<select id='year_selector'></select>
-
+<div> 
+  <span>Item</span>
+  <select id='item_selector'></select>
+</div>
+<div>
+  <span>Variable</span>
+  <select id='plot_variable_selector'></select>
+</div>
+<div>
+  <span>Year</span>
+  <select id='year_selector'></select>
+</div>
 </div>
 
 </body>
@@ -41,12 +49,12 @@ function populate_dropdown(id, data, text_accessor) {
 var transition_duration = 500; // in ms
 
 var plot_variable = [
-  {'id':0, 'name': 'Value of all claims', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
+  {'id':0, 'name': 'Total item amount', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
   {'id':1, 'name': 'Number of non-zero claims', 'title_text': ['Number of returns with ', ' greater than zero'], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
-  {'id':2, 'name': 'Average claim amount', 'title_text': ['Average ', ''], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'id':3, 'name': 'Average non-zero claim amount', 'title_text': ['Average amount of ', 'excluding zeros'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'id':4, 'name': 'Average claim amount as percent of income', 'title_text': ['Average amount of ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
-  {'id':5, 'name': 'Percentage of returns with non-zero claim amount', 'title_text': ['Percentage of returns with a non-zero claim of ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
+  {'id':2, 'name': 'Average item amount per return', 'title_text': ['Average ', ' per return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':3, 'name': 'Average item amount per return (excluding zeros)', 'title_text': ['Average ', ' per return (excluding zeros)'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
+  {'id':5, 'name': 'Percentage of returns with non-zero item amount', 'title_text': ['Percentage of returns with non-zero ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -84,7 +92,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   var init_data = get_plot_data(data);
 
-  x.domain(get_x_domain(init_data));
+  x.domain(get_x_domain(data));
   y.domain(init_data.map(function(d) { return d.name; }));
 
   xAxis.scale(x)
@@ -148,8 +156,13 @@ function dollar_format(n) { return '$' + number_format(n); }
 
 function percent_format(n) { return d3.format('.2p')(n); }
 
-function get_x_domain(data) {
-  var extent = d3.extent(data, function(d) { return d.value; } );
+function get_x_domain(all_data) {
+  var available_years = get_available_years(all_data);
+  all_years_plot_data = [];
+  for (var i = 0; i < available_years.length; i++) {
+    all_years_plot_data = all_years_plot_data.concat(get_plot_data(all_data, available_years[i]));
+  };
+  var extent = d3.extent(all_years_plot_data, function(d) { return d.value; } );
   if (extent[0] > 0) { return [0, extent[1]]; } 
   else { return extent; }
 }
@@ -159,35 +172,36 @@ function get_selected(id) {
   var options = d3.select(id).selectAll('option');
   var index = d3.select(id).property('selectedIndex');
   return options[0][index].__data__;
-
 }
 
 
-function get_plot_data(all_data) {
-  var selected_year = get_selected('#year_selector'),
-    selected_item = get_selected('#item_selector'),
+function get_plot_data(all_data, year) {
+  // year is an optional argument
+  if (typeof year === 'undefined') { year = get_selected('#year_selector'); }
+
+  var selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
-  var numerator_row = get_rows({ tax_year: selected_year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
+  var numerator_row = get_rows({ tax_year: year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
   var numerator_data = get_data_from_row(numerator_row);
 
   if (selected_plot.id == 0 || selected_plot.id == 1) { return numerator_data; }
 
-  if (selected_plot.id == 3) {
-    var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: selected_item }, all_data)[0];
+  if ( selected_plot.id == 2 || selected_plot.id == 5) {
+    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data);
+    return divide(numerator_data, denominator_data).reverse();
   }
 
-  if ( selected_plot.id == 2 || selected_plot.id == 5) {
-    var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
+  if (selected_plot.id == 3) {
+    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data);
+    return divide(numerator_data, denominator_data).reverse();
   }
 
   if (selected_plot.id == 4) {
-    var denominator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: 'Total income assessed' }, all_data)[0];
+    var denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'Total income assessed' }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data);
+    return divide(numerator_data, denominator_data).reverse();
   }
 
   return null;
@@ -244,9 +258,10 @@ function update_bars(selection) {
 }
 
 
-function draw_chart(plot_data) {
+function draw_chart(all_data) {
+  var plot_data = get_plot_data(all_data);
   var x_format = get_selected('#plot_variable_selector')['x_format'];
-  x.domain(get_x_domain(plot_data))
+  x.domain(get_x_domain(all_data))
   chart.selectAll(".bar").data(plot_data)
         .transition(transition_duration)
       .call(update_bars);
@@ -277,14 +292,14 @@ function add_event_listeners(all_data) {
     .on("change", function() {
       update_plot_variables();
       update_years(all_data);
-      draw_chart(get_plot_data(all_data)); 
+      draw_chart(all_data); 
     });
 
   d3.select("#plot_variable_selector")
-    .on("change", function() { draw_chart(get_plot_data(all_data)); });
+    .on("change", function() { draw_chart(all_data); });
 
   d3.select("#year_selector")
-    .on("change", function() { draw_chart(get_plot_data(all_data)); });
+    .on("change", function() { draw_chart(all_data); });
 }
 
 function update_plot_variables() {
@@ -292,16 +307,22 @@ function update_plot_variables() {
 }
 
 function update_years(all_data) {
-  var selected_item = get_selected("#item_selector")
-  var unique_years = [];  
+  var available_years = get_available_years(all_data);
+  populate_dropdown("#year_selector", available_years, function (d) { return d; });
+}
+
+
+function get_available_years(all_data) {
+  var selected_item = get_selected("#item_selector");
+  var available_years = [];  
   for (var i = all_data.length - 1; i >= 0; i--) {
     if (all_data[i].item == selected_item) {
-      if (unique_years.indexOf(all_data[i].tax_year) == -1) {
-        unique_years.push(all_data[i].tax_year);
+      if (available_years.indexOf(all_data[i].tax_year) == -1) {
+        available_years.push(all_data[i].tax_year);
       }
     }
-  };
-populate_dropdown("#year_selector", unique_years, function (d) { return d; });
+  }
+  return available_years;
 }
 
 </script>
