@@ -192,24 +192,13 @@ function get_plot_data(all_data) {
     return divide(numerator_data, denominator_data);
   }
 
-  // if (selected_plot.name == 'Fraction of returns with claim') {
-  //   var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
-  //   var denominator_data = get_data_from_row(denominator_row);
-  //   return divide(numerator_data, denominator_data);
-  // }
+  if (selected_plot.name == 'Average value per return as fraction of income') {
+    var denominator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: 'Total income assessed' }, all_data)[0];
+    var denominator_data = get_data_from_row(denominator_row);
+    return divide(numerator_data, denominator_data);
+  }
 
-    // if divisor == "per_return":    
-    //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total number of returns', '#', tax_year)
-    //     denomonator_unit = '#'
-    // elif divisor == "per_dollar_income":
-    //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total income assessed', '$', tax_year)
-    //     denomonator_unit = '$'
-    // elif divisor == "avg_claim":
-    //     denomonator_data = get_row_data_as_list(df, income_cols, item_name, '#', tax_year)
-    //     denomonator_unit = '-'
-    // else:
-    //     denomonator_data = np.ones_like(numerator_data)
-    //     denomonator_unit = '-'
+  return null;
 
 }
 
