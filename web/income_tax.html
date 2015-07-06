@@ -15,9 +15,10 @@
 </div>
 
 <div>
-<select id='year_selector'></select>
 <select id='item_selector'></select>
 <select id='plot_variable_selector'></select>
+<select id='year_selector'></select>
+
 </div>
 
 </body>
@@ -25,27 +26,25 @@
 <script>
 
 function populate_dropdown(id, data, text_accessor) {
-  d3.select(id)
+
+  var selection = d3.select(id)
     .selectAll('option')
     .data(data)
-    .enter()
+
+  var exit_selection = selection.exit().remove();
+
+  var enter_selection = selection.enter()
     .append("option")
     .text(function(d) { return text_accessor(d); });
 }
 
-
-
-var years = [2011, 2010, 2009];
 var plot_variable = [
-{'name': 'Total value of all claims', 'd_unit': '$'},
-{'name':'Total number of tax claims', 'd_unit': '#'}, 
-{'name': 'Average value of each claim', 'd_unit': '$'}, 
-{'name': 'Average value of claim per return', 'd_unit': '$'}, 
-{'name': 'Average value per return as fraction of income', 'd_unit': '$'}, 
-{'name': 'Fraction of returns with claim', 'd_unit': '$'}];
-
-populate_dropdown("#year_selector", years, function (d) { return d; });
-populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; });
+  {'name': 'Total value of all claims', 'numerator_unit': '$', 'denomonator_unit': '-'},
+  {'name': 'Total number of tax claims', 'numerator_unit': '#', 'denomonator_unit': '-'},
+  {'name': 'Average value of each claim', 'numerator_unit': '$', 'denomonator_unit': '#'},
+  {'name': 'Average value of claim per return', 'numerator_unit': '$', 'denomonator_unit': '#'},
+  {'name': 'Average value per return as fraction of income', 'numerator_unit': '$', 'denomonator_unit': '$'},
+  {'name': 'Fraction of returns with claim', 'numerator_unit': '#', 'denomonator_unit': '#'}];
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -70,7 +69,9 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   add_event_listeners(data);
 
-  update_items(data);
+  populate_items(data);
+  update_plot_variables();
+  update_years(data);
 
   var init_data = get_plot_data(data);
 
@@ -164,7 +165,9 @@ function get_x_domain(data) {
 function get_selected(id) {
   var options = d3.select(id).selectAll('option');
   var index = d3.select(id).property('selectedIndex');
-  return options[0][index].value;
+  // console.log(options);
+  return options[0][index].__data__;
+
 }
 
 function get_plot_data(all_data) {
@@ -178,7 +181,10 @@ function get_numerator_data(all_data) {
   var selected_year = get_selected('#year_selector'),
     selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
-  var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item }, all_data)[0];
+  // console.log(selected_year);
+  // console.log(selected_item);
+  // console.log(selected_plot);
+  var numerator_row = get_rows({ tax_year: selected_year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
   var numerator_data = [];
   for (var prop in numerator_row) {
     // kind of hacky but all the data properties of numerator_row have a 'k' in them
@@ -202,10 +208,12 @@ function get_rows(arg, all_data) {
 }
 
 
-function update_items(all_data) {
-  var selected_year = get_selected('#year_selector');
-  var valid_rows = get_rows({ tax_year: selected_year, item_unit:'$' }, all_data);
-  populate_dropdown("#item_selector", valid_rows, function(d) { return d.item; } );
+function populate_items(all_data) {
+  var unique_items = []; 
+  for (var i = all_data.length - 1; i >= 0; i--) {
+    if (unique_items.indexOf(all_data[i].item) == -1) { unique_items.push(all_data[i].item); }
+  };
+  populate_dropdown("#item_selector", unique_items, function(d) { return d; } );
 }
 
 
@@ -229,17 +237,37 @@ function draw_chart(plot_data) {
 
 
 function add_event_listeners(all_data) {
-  d3.select("#year_selector")
-    .on("change", function() {
-      update_items(all_data);
-      draw_chart(get_plot_data(all_data));
-    });
-
   d3.select("#item_selector")
-    .on("change", function() { draw_chart(get_plot_data(all_data)); });
+    .on("change", function() {
+      update_plot_variables();
+      update_years(all_data);
+      draw_chart(get_plot_data(all_data)); 
+    });
 
   d3.select("#plot_variable_selector")
     .on("change", function() { draw_chart(get_plot_data(all_data)); });
+
+  d3.select("#year_selector")
+    .on("change", function() {
+      draw_chart(get_plot_data(all_data));
+    });
+}
+
+function update_plot_variables() {
+  populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; });
+}
+
+function update_years(all_data) {
+  var selected_item = get_selected("#item_selector")
+  var unique_years = [];  
+  for (var i = all_data.length - 1; i >= 0; i--) {
+    if (all_data[i].item == selected_item) {
+      if (unique_years.indexOf(all_data[i].tax_year) == -1) {
+        unique_years.push(all_data[i].tax_year);
+      }
+    }
+  };
+populate_dropdown("#year_selector", unique_years, function (d) { return d; });
 }
 
 </script>
