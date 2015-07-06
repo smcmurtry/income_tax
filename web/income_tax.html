@@ -39,12 +39,12 @@ function populate_dropdown(id, data, text_accessor) {
 }
 
 var plot_variable = [
-  {'name': 'Total value of all claims', 'numerator_unit': '$', 'denominator_unit': '-'},
-  {'name': 'Total number of tax claims', 'numerator_unit': '#', 'denominator_unit': '-'},
-  {'name': 'Average value of each claim', 'numerator_unit': '$', 'denominator_unit': '#'},
-  {'name': 'Average value of claim per return', 'numerator_unit': '$', 'denominator_unit': '#'},
-  {'name': 'Average value per return as fraction of income', 'numerator_unit': '$', 'denominator_unit': '$'},
-  {'name': 'Fraction of returns with claim', 'numerator_unit': '#', 'denominator_unit': '#'}];
+  {'name': 'Total value of all claims', 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
+  {'name': 'Total number of tax claims', 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
+  {'name': 'Average value of each claim', 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'name': 'Average value of claim per return', 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'name': 'Average value per return as fraction of income', 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
+  {'name': 'Fraction of returns with claim', 'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -153,7 +153,7 @@ function number_format(n) {
 
 function dollar_format(n) { return '$' + number_format(n); }
 
-function percent_format(n) { return d3.format('.0%'); }
+function percent_format(n) { return d3.format('.2p')(n); }
 
 function get_x_domain(data) {
   var extent = d3.extent(data, function(d) { return d.value; } );
@@ -183,8 +183,21 @@ function get_plot_data(all_data) {
   if (selected_plot.name == 'Average value of each claim') {
     var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: selected_item }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data); // edit here
+    return divide(numerator_data, denominator_data);
   }
+
+  if (selected_plot.name == 'Average value of claim per return' || selected_plot.name == 'Fraction of returns with claim') {
+    var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
+    var denominator_data = get_data_from_row(denominator_row);
+    return divide(numerator_data, denominator_data);
+  }
+
+  // if (selected_plot.name == 'Fraction of returns with claim') {
+  //   var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
+  //   var denominator_data = get_data_from_row(denominator_row);
+  //   return divide(numerator_data, denominator_data);
+  // }
+
     // if divisor == "per_return":    
     //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total number of returns', '#', tax_year)
     //     denomonator_unit = '#'
@@ -251,11 +264,15 @@ function update_bars(selection) {
 
 
 function draw_chart(plot_data) {
+  var x_format = get_selected('#plot_variable_selector')['x_format'];
+
+
   x.domain(get_x_domain(plot_data))
   chart.selectAll(".bar").data(plot_data)
         .transition(500)
       .call(update_bars);
-  xAxis.scale(x);
+  xAxis.scale(x)
+    .tickFormat(x_format);
   chart.select(".x").call(xAxis);
   update_tick_lines();
 }
