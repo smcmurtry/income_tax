@@ -17,27 +17,35 @@
 <div>
 <select id='year_selector'></select>
 <select id='item_selector'></select>
-<select id='divisor_selector'></select>
+<select id='plot_variable_selector'></select>
 </div>
 
 </body>
 
 <script>
 
-function populate_dropdown(id, data) {
+function populate_dropdown(id, data, text_accessor) {
   d3.select(id)
     .selectAll('option')
     .data(data)
     .enter()
     .append("option")
-    .text(function(d) { return d; });
+    .text(function(d) { return text_accessor(d); });
 }
 
-var years = [2011, 2010, 2009];
-var charts = ['Total Value', 'Total Number'];
 
-populate_dropdown("#year_selector", years);
-populate_dropdown("#divisor_selector", charts);
+
+var years = [2011, 2010, 2009];
+var plot_variable = [
+{'name': 'Total value of all claims', 'd_unit': '$'},
+{'name':'Total number of tax claims', 'd_unit': '#'}, 
+{'name': 'Average value of each claim', 'd_unit': '$'}, 
+{'name': 'Average value of claim per return', 'd_unit': '$'}, 
+{'name': 'Average value per return as fraction of income', 'd_unit': '$'}, 
+{'name': 'Fraction of returns with claim', 'd_unit': '$'}];
+
+populate_dropdown("#year_selector", years, function (d) { return d; });
+populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; });
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -64,7 +72,7 @@ d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   update_items(data);
 
-  var init_data = get_numerator_data(data);
+  var init_data = get_plot_data(data);
 
   x.domain(get_x_domain(init_data));
   y.domain(init_data.map(function(d) { return d.name; }));
@@ -136,27 +144,20 @@ function update_tick_lines() {
     .attr("x2", function(d) { return x(d); } );
 }
 
-
-function dollar_format(n) {
-  var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
-  var suffix = d3.formatPrefix(n);
-  return '$' + suffix.scale(n) + dict[suffix.symbol];
-}
-
 function number_format(n) {
   var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
   var suffix = d3.formatPrefix(n);
-  return suffix.scale(n) + dict[suffix.symbol];
+  return suffix.scale(n) + dict[suffix.symbol]
 }
 
+function dollar_format(n) { return '$' + number_format(n); }
+
+function percent_format(n) { return d3.format('.0%'); }
 
 function get_x_domain(data) {
   var extent = d3.extent(data, function(d) { return d.value; } );
-  if (extent[0] > 0) {
-    return [0, extent[1]];
-  } else {
-    return extent; 
-  }
+  if (extent[0] > 0) { return [0, extent[1]]; } 
+  else { return extent; }
 }
 
 
@@ -166,12 +167,18 @@ function get_selected(id) {
   return options[0][index].value;
 }
 
+function get_plot_data(all_data) {
+  var numerator_data = get_numerator_data(all_data);
 
-function get_numerator_data(data) {
+  return numerator_data;
+}
+
+
+function get_numerator_data(all_data) {
   var selected_year = get_selected('#year_selector'),
     selected_item = get_selected('#item_selector'),
-    selected_plot = get_selected('#divisor_selector');
-  var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item }, data)[0];
+    selected_plot = get_selected('#plot_variable_selector');
+  var numerator_row = get_rows({ tax_year: selected_year, item_unit: '$', item_name: selected_item }, all_data)[0];
   var numerator_data = [];
   for (var prop in numerator_row) {
     // kind of hacky but all the data properties of numerator_row have a 'k' in them
@@ -183,28 +190,22 @@ function get_numerator_data(data) {
 }
 
 
-function get_rows(arg, data) {
+function get_rows(arg, all_data) {
   var valid_rows = [];
-  for (var i = data.length - 1; i >= 0; i--) {
-    if (arg.hasOwnProperty('tax_year') && data[i].tax_year != arg['tax_year']) { continue; }
-    if (arg.hasOwnProperty('item_unit') && data[i].type != arg['item_unit']) { continue; };
-    if (arg.hasOwnProperty('item_name') && data[i].item != arg['item_name']) { continue; };
-    valid_rows.push(data[i]);
+  for (var i = all_data.length - 1; i >= 0; i--) {
+    if (arg.hasOwnProperty('tax_year') && all_data[i].tax_year != arg['tax_year']) { continue; }
+    if (arg.hasOwnProperty('item_unit') && all_data[i].type != arg['item_unit']) { continue; }
+    if (arg.hasOwnProperty('item_name') && all_data[i].item != arg['item_name']) { continue; }
+    valid_rows.push(all_data[i]);
   };
   return valid_rows;
 }
 
 
-function update_items(data) {
+function update_items(all_data) {
   var selected_year = get_selected('#year_selector');
-  var valid_rows = get_rows({ tax_year: selected_year, item_unit:'$' }, data);
-
-  d3.select("#item_selector")
-    .selectAll('option')
-    .data(valid_rows)
-    .enter()
-    .append("option")
-    .text(function(d) { return d.item; });
+  var valid_rows = get_rows({ tax_year: selected_year, item_unit:'$' }, all_data);
+  populate_dropdown("#item_selector", valid_rows, function(d) { return d.item; } );
 }
 
 
@@ -227,25 +228,18 @@ function draw_chart(plot_data) {
 }
 
 
-function add_event_listeners(data) {
+function add_event_listeners(all_data) {
   d3.select("#year_selector")
     .on("change", function() {
-      update_items(data);
-      var p_data = get_numerator_data(data);
-      draw_chart(p_data);
+      update_items(all_data);
+      draw_chart(get_plot_data(all_data));
     });
 
   d3.select("#item_selector")
-    .on("change", function() {
-      var p_data = get_numerator_data(data);
-      draw_chart(p_data);
-    });
+    .on("change", function() { draw_chart(get_plot_data(all_data)); });
 
-  d3.select("#divisor_selector")
-    .on("change", function() { 
-      var p_data = get_numerator_data(data);
-      draw_chart(p_data);
-    });
+  d3.select("#plot_variable_selector")
+    .on("change", function() { draw_chart(get_plot_data(all_data)); });
 }
 
 </script>
