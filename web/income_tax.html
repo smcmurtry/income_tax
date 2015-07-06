@@ -39,12 +39,12 @@ function populate_dropdown(id, data, text_accessor) {
 }
 
 var plot_variable = [
-  {'name': 'Total value of all claims', 'numerator_unit': '$', 'denomonator_unit': '-'},
-  {'name': 'Total number of tax claims', 'numerator_unit': '#', 'denomonator_unit': '-'},
-  {'name': 'Average value of each claim', 'numerator_unit': '$', 'denomonator_unit': '#'},
-  {'name': 'Average value of claim per return', 'numerator_unit': '$', 'denomonator_unit': '#'},
-  {'name': 'Average value per return as fraction of income', 'numerator_unit': '$', 'denomonator_unit': '$'},
-  {'name': 'Fraction of returns with claim', 'numerator_unit': '#', 'denomonator_unit': '#'}];
+  {'name': 'Total value of all claims', 'numerator_unit': '$', 'denominator_unit': '-'},
+  {'name': 'Total number of tax claims', 'numerator_unit': '#', 'denominator_unit': '-'},
+  {'name': 'Average value of each claim', 'numerator_unit': '$', 'denominator_unit': '#'},
+  {'name': 'Average value of claim per return', 'numerator_unit': '$', 'denominator_unit': '#'},
+  {'name': 'Average value per return as fraction of income', 'numerator_unit': '$', 'denominator_unit': '$'},
+  {'name': 'Fraction of returns with claim', 'numerator_unit': '#', 'denominator_unit': '#'}];
 
 var margin = {top: 70, right: 30, bottom: 50, left: 150},
     width = 700 - margin.left - margin.right,
@@ -170,31 +170,56 @@ function get_selected(id) {
 
 }
 
+
 function get_plot_data(all_data) {
-  var numerator_data = get_numerator_data(all_data);
-
-  return numerator_data;
-}
-
-
-function get_numerator_data(all_data) {
   var selected_year = get_selected('#year_selector'),
     selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
-  // console.log(selected_year);
-  // console.log(selected_item);
-  // console.log(selected_plot);
   var numerator_row = get_rows({ tax_year: selected_year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
-  var numerator_data = [];
-  for (var prop in numerator_row) {
-    // kind of hacky but all the data properties of numerator_row have a 'k' in them
-    if (prop.indexOf('k') != -1) {
-      numerator_data.push({'name': prop, 'value': +numerator_row[prop]}); 
-    }
-  };
-  return numerator_data;
+  var numerator_data = get_data_from_row(numerator_row);
+
+  if (selected_plot.denominator_unit == '-') { return numerator_data; }
+
+  if (selected_plot.name == 'Average value of each claim') {
+    var denominator_row = get_rows({ tax_year: selected_year, item_unit: '#', item_name: selected_item }, all_data)[0];
+    var denominator_data = get_data_from_row(denominator_row);
+    return divide(numerator_data, denominator_data); // edit here
+  }
+    // if divisor == "per_return":    
+    //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total number of returns', '#', tax_year)
+    //     denomonator_unit = '#'
+    // elif divisor == "per_dollar_income":
+    //     denomonator_data = get_row_data_as_list(df, income_cols, 'Total income assessed', '$', tax_year)
+    //     denomonator_unit = '$'
+    // elif divisor == "avg_claim":
+    //     denomonator_data = get_row_data_as_list(df, income_cols, item_name, '#', tax_year)
+    //     denomonator_unit = '-'
+    // else:
+    //     denomonator_data = np.ones_like(numerator_data)
+    //     denomonator_unit = '-'
+
 }
 
+function get_data_from_row(row) {
+  var row_data = [];
+  for (var prop in row) {
+    // kind of hacky but all the income data properties of row_data have a 'k' in them
+    if (prop.indexOf('k') != -1) {
+      row_data.push({'name': prop, 'value': +row[prop]}); 
+    }
+  };
+  return row_data
+}
+
+function divide(numerator_data, denominator_data) {
+  result = [];
+  for (var i = numerator_data.length - 1; i >= 0; i--) {
+    var column = numerator_data[i]['name'];
+    var denominator_value = denominator_data.filter(function(d) { return d['name'] == column; })[0]['value'];
+    result.push({'name': column, 'value': numerator_data[i]['value']/denominator_value });
+  };
+  return result;
+}
 
 function get_rows(arg, all_data) {
   var valid_rows = [];
