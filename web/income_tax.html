@@ -113,18 +113,18 @@ var y = d3.scale.ordinal()
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
 
-// var xlabel = chart.append("g")
-//     .attr("class", "x-label")
-//   .append("text")
-//     .style("text-anchor", "middle")
-//     .attr("x", width/2)
-//     .attr("y", -margin.top/2);
-
 d3.csv("../data/all_clean_tax_data_2.csv", function(data) {
 
   add_event_listeners(data);
 
   var unique_items = get_unique_items(data);
+  unique_items.sort(function(a, b) {
+    var A=a.toLowerCase(), B=b.toLowerCase();
+    if (A < B) { return -1; }
+    if (A > B) { return 1; }
+    return 0;
+  });
+
   populate_dropdown("#item_selector", unique_items, function(d) { return d; } );
   item_slug_dict = get_item_slug_dict(unique_items);
 
@@ -327,8 +327,6 @@ function draw_chart(all_data) {
   update_tick_lines();
   set_url_hash();
 }
-
-
 
 
 function update_tick_lines() {
