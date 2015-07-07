@@ -37,9 +37,6 @@
 
 <script>
 
-items_to_capitalize = ['CPP', 'QPP', 'PPIP', 'EI', 'Old Age Security Pension', 'RRSP', 'RDSP', 'Registered Pension Plan contributions', 
-'Saskatchewan Pension Plan deduction', 'Universal Child Care Benefit', 'Universal Child Care Benefit repayment'];
-
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -95,11 +92,11 @@ var transition_duration = 500; // in ms
 
 var plot_variable = [
   {'id':0, 'name': 'Total item amount', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
-  {'id':1, 'name': 'Number of returns with non-zero item amount', 'title_text': ['Number of returns with non-zero ', ''], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
-  {'id':2, 'name': 'Average item amount by return', 'title_text': ['Average ', ' by return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'id':3, 'name': 'Average non-zero item amount by return', 'title_text': ['Average non-zero ', ' by return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':1, 'name': 'Number of returns filed with item', 'title_text': ['Number of returns filed with ', ''], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
+  {'id':2, 'name': 'Average item amount for all returns', 'title_text': ['Average ', ' for all returns'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':3, 'name': 'Average item amount among filers', 'title_text': ['Average ', ' among filers'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
-  {'id':5, 'name': 'Percentage of returns with non-zero item amount', 'title_text': ['Percentage of returns with non-zero ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
+  {'id':5, 'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
 var margin = {top: 40, right: 30, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
@@ -198,38 +195,12 @@ function add_span(class_name, text) {
 }
 
 
-function correctly_capitalize_item(item) {
-  var i1 = items_to_capitalize.indexOf(item);
-  if (i1 != -1) { return items_to_capitalize[i1]; }
-
-  var spl_item = item.split(' ');
-  for (var i = spl_item.length - 1; i >= 0; i--) {
-    if (items_to_capitalize.indexOf(spl_item[i]) != -1) { 
-      var final_str = [];
-      for (var j = 0; j < spl_item.length; j++) {
-        if (i == j) { final_str.push(spl_item[j]) }
-        else { final_str.push(spl_item[j].toLowerCase()) }
-      };
-      return final_str.join(' ');
-    }
-  };
-
-  return item.toLowerCase()
-
-}
-
-// String.prototype.capitalizeFirstLetter = function() {
-//     return this.charAt(0).toUpperCase() + this.slice(1);
-// }
-
-
 function set_xlabel_text() {
   var selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
   d3.select("#xlabel").selectAll("span").remove();
   add_span('description', selected_plot['title_text'][0]);
   add_span('item', selected_item);
-
   add_span('description', selected_plot['title_text'][1]);
 }
 
@@ -275,7 +246,7 @@ function get_plot_data(all_data, year) {
   if (selected_plot.id == 0 || selected_plot.id == 1) { return numerator_data; }
 
   if ( selected_plot.id == 2 || selected_plot.id == 5) {
-    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'Total number of returns' }, all_data)[0];
+    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
     return divide(numerator_data, denominator_data).reverse();
   }
@@ -287,7 +258,7 @@ function get_plot_data(all_data, year) {
   }
 
   if (selected_plot.id == 4) {
-    var denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'Total income assessed' }, all_data)[0];
+    var denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
     var denominator_data = get_data_from_row(denominator_row);
     return divide(numerator_data, denominator_data).reverse();
   }
@@ -329,7 +300,7 @@ function get_rows(arg, all_data) {
 }
 
 function get_unique_items(all_data) {
-  var items_to_exclude = ['Total number of returns', 'Number of taxable returns', 'Number of non-taxable returns'];
+  var items_to_exclude = ['total number of returns', 'number of taxable returns', 'number of non-taxable returns'];
   var unique_items = []; 
   for (var i = all_data.length - 1; i >= 0; i--) {
     if (items_to_exclude.indexOf(all_data[i].item) != -1 ) { continue; }
