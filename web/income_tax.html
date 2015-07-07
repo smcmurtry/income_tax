@@ -20,11 +20,11 @@
   <select id='item_selector'></select>
 </div>
 <div class='sel'>
-  <div>Variable</div>
+  <div>Chart Type</div>
   <select id='plot_variable_selector'></select>
 </div>
 <div class='sel'>
-  <div>Year</div>
+  <div>Tax Year</div>
   <select id='year_selector'></select>
 </div>
 </div>
@@ -86,8 +86,8 @@ var transition_duration = 500; // in ms
 var plot_variable = [
   {'id':0, 'name': 'Total item amount', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
   {'id':1, 'name': 'Number of returns with non-zero item amount', 'title_text': ['Number of returns with non-zero ', ''], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
-  {'id':2, 'name': 'Average item amount per return', 'title_text': ['Average ', ' per return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
-  {'id':3, 'name': 'Average non-zero item amount per return', 'title_text': ['Average non-zero ', ' per return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':2, 'name': 'Average item amount by return', 'title_text': ['Average ', ' by return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  {'id':3, 'name': 'Average non-zero item amount by return', 'title_text': ['Average non-zero ', ' by return'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns with non-zero item amount', 'title_text': ['Percentage of returns with non-zero ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
@@ -105,7 +105,7 @@ var x = d3.scale.linear()
           .range([0, width]);
 
 var y = d3.scale.ordinal()
-          .rangeRoundBands([height, 0], 0.1, 0); // not sure what's up with the 2nd and 3rd arguments
+          .rangeRoundBands([height, 0], 0.2, 0); // not sure what's up with the 2nd and 3rd arguments
 
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
