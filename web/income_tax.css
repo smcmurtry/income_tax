@@ -5,9 +5,22 @@ body {
   text-align: center;
 }
 
+#selectors, #outer-xlabel {
+  margin-left: 130px;
+}
+
+#xlabel {
+  margin-top: 70px;
+  text-align: center;
+}
+
+.item {
+  color: steelblue;
+  font-weight: 800;
+}
+
 #selectors {
   text-align: left;
-  margin-left: 130px;
 }
 
 .sel {
@@ -44,7 +57,7 @@ body {
 }
 
 .y-label,
-.x-label {
+#xlabel {
   font: 18px sans-serif;
 }
 
