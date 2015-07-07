@@ -3,14 +3,14 @@
 
 ## Cleaning Income Tax Data
 
-# In[1]:
+# In[8]:
 
 import pandas as pd
 import urllib
 import os
 
 
-# In[2]:
+# In[9]:
 
 tax_by_income_url = {2008: "http://www.cra-arc.gc.ca/gncy/stts/gb08/pst/fnl/csv/table2-eng.csv",
                      2009: "http://www.cra-arc.gc.ca/gncy/stts/gb09/pst/fnl/csv/t02ca.csv",
@@ -21,7 +21,7 @@ tax_by_income_url = {2008: "http://www.cra-arc.gc.ca/gncy/stts/gb08/pst/fnl/csv/
 
 ### Preliminary cleaning
 
-# In[3]:
+# In[10]:
 
 def delete_extra_cols(df):
     columns2delete = [col for col in df.columns if '_r' in col or '_l' in col or 'Unnamed' in col] 
@@ -48,7 +48,7 @@ def clean_the_df(rough_df, header_lines):
     return clean_df
 
 
-# In[4]:
+# In[11]:
 
 def write_online_table_to_file(url, datafile_name):
     page = urllib.urlopen(url).read()
@@ -133,7 +133,7 @@ df08.to_csv('../data/cleaned_tax_data_2008.csv')
 
 ### Load the saved tables from files
 
-# In[13]:
+# In[50]:
 
 df09 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2009.csv')
 df10 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2010.csv')
@@ -143,29 +143,29 @@ df12 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2012.csv')
 
 ### Standardize the column names
 
-# In[14]:
+# In[51]:
 
 df12.columns
 
 
-# In[15]:
+# In[52]:
 
 for c in df11.columns:
     if c not in df12.columns: print c
 
 
-# In[16]:
+# In[53]:
 
 for c in df12.columns:
     if c not in df11.columns: print c
 
 
-# In[17]:
+# In[54]:
 
 df11.columns
 
 
-# In[18]:
+# In[55]:
 
 def clean_2011_2012_dfs(df):
     df["total #"] = df[' Grand total/Total global #']
@@ -177,18 +177,18 @@ def clean_2011_2012_dfs(df):
     return df
 
 
-# In[20]:
+# In[56]:
 
 df11 = clean_2011_2012_dfs(df11)
 df12 = clean_2011_2012_dfs(df12)
 
 
-# In[21]:
+# In[57]:
 
 df10.columns
 
 
-# In[22]:
+# In[58]:
 
 df10['total #'] = df10['Grand total/Total global #']
 df10['total $'] = df10['Grand total/Total global $']
@@ -198,12 +198,12 @@ df10['>250000 #'] = df10['250000 and over/et plus #']
 df10['>250000 $'] = df10['250000 and over/et plus $']
 
 
-# In[23]:
+# In[59]:
 
 df09.columns
 
 
-# In[24]:
+# In[60]:
 
 df09['35000 - 39999 $'] = df09['35000 - 39999 $40000 - 44999 #']
 df09['10000 - 14999 #'] = df09['10000 - 14999 # ']
@@ -217,7 +217,7 @@ df09['>250000 $'] = df09['250000 and over $/250 000 et plus $']
 
 # Create a tax year column so we can combine into a single table
 
-# In[25]:
+# In[61]:
 
 df12["tax_year"] = pd.Series([2012]*len(df12), index=df12.index)
 df11["tax_year"] = pd.Series([2011]*len(df11), index=df11.index)
@@ -227,7 +227,7 @@ df09["tax_year"] = pd.Series([2009]*len(df09), index=df09.index)
 
 # After examining the datafiles, it appears that the dollar columns in all files are in thousands, even though the 2011 file is the only one that says this explicitly. I will remove the ' (000)' from the column titles for the 2011 file, and modify the dollar amounts later.
 
-# In[26]:
+# In[62]:
 
 def remove_thousands(df):
     for c in df.columns:
@@ -236,23 +236,18 @@ def remove_thousands(df):
     return df
 
 
-# In[27]:
+# In[63]:
 
 df11 = remove_thousands(df11)
 df12 = remove_thousands(df12)
 
 
-# In[28]:
+# In[64]:
 
 common_cols = set(df12.columns).intersection(set(df11.columns)).intersection(set(df10.columns)).intersection(set(df09.columns))
 
 
-# In[29]:
-
-common_cols
-
-
-# In[30]:
+# In[66]:
 
 clean_cols = []
 clean_cols.append('item')
@@ -262,17 +257,17 @@ for c in common_cols:
     if '#' in c: clean_cols.append(c[:-2])
 
 
-# In[31]:
+# In[67]:
 
 half_n_rows = len(df12) + len(df11) + len(df10) + len(df09)
 
 
-# In[32]:
+# In[68]:
 
 df_master = pd.DataFrame(columns=clean_cols, index=range(2*half_n_rows))
 
 
-# In[33]:
+# In[69]:
 
 for c in df_master.columns:
     if c == 'item':
@@ -285,63 +280,9 @@ for c in df_master.columns:
         df_master[c] = list(df12[c + ' #']) + list(df11[c + ' #']) + list(df10[c + ' #']) + list(df09[c + ' #'])         + list(df12[c + ' $']) + list(df11[c + ' $']) + list(df10[c + ' $']) + list(df09[c + ' $'])
 
 
-# In[34]:
-
-df_master.head()
-
-
-### Standardize the item titles
-
-# In[47]:
-
-len(set(df_master['item']))
-
-
-# In[36]:
-
-items_to_change = {"Universal Child Care Benefit (UCCB)": 'Universal Child Care Benefit',
-                   'Social Benefits repayment': 'Social benefits repayment',
-                   'Registered disability savings plan income (RDSP)': 'Registered disability savings plan income',
-                   'Registered disability savings plan (RDSP) income': 'Registered disability savings plan income',
-                   'Saskatchewan Pension Plan (SPP) deduction': 'Saskatchewan Pension Plan deduction',
-                   'Registered pension plan (RPP) contributions': 'Registered pension plan contributions',
-                   'Registered pension plan contributions (RPP)': 'Registered pension plan contributions',
-                   'Registered Retirement Savings Plan (RRSP) income': 'Registered Retirement Savings Plan income',
-                   'Investment Tax Credit': 'Investment tax credit',
-                   'Employment\xa0 Insurance premiums payable on self-employment and other eligible': 'Employment Insurance premiums payable on self-employment',
-                   'Employment Insurance premiums on self-employment and other eligible earnings': 'Employment Insurance premiums payable on self-employment',
-                   'Net provincial tax': 'Net provincial or territorial tax',
-                   'Old Age Security pension (OASP)': 'Old Age Security pension',
-                   'Disability amount transferred from a dependent': 'Disability amount transferred from a dependant',
-                   'Amount for infirm dependents age 18 or older': 'Amount for infirm dependants age 18 or older',
-                   'Amounts transferred from spouse': 'Amounts transferred from spouse or common-law partner',
-                   'Deductions for CPP/QPP contributions on self-employment and other earnings': 'Deductions for CPP or QPP contributions on self-employment and other earnings',
-                   'Deductions for CPP/QPP contributions on self-employment/other earnings': 'Deductions for CPP or QPP contributions on self-employment and other earnings',
-                   'CPP or QPP contributions on self-employment and other earnings' : 'CPP or QPP contributions self-employment',
-                   'CPP or QPP contributions self-employment and other eligible earnings' : 'CPP or QPP contributions self-employment',
-                   'Eligible cultural, ecological gifts': 'Eligible cultural and ecological gifts',
-                   'Federal Political contribution tax credit': 'Federal political contribution tax credit',
-                   'Federal political contribution tax  credit': 'Federal political contribution tax credit',
-                   'CPP or QPP contributions employment': 'CPP or QPP contributions through employment',
-                   'Net partnership income (Limited or non-active partners only)': 'Net partnership income',
-                   'Registered retirement savings plan income (RRSP)': 'Registered Retirement Savings Plan income'}
-
-
-# In[37]:
-
-for i in df_master.index:
-    if df_master.item[i] in items_to_change.keys():
-        df_master.ix[i, 'item'] = items_to_change[df_master.item[i]]
-
-
 ### Making the column headings more readable
 
-# In[38]:
-
-for c in df_master.columns: print c
-
-
-# In[40]:
+# In[79]:
 
 col_labels = {
 "<4999": "< $5k",
@@ -365,7 +306,7 @@ col_labels = {
 ">250000": "> $250k"}
 
 
-# In[41]:
+# In[80]:
 
 for col in df_master.columns:
     if col in col_labels:
@@ -373,7 +314,7 @@ for col in df_master.columns:
         del df_master[col]
 
 
-# In[42]:
+# In[81]:
 
 ordered_cols = ['item', 'type', 'tax_year', 'total', 
                 '< $5k', '$5k - 10k', '$10k - 15k', 
@@ -385,19 +326,19 @@ ordered_cols = ['item', 'type', 'tax_year', 'total',
                 '> $250k']
 
 
-# In[43]:
+# In[82]:
 
 df_master = df_master[ordered_cols]
 
 
-# In[44]:
+# In[83]:
 
 df_master.query("type == '$'").head()
 
 
 ### Multiply the dollar amounts by 1000
 
-# In[45]:
+# In[84]:
 
 for i in df_master.index:
     print i,
@@ -409,10 +350,59 @@ for i in df_master.index:
 
 ### Save the cleaned data
 
-# In[46]:
+# In[85]:
 
-df_master.to_csv('../data/all_clean_tax_data_2.csv')
+df_master.to_csv('../data/tax_data_unclean_items.csv')
 
 
-# In[29]:
+### Standardize the item titles
+
+# In[1]:
+
+import pandas as pd
+df_master = pd.DataFrame.from_csv('../data/tax_data_unclean_items.csv')
+
+
+# In[2]:
+
+len(set(df_master['item']))
+
+
+# In[3]:
+
+import item_synonyms
+
+
+# In[4]:
+
+synonym_dict = {}
+for li in item_synonyms.synonyms:
+    if len(li) > 1:
+        for item in li[1:]:
+            synonym_dict[item] = li[0]
+
+
+# In[5]:
+
+synonym_dict
+
+
+# In[6]:
+
+for i in df_master.index:
+    if df_master.item[i] in synonym_dict.keys():
+        df_master.ix[i, 'item'] = synonym_dict[df_master.item[i]]
+
+
+# In[7]:
+
+df_master.to_csv('../data/all_clean_tax_data.csv')
+
+
+# In[ ]:
+
+
+
+
+# In[48]:
 
