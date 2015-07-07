@@ -40,6 +40,10 @@
 items_to_capitalize = ['CPP', 'QPP', 'PPIP', 'EI', 'Old Age Security Pension', 'RRSP', 'RDSP', 'Registered Pension Plan contributions', 
 'Saskatchewan Pension Plan deduction', 'Universal Child Care Benefit', 'Universal Child Care Benefit repayment'];
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 var item_slug_dict;
 
 function select_element(value_to_select, selector_id, accessor_fn) {
@@ -116,7 +120,7 @@ var y = d3.scale.ordinal()
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
 
-d3.csv("../data/all_clean_tax_data_2.csv", function(data) {
+d3.csv("../data/all_clean_tax_data.csv", function(data) {
 
   add_event_listeners(data);
 
@@ -128,7 +132,7 @@ d3.csv("../data/all_clean_tax_data_2.csv", function(data) {
     return 0;
   });
 
-  populate_dropdown("#item_selector", unique_items, function(d) { return d; } );
+  populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); } );
   item_slug_dict = get_item_slug_dict(unique_items);
 
   update_plot_variables();
@@ -199,7 +203,6 @@ function correctly_capitalize_item(item) {
   if (i1 != -1) { return items_to_capitalize[i1]; }
 
   var spl_item = item.split(' ');
-  console.log(spl_item);
   for (var i = spl_item.length - 1; i >= 0; i--) {
     if (items_to_capitalize.indexOf(spl_item[i]) != -1) { 
       var final_str = [];
@@ -215,14 +218,17 @@ function correctly_capitalize_item(item) {
 
 }
 
+// String.prototype.capitalizeFirstLetter = function() {
+//     return this.charAt(0).toUpperCase() + this.slice(1);
+// }
+
 
 function set_xlabel_text() {
   var selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
   d3.select("#xlabel").selectAll("span").remove();
   add_span('description', selected_plot['title_text'][0]);
-  console.log(correctly_capitalize_item(selected_item));
-  add_span('item', correctly_capitalize_item(selected_item));
+  add_span('item', selected_item);
 
   add_span('description', selected_plot['title_text'][1]);
 }
