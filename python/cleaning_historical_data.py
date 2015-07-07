@@ -3,25 +3,33 @@
 
 ## Cleaning Income Tax Data
 
-# In[8]:
+# In[14]:
 
 import pandas as pd
 import urllib
 import os
 
 
-# In[9]:
+# 2004 to 2008 statistics were based on a stratified random sample of individual income tax and benefit returns. However, beginning with the 2009 tax year, Final Statistics contains data based on all of the returns filed. The most recent assessment is used in the compilation of the statistics.
 
-tax_by_income_url = {2008: "http://www.cra-arc.gc.ca/gncy/stts/gb08/pst/fnl/csv/table2-eng.csv",
+# In[10]:
+
+tax_by_income_url = {2004: "http://www.cra-arc.gc.ca/gncy/stts/gb04/pst/fnl/csv/table2.csv",
+                     2005: "http://www.cra-arc.gc.ca/gncy/stts/gb05/pst/fnl/csv/table2.csv",
+                     2006: "http://www.cra-arc.gc.ca/gncy/stts/gb06/pst/fnl/csv/t02ca.csv",
+                     2007: "http://www.cra-arc.gc.ca/gncy/stts/gb07/pst/fnl/csv/t02ca.csv",
+                     2008: "http://www.cra-arc.gc.ca/gncy/stts/gb08/pst/fnl/csv/t02ca.csv",
                      2009: "http://www.cra-arc.gc.ca/gncy/stts/gb09/pst/fnl/csv/t02ca.csv",
                      2010: "http://www.cra-arc.gc.ca/gncy/stts/gb10/pst/fnl/csv/t02ca.csv",
                      2011: "http://www.cra-arc.gc.ca/gncy/stts/gb11/pst/fnl/csv/t02ca.csv",
-                     2012: "http://www.cra-arc.gc.ca/gncy/stts/prlmnry/2012/tbl2-eng.csv"} # preliminary
+                     2012: "http://www.cra-arc.gc.ca/gncy/stts/prlmnry/2012/tbl2-eng.csv"} # preliminary data
+
+column_dictionary_04_08 = 'http://www.cra-arc.gc.ca/gncy/stts/gb04/pst/fnl/tb2_f1-f7-eng.html'
 
 
 ### Preliminary cleaning
 
-# In[10]:
+# In[11]:
 
 def delete_extra_cols(df):
     columns2delete = [col for col in df.columns if '_r' in col or '_l' in col or 'Unnamed' in col] 
@@ -48,7 +56,7 @@ def clean_the_df(rough_df, header_lines):
     return clean_df
 
 
-# In[11]:
+# In[12]:
 
 def write_online_table_to_file(url, datafile_name):
     page = urllib.urlopen(url).read()
@@ -112,12 +120,66 @@ df09 = delete_extra_cols(df09)
 df09.to_csv('../data/cleaned_tax_data_2009.csv')
 
 
-##### 2008 data
+##### 2004 - 2008 data
 
-# In[11]:
+# In[16]:
 
-write_online_table_to_file(tax_by_income_url[2008], "../data/raw_tax_data_2008.csv")
-rough_df = pd.DataFrame.from_csv("../data/raw_tax_data_2008.csv", index_col=None)
+def save_rough_files(year):
+    filename = "../data/raw_tax_data_" + str(year) + ".csv"
+    write_online_table_to_file(tax_by_income_url[year], filename)
+    return filename
+
+
+# In[17]:
+
+f_names = {}
+for year in [2004, 2005, 2006, 2007, 2008]:
+    f_names[year] = save_rough_files(year)
+
+
+# In[19]:
+
+dfd = {}
+for year in f_names:
+    dfd[year] = pd.DataFrame.from_csv(f_names[year], index_col=None)
+
+
+# In[22]:
+
+dfd[2004].columns
+
+
+##### Get a dictionary for the columns
+
+# In[24]:
+
+import col_dict_2004_08
+
+
+# In[26]:
+
+# col_dict_2004_08.col_dict
+col_dict_2004_08.list_order
+
+
+# In[42]:
+
+col_dict = {}
+for row in col_dict_2004_08.col_dict:
+    f7_val = row[0]
+    for i, x in enumerate(row[1:]):
+        f_col = col_dict_2004_08.list_order[i]
+        x = x.replace('(amount)', '$')
+        x = x.replace('(number)', '#')
+        x = x.replace('Grand Total', 'total')
+        x = x.replace('Grand total', 'total')
+
+        col_dict[(f7_val, f_col)] = x
+
+
+# In[43]:
+
+col_dict
 
 
 # In[12]:
@@ -128,8 +190,6 @@ df08['Item'] = df08['iteme_r1']
 df08 = delete_extra_cols(df08)
 df08.to_csv('../data/cleaned_tax_data_2008.csv')
 
-
-# I may come back to this but it looks like the 2008 data is in a different format.
 
 ### Load the saved tables from files
 
@@ -399,10 +459,32 @@ for i in df_master.index:
 df_master.to_csv('../data/all_clean_tax_data.csv')
 
 
-# In[ ]:
+#### Converting to JSON
+
+# In[52]:
+
+f = open('../data/data.json', 'w')
 
 
+# In[53]:
+
+f.write('[')
+for i in df_master.index:
+    row_str = '{'
+    for j, c in enumerate(df_master.columns):
+        row_str += '"' + c + '"' + ': ' + '"' + str(df_master[c][i]) 
+        if j+1 == len(df_master.columns): row_str += '"'
+        else: row_str += '", '
+    if i+1 == len(df_master): row_str += '}\n'
+    else: row_str += '},\n'
+    f.write(row_str)
+f.write(']')
 
 
-# In[48]:
+# In[54]:
+
+f.close()
+
+
+# In[8]:
 
