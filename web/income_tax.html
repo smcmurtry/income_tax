@@ -8,26 +8,28 @@
 </head>
 
 <body>
+<div id='container'>
 
 <div>
 <svg id='chart'></svg>
 </div>
 
-<div>
-<div> 
-  <span>Item</span>
+<div id='selectors'>
+<div class='sel'> 
+  <div>Item</div>
   <select id='item_selector'></select>
 </div>
-<div>
-  <span>Variable</span>
+<div class='sel'>
+  <div>Variable</div>
   <select id='plot_variable_selector'></select>
 </div>
-<div>
-  <span>Year</span>
+<div class='sel'>
+  <div>Year</div>
   <select id='year_selector'></select>
 </div>
 </div>
 
+</div>
 </body>
 
 <script>
@@ -89,8 +91,8 @@ var plot_variable = [
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns with non-zero item amount', 'title_text': ['Percentage of returns with non-zero ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
-var margin = {top: 70, right: 30, bottom: 50, left: 150},
-    width = 700 - margin.left - margin.right,
+var margin = {top: 70, right: 30, bottom: 50, left: 130},
+    width = 800 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
 var chart = d3.select("#chart")

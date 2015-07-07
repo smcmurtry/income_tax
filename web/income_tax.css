@@ -1,6 +1,22 @@
 body {
-  margin:50px;
+  margin:0px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  text-align: center;
+}
+
+#selectors {
+  text-align: left;
+  margin-left: 130px;
+}
+
+.sel {
+  margin-bottom: 10px;
+}
+
+#container {
+  margin: auto;
+  width: 800px;
 }
 
 .bar.positive {
@@ -12,7 +28,7 @@ body {
 }
 
 .axis text {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
 }
 
 .axis path,
@@ -29,7 +45,7 @@ body {
 
 .y-label,
 .x-label {
-  font: 16px sans-serif;
+  font: 18px sans-serif;
 }
 
 .tick-line {
