@@ -33,6 +33,40 @@
 
 <script>
 
+var item_slug_dict;
+
+function select_element(value_to_select, selector_id, accessor_fn) {
+  var index_to_select = d3.select(selector_id)
+    .selectAll('option')
+    .filter(function(d) { return accessor_fn(d) == value_to_select; })
+    .property('index');
+
+  d3.select(selector_id)
+    .property('selectedIndex', index_to_select);
+}
+
+
+function go_to_hash_state(all_data) {
+  if (window.location.hash) {
+    var hash_state = window.location.hash.split('+');
+    var item = item_slug_dict[hash_state[0].substr(1)];
+    var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
+    var year = hash_state[2];
+    select_element(item, '#item_selector', function(d) { return d; });
+    select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
+    select_element(year, '#year_selector', function(d) { return d; });
+    draw_chart(all_data);
+  }
+}
+
+function set_url_hash() {
+  var selected_item = get_selected('#item_selector'),
+  selected_plot_id = get_selected('#plot_variable_selector')['id'],
+  selected_year = get_selected('#year_selector');
+  window.location.hash = convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
+}
+
+
 function populate_dropdown(id, data, text_accessor) {
 
   var selection = d3.select(id)
@@ -86,7 +120,10 @@ d3.csv("../data/all_clean_tax_data_2.csv", function(data) {
 
   add_event_listeners(data);
 
-  populate_items(data);
+  var unique_items = get_unique_items(data);
+  populate_dropdown("#item_selector", unique_items, function(d) { return d; } );
+  item_slug_dict = get_item_slug_dict(unique_items);
+
   update_plot_variables();
   update_years(data);
 
@@ -136,6 +173,8 @@ d3.csv("../data/all_clean_tax_data_2.csv", function(data) {
     .attr("x1", function(d) { return x(d); } )
     .attr("x2", function(d) { return x(d); } )
     .attr("y2", height);
+
+  go_to_hash_state(data);
 
 });
 
@@ -240,17 +279,15 @@ function get_rows(arg, all_data) {
   return valid_rows;
 }
 
-
-function populate_items(all_data) {
+function get_unique_items(all_data) {
   var items_to_exclude = ['Total number of returns', 'Number of taxable returns', 'Number of non-taxable returns'];
   var unique_items = []; 
   for (var i = all_data.length - 1; i >= 0; i--) {
     if (items_to_exclude.indexOf(all_data[i].item) != -1 ) { continue; }
     if (unique_items.indexOf(all_data[i].item) == -1) { unique_items.push(all_data[i].item); }
   };
-  populate_dropdown("#item_selector", unique_items, function(d) { return d; } );
+  return unique_items;
 }
-
 
 function update_bars(selection) {
   selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
@@ -272,6 +309,7 @@ function draw_chart(all_data) {
   xlabel.text(get_chart_title());
   chart.select(".x").transition(transition_duration).call(xAxis);
   update_tick_lines();
+  set_url_hash();
 }
 
 function update_tick_lines() {
@@ -325,6 +363,21 @@ function get_available_years(all_data) {
     }
   }
   return available_years;
+}
+
+function convert_to_slug(Text) {
+  return Text.toLowerCase()
+             .replace(/ /g,'-')
+             .replace(/[^\w-]+/g,'');
+}
+
+function get_item_slug_dict(unique_items) {
+  item_slug_dict = {};
+  for (var i = unique_items.length - 1; i >= 0; i--) {
+    var slug = convert_to_slug(unique_items[i]);
+    item_slug_dict[slug] = unique_items[i];
+  };
+  return item_slug_dict;
 }
 
 </script>
