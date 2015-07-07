@@ -9,8 +9,14 @@ body {
   margin-left: 130px;
 }
 
+#outer-xlabel {
+  height: 30px;
+    margin-top: 70px;
+    width: 620px;
+}
+
 #xlabel {
-  margin-top: 70px;
+
   text-align: center;
 }
 

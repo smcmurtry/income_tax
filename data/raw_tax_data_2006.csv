@@ -1,0 +1,513 @@
+F1,F2,F3,F4,F5,F6,CODE1,ITEME,ITEMF,CODE2,prove,provf,taxyr,f7
+960,0,304140,0,944830,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,1
+802590,0,4230150,0,2633050,0,A,total number of returns,nombre total de déclarations,2,,,2006,1
+13360,123647,2158460,9733109,1238780,12201656,B,employment income,revenus d'emploi,3,,,2006,1
+220,1201,53680,42219,33190,44695,B,commissions (from employment),commissions (d'emploi),4,,,2006,1
+2440,7822,192660,555030,113880,435935,B,other employment income,autres revenus d'emploi,5,,,2006,1
+3670,18617,272390,1224299,801180,3905647,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,1
+7890,28595,547460,1805727,840630,3390541,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,1
+1220,14949,65920,172305,126200,432318,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,1
+7160,5341,447320,363415,166950,125756,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,1
+2630,11625,192710,687894,271370,1313957,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,1
+7660,9235,206910,101332,185110,143257,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,1
+21390,33636,827620,676068,596050,695311,B,"interest,other invest. income",revenus de placements,12,,,2006,1
+690,6380,43780,90844,107040,232363,B,annuity income,revenus de rentes,13,,,2006,1
+17170,-72776,97880,81703,73030,105534,B,net rental income,revenus nets de location,14,,,2006,1
+7430,52994,186110,206502,137090,202754,B,taxable capital gains,gains en capital imposables,15,,,2006,1
+5990,25838,144070,289422,96420,328605,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,1
+51780,-872855,341040,1215145,220760,1605283,B,net business income,revenus nets d'entreprise,17,,,2006,1
+4610,-30786,37000,100795,19700,134116,B,net professional income,revenus nets de profession libéral,18,,,2006,1
+4120,-35821,23620,72692,14870,95655,B,net commission income,revenus nets de commissions,19,,,2006,1
+15890,-298154,55220,9867,39630,35472,B,net farming income,revenus nets d'agriculture,20,,,2006,1
+430,-5646,3680,859,4120,1009,B,net fishing income,revenus nets de pêche,21,,,2006,1
+3000,15080,767500,4010082,969260,6760835,B,tax-exempt income,revenus non imposables,22,,,2006,1
+14270,-142377,515490,856268,322280,769144,B,other income,autres revenus,23,,,2006,1
+83250,-1103456,4230150,22295580,2633050,32959843,B,total income assessed,revenu total établi,24,,,2006,1
+5570,8040,63590,22553,71370,36728,C,rpp deduction,déductions à un rpa,25,,,2006,1
+4340,7890,65990,86317,135070,184916,C,rrsp contributions,déductions à un reer,26,,,2006,1
+4210,1457,337070,41142,256750,45225,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,1
+1540,1453,96030,105648,85080,156519,C,child care expenses,frais de garde d'enfants,28,,,2006,1
+3820,17666,73580,34431,94760,51943,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,1
+1430,534,220350,35147,203820,69261,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,1
+780,4836,10580,19748,16520,24999,C,other employment expenses,autres dépenses d'emploi,31,,,2006,1
+6000,10757,156230,104138,153820,114477,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,1
+24160,52634,825100,449124,738070,684068,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,1
+0,0,0,0,0,0,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,1
+0,0,4205820,21901620,2630710,32280691,C,net income after adjustment,revenu net après ajustements,35,,,2006,1
+70,15341,1370,1277,1340,2639,C,capital gains deduction,déduction pour gains en capital,36,,,2006,1
+1090,16260,15760,18214,18250,27755,C,losses from other years,pertes d'autres années,37,,,2006,1
+3290,16010,784680,4054501,989220,6880729,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,1
+4340,47611,800580,4074757,1007650,6911123,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,1
+0,0,3830020,17840987,2480370,25385961,C,taxable income assessed,revenu imposable établi,40,,,2006,1
+787260,6708384,4217090,36725701,2629620,23164347,C,basic personal amount,montant personnel de base,41,,,2006,1
+34200,167133,318520,1591486,814640,4123869,D,age amount,montant en raison de l'âge,42,,,2006,1
+60510,412516,343840,2130709,289640,1850433,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,1
+21240,11669,1706380,281125,1287620,485103,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,1
+29730,9776,1585470,161120,1106340,205770,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,1
+30360,5979,2250310,550814,1271960,315182,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,1
+7520,2035,110360,31727,88560,27011,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,1
+1710,2944,85520,118474,204020,300950,D,pension income amount,montant pour revenu de pension,48,,,2006,1
+380,1221,7020,23959,4120,14262,D,caregiver amount,montant pour aidants naturels,49,,,2006,1
+6000,41336,65760,446567,74190,499084,D,disability amount,montant pour personnes handicapées,50,,,2006,1
+260,2061,47580,60978,393830,913271,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,1
+1540,533,9360,4145,35710,17575,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,1
+16730,77367,61080,244444,110520,473195,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,1
+16490,15553,185910,182811,302430,408617,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,1
+787800,1136816,4219300,6488605,2630460,5002570,E,total tax credits,total des crédits d'impôt,55,,,2006,1
+0,0,47280,12330,151090,66194,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,1
+0,0,43800,2936,145970,16682,E,"donations,gifts",dons,57,,,2006,1
+787800,1136816,4219440,6491541,2630500,5019253,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,1
+130,3280,137190,23571,883570,318833,F,basic federal tax,impôt fédéral de base,59,,,2006,1
+7130,1540,188110,18307,175600,25502,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,1
+740,363,169230,51177,149020,99444,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,1
+130,3280,131240,25843,864170,319607,F,net federal tax,impôt fédéral net,62,,,2006,1
+210,1853,33670,4070,256780,55005,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,1
+960,5497,304140,81091,944830,474091,F,total tax payable,total de l'impôt à payer,64,,,2006,1
+1406630,0,1583390,0,1549640,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,2
+2381970,0,1793810,0,1624360,0,A,total number of returns,nombre total de déclarations,2,,,2006,2
+1188710,16838273,1140650,21160974,1136560,26530975,B,employment income,revenus d'emploi,3,,,2006,2
+31370,85237,30690,130875,28570,162921,B,commissions (from employment),commissions (d'emploi),4,,,2006,2
+108190,392307,119370,445159,137310,469028,B,other employment income,autres revenus d'emploi,5,,,2006,2
+912660,5134337,464470,2616161,354390,1989200,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,2
+1016380,6059964,569960,3909699,453020,3235022,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,2
+349070,1486865,350440,2573652,315300,3370171,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,2
+127170,93410,111980,82795,99850,72854,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,2
+323210,1867572,306910,2013166,284520,1878886,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,2
+231500,239881,219630,301452,225940,442311,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,2
+742280,1090653,582790,1048059,524100,996547,B,"interest,other invest. income",revenus de placements,12,,,2006,2
+223160,618522,214230,929589,189750,1064178,B,annuity income,revenus de rentes,13,,,2006,2
+88500,122077,88110,138205,88470,126936,B,net rental income,revenus nets de location,14,,,2006,2
+161320,245046,158750,294244,153830,345001,B,taxable capital gains,gains en capital imposables,15,,,2006,2
+111750,399278,116800,451623,128950,498671,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,2
+192590,1791261,157700,1706182,127290,1481025,B,net business income,revenus nets d'entreprise,17,,,2006,2
+18640,167820,17100,207484,14360,175479,B,net professional income,revenus nets de profession libéral,18,,,2006,2
+13060,83473,12500,118371,9840,101964,B,net commission income,revenus nets de commissions,19,,,2006,2
+36970,78144,30450,98810,26120,73103,B,net farming income,revenus nets d'agriculture,20,,,2006,2
+5100,23794,3850,19521,3680,38529,B,net fishing income,revenus nets de pêche,21,,,2006,2
+837440,3823612,259020,1284341,133870,858911,B,tax-exempt income,revenus non imposables,22,,,2006,2
+307050,739303,277210,671080,264990,703969,B,other income,autres revenus,23,,,2006,2
+2381970,41380831,1793810,40201442,1624360,44615680,B,total income assessed,revenu total établi,24,,,2006,2
+108070,59047,163300,119332,233760,223414,C,rpp deduction,déductions à un rpa,25,,,2006,2
+215670,540428,307950,587654,380220,838512,C,rrsp contributions,déductions à un reer,26,,,2006,2
+271410,59937,309540,85722,361800,125486,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,2
+102800,217804,112240,293926,116760,337794,C,child care expenses,frais de garde d'enfants,28,,,2006,2
+156240,69435,163710,88488,169490,110521,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,2
+171290,87195,140690,91765,109510,82285,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,2
+24860,53729,33530,70445,47180,125916,C,other employment expenses,autres dépenses d'emploi,31,,,2006,2
+154460,133885,144430,120708,124870,188895,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,2
+840030,1221460,900120,1458040,958450,2032824,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,2
+0,0,180,1057,130,1082,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,2
+2380330,40364177,1792670,38743189,1623290,42590791,C,net income after adjustment,revenu net après ajustements,35,,,2006,2
+2140,12708,2180,7328,2520,16010,C,capital gains deduction,déduction pour gains en capital,36,,,2006,2
+28670,51069,32850,68985,33490,82876,C,losses from other years,pertes d'autres années,37,,,2006,2
+864230,3969444,290630,1419282,164390,978004,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,2
+890470,4033220,321420,1495598,196420,1076891,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,2
+2348100,36340312,1780860,37251320,1617430,41515222,C,taxable income assessed,revenu imposable établi,40,,,2006,2
+2380450,20991657,1792740,15810270,1623400,14333678,C,basic personal amount,montant personnel de base,41,,,2006,2
+920660,4654192,469320,2376947,357450,1810770,D,age amount,montant en raison de l'âge,42,,,2006,2
+293650,1735927,253070,1432333,221580,1293792,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,2
+1244030,733914,1181950,953586,1161150,1206073,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,2
+1094970,284376,1062950,357477,1066810,449265,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,2
+1226950,303376,1190350,293478,1191610,293901,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,2
+84060,29297,80380,30155,69370,27527,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,2
+494050,836346,448120,858782,378620,738701,D,pension income amount,montant pour revenu de pension,48,,,2006,2
+10080,38564,13220,55503,14100,55683,D,caregiver amount,montant pour aidants naturels,49,,,2006,2
+77170,526368,60000,412656,48290,345477,D,disability amount,montant pour personnes handicapées,50,,,2006,2
+286020,1290570,223690,1165499,180620,886764,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,2
+55850,31190,69310,41622,79750,47862,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,2
+137680,596757,108840,479343,79620,334034,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,2
+523870,914209,477720,892717,409660,849000,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,2
+2380870,5029370,1792840,3840069,1623880,3461726,E,total tax credits,total des crédits d'impôt,55,,,2006,2
+340010,165696,410430,265409,438910,328837,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,2
+330680,41856,402540,69250,432420,87144,E,"donations,gifts",dons,57,,,2006,2
+2380910,5071226,1792870,3909319,1623960,3548870,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,2
+1360230,1006385,1517940,1880138,1508560,2780643,F,basic federal tax,impôt fédéral de base,59,,,2006,2
+219200,41075,209080,51025,213440,71387,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,2
+125040,126358,106020,139836,89760,138214,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,2
+1343630,1003908,1508690,1873156,1503780,2771006,F,net federal tax,impôt fédéral net,62,,,2006,2
+704560,407583,1064980,659678,1089980,1071141,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,2
+1406630,1537862,1583390,2673727,1549640,3981912,F,total tax payable,total de l'impôt à payer,64,,,2006,2
+1496890,0,1364760,0,2861650,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,3
+1533010,0,1385990,0,2919000,0,A,total number of returns,nombre total de déclarations,2,,,2006,3
+1136480,32207927,1062160,35149032,2198640,67356959,B,employment income,revenus d'emploi,3,,,2006,3
+28620,168166,27900,223757,56520,391923,B,commissions (from employment),commissions (d'emploi),4,,,2006,3
+149350,502940,147390,483693,296740,986633,B,other employment income,autres revenus d'emploi,5,,,2006,3
+280620,1572817,222100,1242021,502720,2814838,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,3
+378230,2761126,310230,2251947,688460,5013073,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,3
+288530,4136104,252030,4665621,540560,8801725,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,3
+86260,63095,67170,50302,153430,113397,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,3
+234810,1495302,183680,1087384,418490,2582686,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,3
+219990,556536,226280,837071,446270,1393607,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,3
+495230,961431,465860,883721,961090,1845152,B,"interest,other invest. income",revenus de placements,12,,,2006,3
+159020,1079705,128880,969977,287900,2049682,B,annuity income,revenus de rentes,13,,,2006,3
+85390,136377,83890,113630,169280,250006,B,net rental income,revenus nets de location,14,,,2006,3
+143430,351767,150970,409144,294400,760910,B,taxable capital gains,gains en capital imposables,15,,,2006,3
+146840,579733,143780,595705,290630,1175438,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,3
+113430,1434348,96720,1227053,210150,2661401,B,net business income,revenus nets d'entreprise,17,,,2006,3
+15100,193369,16250,249134,31350,442503,B,net professional income,revenus nets de profession libéral,18,,,2006,3
+10230,117368,8590,112841,18820,230209,B,net commission income,revenus nets de commissions,19,,,2006,3
+22350,86019,24880,94117,47230,180137,B,net farming income,revenus nets d'agriculture,20,,,2006,3
+2040,25394,2570,44195,4610,69589,B,net fishing income,revenus nets de pêche,21,,,2006,3
+96910,616010,73000,511191,169910,1127201,B,tax-exempt income,revenus non imposables,22,,,2006,3
+252770,657373,238970,714059,491740,1371433,B,other income,autres revenus,23,,,2006,3
+1533010,49702906,1385990,51915596,2919000,101618502,B,total income assessed,revenu total établi,24,,,2006,3
+320850,402177,348940,557602,669790,959778,C,rpp deduction,déductions à un rpa,25,,,2006,3
+465820,1131441,503150,1461710,968970,2593151,C,rrsp contributions,déductions à un reer,26,,,2006,3
+414940,170561,414760,197911,829700,368472,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,3
+114220,340947,97410,301513,211630,642460,C,child care expenses,frais de garde d'enfants,28,,,2006,3
+174470,134245,165850,125865,340320,260110,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,3
+94460,82607,85730,78207,180190,160813,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,3
+48750,141283,51710,169270,100460,310553,C,other employment expenses,autres dépenses d'emploi,31,,,2006,3
+113000,174820,92650,170930,205650,345750,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,3
+1023170,2578081,988740,3063007,2011910,5641088,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,3
+0,0,0,0,0,0,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,3
+1532170,47135027,1385220,48856963,2917390,95991990,C,net income after adjustment,revenu net après ajustements,35,,,2006,3
+2130,21139,3630,32680,5760,53819,C,capital gains deduction,déduction pour gains en capital,36,,,2006,3
+30780,68165,31940,71886,62710,140051,C,losses from other years,pertes d'autres années,37,,,2006,3
+124630,838821,95380,581668,220000,1420489,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,3
+154520,928125,128860,686234,283380,1614359,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,3
+1528960,46318342,1384160,48170867,2913130,94489209,C,taxable income assessed,revenu imposable établi,40,,,2006,3
+1532340,13529118,1385350,12237050,2917690,25766168,C,basic personal amount,montant personnel de base,41,,,2006,3
+283460,1356144,225020,914560,508480,2270704,D,age amount,montant en raison de l'âge,42,,,2006,3
+206710,1217889,186320,1084553,393020,2302442,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,3
+1149330,1481518,1068230,1625768,2217560,3107286,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,3
+1061360,540199,991660,589974,2053020,1130174,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,3
+1193750,294056,1111340,273938,2305090,567994,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,3
+69020,28070,64430,26674,133440,54744,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,3
+331120,650715,282800,557056,613920,1207772,D,pension income amount,montant pour revenu de pension,48,,,2006,3
+14660,58924,15510,64471,30170,123396,D,caregiver amount,montant pour aidants naturels,49,,,2006,3
+40300,291803,33720,257552,74020,549355,D,disability amount,montant pour personnes handicapées,50,,,2006,3
+154320,715213,139690,604409,294010,1319623,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,3
+72530,46669,71140,51314,143670,97983,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,3
+65390,284166,55260,226454,120650,510620,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,3
+342850,697105,266750,595838,609600,1292943,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,3
+1532420,3237118,1385610,2919930,2918030,6157048,E,total tax credits,total des crédits d'impôt,55,,,2006,3
+464450,375083,449850,418986,914300,794069,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,3
+458880,100051,443960,113043,902840,213095,E,"donations,gifts",dons,57,,,2006,3
+1532440,3337169,1385650,3032974,2918090,6370142,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,3
+1479120,3672513,1351380,4263936,2830490,7936449,F,basic federal tax,impôt fédéral de base,59,,,2006,3
+208270,88219,213790,126719,422060,214938,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,3
+72830,131375,68070,126620,140900,257996,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,3
+1475660,3657665,1348360,4246572,2824020,7904236,F,net federal tax,impôt fédéral net,62,,,2006,3
+1069130,1397314,1010400,1698055,2079540,3095369,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,3
+1496890,5186405,1364760,6071689,2861650,11258094,F,total tax payable,total de l'impôt à payer,64,,,2006,3
+1182410,0,999420,0,2181840,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,4
+1194800,0,1005800,0,2200600,0,A,total number of returns,nombre total de déclarations,2,,,2006,4
+945200,35853426,819590,34753203,1764780,70606629,B,employment income,revenus d'emploi,3,,,2006,4
+23380,250346,22430,297322,45800,547668,B,commissions (from employment),commissions (d'emploi),4,,,2006,4
+135920,412531,127770,370759,263690,783290,B,other employment income,autres revenus d'emploi,5,,,2006,4
+167460,940244,128700,713277,296160,1653521,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,4
+240560,1736709,190180,1387691,430740,3124399,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,4
+209120,4615338,168580,4121466,377700,8736804,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,4
+55640,40645,38690,29094,94320,69739,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,4
+132230,742875,93150,539872,225380,1282747,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,4
+213420,816481,197520,841824,410940,1658305,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,4
+418950,793474,367240,711895,786200,1505370,B,"interest,other invest. income",revenus de placements,12,,,2006,4
+101890,853340,78710,765774,180610,1619114,B,annuity income,revenus de rentes,13,,,2006,4
+74300,108160,62710,77646,137010,185806,B,net rental income,revenus nets de location,14,,,2006,4
+144440,402948,126930,374451,271370,777399,B,taxable capital gains,gains en capital imposables,15,,,2006,4
+129370,557258,118530,508394,247890,1065652,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,4
+84730,1118838,69420,972730,154150,2091568,B,net business income,revenus nets d'entreprise,17,,,2006,4
+12630,200723,11640,220593,24280,421316,B,net professional income,revenus nets de profession libéral,18,,,2006,4
+6440,110041,5270,98504,11720,208545,B,net commission income,revenus nets de commissions,19,,,2006,4
+17410,102896,14650,79732,32060,182628,B,net farming income,revenus nets d'agriculture,20,,,2006,4
+1750,36093,1260,25126,3010,61219,B,net fishing income,revenus nets de pêche,21,,,2006,4
+54670,410417,36920,239113,91590,649531,B,tax-exempt income,revenus non imposables,22,,,2006,4
+219070,625898,195500,594336,414560,1220234,B,other income,autres revenus,23,,,2006,4
+1194800,50728682,1005800,47722804,2200600,98451486,B,total income assessed,revenu total établi,24,,,2006,4
+365910,697048,355360,762304,721270,1459352,C,rpp deduction,déductions à un rpa,25,,,2006,4
+500350,1588943,454850,1622131,955200,3211074,C,rrsp contributions,déductions à un reer,26,,,2006,4
+413370,230107,385980,245098,799350,475205,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,4
+88660,302498,67430,230706,156090,533204,C,child care expenses,frais de garde d'enfants,28,,,2006,4
+159200,133677,141340,143134,300540,276811,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,4
+67450,71285,44920,56277,112370,127562,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,4
+55720,193437,56390,211011,112110,404448,C,other employment expenses,autres dépenses d'emploi,31,,,2006,4
+79920,169675,65830,192502,145760,362178,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,4
+923100,3386671,808940,3463162,1732040,6849833,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,4
+0,0,2260,465,2260,465,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,4
+1194590,47342884,1005300,44260355,2199890,91603238,C,net income after adjustment,revenu net après ajustements,35,,,2006,4
+2130,28556,2440,33012,4570,61568,C,capital gains deduction,déduction pour gains en capital,36,,,2006,4
+31890,76199,25490,51323,57380,127522,C,losses from other years,pertes d'autres années,37,,,2006,4
+76480,516220,57190,335643,133670,851863,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,4
+107960,623088,82940,419978,190900,1043066,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,4
+1192970,46719877,1004620,43846445,2197590,90566322,C,taxable income assessed,revenu imposable établi,40,,,2006,4
+1194350,10548559,1005220,8878055,2199570,19426614,C,basic personal amount,montant personnel de base,41,,,2006,4
+169290,565001,130660,346010,299940,911010,D,age amount,montant en raison de l'âge,42,,,2006,4
+157700,931720,136840,813567,294540,1745287,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,4
+952290,1653010,820550,1478352,1772850,3131362,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,4
+884170,569598,768460,505052,1652630,1074650,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,4
+983480,242832,852140,210305,1835620,453137,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,4
+53960,24281,44900,19158,98850,43439,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,4
+231300,455704,183620,363549,414930,819253,D,pension income amount,montant pour revenu de pension,48,,,2006,4
+13020,51401,10260,44708,23280,96110,D,caregiver amount,montant pour aidants naturels,49,,,2006,4
+28630,213903,21550,170450,50180,384353,D,disability amount,montant pour personnes handicapées,50,,,2006,4
+121250,487972,104160,423335,225400,911307,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,4
+60800,44373,48710,38866,109510,83239,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,4
+42600,173081,31090,121313,73680,294394,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,4
+200400,485066,146590,363516,346990,848582,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,4
+1194470,2513493,1005300,2105906,2199770,4619399,E,total tax credits,total des crédits d'impôt,55,,,2006,4
+425560,418376,386440,416968,812000,835344,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,4
+419960,113326,382470,113566,802440,226892,E,"donations,gifts",dons,57,,,2006,4
+1194470,2626819,1005360,2219472,2199830,4846291,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,4
+1174330,4676657,995250,4864860,2169580,9541517,F,basic federal tax,impôt fédéral de base,59,,,2006,4
+203000,122844,187790,127192,390800,250036,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,4
+54310,118206,35810,90814,90120,209020,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,4
+1172680,4654571,993680,4842863,2166360,9497434,F,net federal tax,impôt fédéral net,62,,,2006,4
+879030,1865040,754440,1937359,1633470,3802399,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,4
+1182410,6637817,999420,6871501,2181840,13509318,F,total tax payable,total de l'impôt à payer,64,,,2006,4
+1553490,0,1143160,0,827440,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,5
+1561170,0,1146360,0,829140,0,A,total number of returns,nombre total de déclarations,2,,,2006,5
+1308500,64012806,985140,57393137,731260,49529903,B,employment income,revenus d'emploi,3,,,2006,5
+36610,647843,29030,665706,21580,611711,B,commissions (from employment),commissions (d'emploi),4,,,2006,5
+207650,624216,172730,522359,127380,362670,B,other employment income,autres revenus d'emploi,5,,,2006,5
+184680,1027160,119870,668534,70900,395564,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,5
+273820,1986380,177400,1263824,105110,749914,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,5
+241770,6720958,160060,4815152,94970,3105188,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,5
+51600,38481,31280,23374,17280,12579,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,5
+129760,680441,72680,352960,41890,182810,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,5
+326340,1389703,272410,1449282,217190,1307552,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,5
+588610,1207642,454890,989050,343850,811536,B,"interest,other invest. income",revenus de placements,12,,,2006,5
+117770,1370789,75890,1065069,46080,748803,B,annuity income,revenus de rentes,13,,,2006,5
+105870,160410,83630,130402,67040,143898,B,net rental income,revenus nets de location,14,,,2006,5
+220820,765015,185840,792277,151210,745463,B,taxable capital gains,gains en capital imposables,15,,,2006,5
+183570,874319,138690,716895,93870,569015,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,5
+101920,1562313,76160,1335785,55310,1006788,B,net business income,revenus nets d'entreprise,17,,,2006,5
+20410,410853,19820,497295,14290,399807,B,net professional income,revenus nets de profession libéral,18,,,2006,5
+9160,197167,6680,158884,5110,206777,B,net commission income,revenus nets de commissions,19,,,2006,5
+23430,91629,19310,90178,13350,69918,B,net farming income,revenus nets d'agriculture,20,,,2006,5
+1410,35078,1430,39648,650,21717,B,net fishing income,revenus nets de pêche,21,,,2006,5
+54630,439353,31010,232771,20900,147691,B,tax-exempt income,revenus non imposables,22,,,2006,5
+311040,1100238,255050,973505,196370,838247,B,other income,autres revenus,23,,,2006,5
+1561170,85342793,1146360,74176089,829140,61967551,B,total income assessed,revenu total établi,24,,,2006,5
+607530,1629914,504150,1697810,386160,1622490,C,rpp deduction,déductions à un rpa,25,,,2006,5
+779120,3286275,626780,2986693,501730,2851282,C,rrsp contributions,déductions à un reer,26,,,2006,5
+638530,466882,524400,440776,395380,364503,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,5
+100850,367472,67320,263172,43390,187060,C,child care expenses,frais de garde d'enfants,28,,,2006,5
+246720,279025,209030,256920,165430,233227,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,5
+59120,78171,41480,58993,27970,41250,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,5
+104050,431148,83130,364824,63920,317384,C,other employment expenses,autres dépenses d'emploi,31,,,2006,5
+95730,290779,74860,307084,52350,268229,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,5
+1322390,6829667,1015490,6376271,758320,5885426,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,5
+53010,41333,107700,83143,87680,131304,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,5
+1560950,78474312,1146180,67724031,828950,55959092,C,net income after adjustment,revenu net après ajustements,35,,,2006,5
+4260,66928,4330,70696,2850,68028,C,capital gains deduction,déduction pour gains en capital,36,,,2006,5
+46480,98816,42730,102668,35490,83849,C,losses from other years,pertes d'autres années,37,,,2006,5
+89210,641298,62690,383236,46070,261780,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,5
+136200,807042,106980,556600,82670,413657,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,5
+1560460,77667828,1145770,67169325,828790,55545557,C,taxable income assessed,revenu imposable établi,40,,,2006,5
+1560650,13787883,1145510,10120311,828660,7321043,C,basic personal amount,montant personnel de base,41,,,2006,5
+187930,301689,78160,48080,7580,10196,D,age amount,montant en raison de l'âge,42,,,2006,5
+211560,1252156,166840,1002632,118910,719814,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,5
+1306290,2389324,986230,1826283,735310,1372783,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,5
+1223780,818542,917170,621659,680340,469245,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,5
+1350330,334717,1010560,250661,747670,185877,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,5
+69850,31120,49550,23131,36850,16807,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,5
+268770,530989,178760,352967,107010,211429,D,pension income amount,montant pour revenu de pension,48,,,2006,5
+16270,69420,11840,48456,8650,34546,D,caregiver amount,montant pour aidants naturels,49,,,2006,5
+29150,227882,20020,158052,14310,117973,D,disability amount,montant pour personnes handicapées,50,,,2006,5
+168170,674082,129690,534283,108650,419771,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,5
+68580,62324,42940,34274,27320,19679,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,5
+43460,175644,29700,117040,18540,74031,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,5
+186810,498672,113700,348442,68940,219518,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,5
+1560740,3234836,1145850,2368665,828820,1711141,E,total tax credits,total des crédits d'impôt,55,,,2006,5
+645100,734940,532940,709037,420250,587209,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,5
+639440,200591,529480,195092,417440,161746,E,"donations,gifts",dons,57,,,2006,5
+1560740,3435427,1145850,2563757,828840,1872887,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,5
+1548940,9638986,1140020,9188759,826000,8132224,F,basic federal tax,impôt fédéral de base,59,,,2006,5
+311170,213135,260880,220948,205720,198605,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,5
+47930,128488,34210,98279,22480,66736,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,5
+1546030,9587572,1138500,9141805,825030,8096638,F,net federal tax,impôt fédéral net,62,,,2006,5
+1202590,3870206,898610,3657584,678950,3329015,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,5
+1553490,13627600,1143160,12981508,827440,11624313,F,total tax payable,total de l'impôt à payer,64,,,2006,5
+541000,0,347470,0,4412560,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,6
+541930,0,348480,0,4427090,0,A,total number of returns,nombre total de déclarations,2,,,2006,6
+477280,36410596,304530,25458031,3806700,232804473,B,employment income,revenus d'emploi,3,,,2006,6
+16480,541082,14030,565094,117720,3031435,B,commissions (from employment),commissions (d'emploi),4,,,2006,6
+91990,353491,63450,282002,663200,2144739,B,other employment income,autres revenus d'emploi,5,,,2006,6
+45650,254932,29800,161987,450900,2508177,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,6
+67060,485116,43950,306289,667330,4791523,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,6
+57200,1899248,39870,1352314,593860,17892860,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,6
+8530,6442,4470,3277,113160,84153,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,6
+22210,93589,11620,49069,278160,1358870,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,6
+158790,1158755,115310,928361,1090030,6233653,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,6
+232850,629082,161160,471504,1781360,4108813,B,"interest,other invest. income",revenus de placements,12,,,2006,6
+30470,614902,19910,448411,290120,4247974,B,annuity income,revenus de rentes,13,,,2006,6
+44190,111851,30540,85310,331270,631870,B,net rental income,revenus nets de location,14,,,2006,6
+110710,622174,81510,570215,750090,3495144,B,taxable capital gains,gains en capital imposables,15,,,2006,6
+59880,407583,37440,337470,513450,2905283,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,6
+37940,781475,24070,627476,295400,5313838,B,net business income,revenus nets d'entreprise,17,,,2006,6
+13540,476021,9580,457691,77640,2241667,B,net professional income,revenus nets de profession libéral,18,,,2006,6
+4000,179459,3310,162152,28260,904438,B,net commission income,revenus nets de commissions,19,,,2006,6
+9540,60571,7100,61838,72720,374134,B,net farming income,revenus nets d'agriculture,20,,,2006,6
+530,24400,220,12893,4240,133737,B,net fishing income,revenus nets de pêche,21,,,2006,6
+10990,85785,6110,51507,123650,957107,B,tax-exempt income,revenus non imposables,22,,,2006,6
+136410,658375,100050,593460,998910,4163826,B,other income,autres revenus,23,,,2006,6
+541930,45854929,348480,32986353,4427090,300327716,B,total income assessed,revenu total établi,24,,,2006,6
+248670,1132983,144350,692472,1890860,6775669,C,rpp deduction,déductions à un rpa,25,,,2006,6
+346610,2333686,232160,1934876,2486390,13392813,C,rrsp contributions,déductions à un reer,26,,,2006,6
+244220,228459,136980,128713,1939510,1629332,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,6
+24690,103429,14850,63851,251100,984984,C,child care expenses,frais de garde d'enfants,28,,,2006,6
+125750,209502,89590,171732,836520,1150406,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,6
+20750,32390,16390,25662,165710,236466,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,6
+48880,237888,36280,212069,336250,1563313,C,other employment expenses,autres dépenses d'emploi,31,,,2006,6
+38030,239351,29440,204979,290410,1310422,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,6
+500900,4517688,324530,3434355,3921630,27043406,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,6
+56630,139977,35130,123216,340150,518973,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,6
+541900,41197744,348360,29433931,4426330,272789110,C,net income after adjustment,revenu net après ajustements,35,,,2006,6
+2640,70887,2670,93743,16750,370283,C,capital gains deduction,déduction pour gains en capital,36,,,2006,6
+26350,87129,20700,58954,171750,431416,C,losses from other years,pertes d'autres années,37,,,2006,6
+32370,182274,22340,144839,252670,1613427,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,6
+59470,340290,44050,297536,429370,2415126,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,6
+541770,40857612,348210,29138333,4424990,270378656,C,taxable income assessed,revenu imposable établi,40,,,2006,6
+541600,4784737,348230,3076815,4424650,39090789,C,basic personal amount,montant personnel de base,41,,,2006,6
+2020,3967,1310,3464,276990,367396,D,age amount,montant en raison de l'âge,42,,,2006,6
+86260,523752,56780,348719,640350,3847072,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,6
+482470,905006,311260,582328,3821560,7075725,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,6
+441050,305880,277240,191690,3539570,2407016,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,6
+488250,121375,311730,77500,3908530,970130,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,6
+26140,11721,17330,7894,199720,90673,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,6
+65670,129422,45240,89272,665450,1314079,D,pension income amount,montant pour revenu de pension,48,,,2006,6
+6310,27304,3790,16830,46850,196556,D,caregiver amount,montant pour aidants naturels,49,,,2006,6
+10280,86724,5750,45522,79500,636152,D,disability amount,montant pour personnes handicapées,50,,,2006,6
+71650,307652,47100,209160,525260,2144948,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,6
+12450,8383,6530,5254,157840,129915,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,6
+11320,42817,7230,27317,110240,436849,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,6
+42000,157005,27980,118028,439430,1341665,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,6
+541620,1133712,348370,733902,4425400,9182257,E,total tax credits,total des crédits d'impôt,55,,,2006,6
+295350,446742,199000,356023,2092640,2833951,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,6
+293990,123359,198070,98983,2078420,779770,E,"donations,gifts",dons,57,,,2006,6
+541620,1257071,348370,832885,4425420,9962027,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,6
+540310,6327989,346810,4746161,4402090,38034119,F,basic federal tax,impôt fédéral de base,59,,,2006,6
+152560,174922,110430,142478,1040760,950088,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,6
+16260,50731,12780,39758,133660,383993,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,6
+539010,6290416,346070,4711773,4394630,37828205,F,net federal tax,impôt fédéral net,62,,,2006,6
+447980,2660890,284610,2003321,3512730,15521018,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,6
+541000,9142015,347470,6878402,4412560,54253839,F,total tax payable,total de l'impôt à payer,64,,,2006,6
+687910,0,270370,0,167810,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,7
+689530,0,271490,0,168080,0,A,total number of returns,nombre total de déclarations,2,,,2006,7
+585730,58327813,211480,28990934,123990,52400962,B,employment income,revenus d'emploi,3,,,2006,7
+36580,1879554,20120,1850563,11600,3693962,B,commissions (from employment),commissions (d'emploi),4,,,2006,7
+137970,977181,56910,743394,37540,2865950,B,other employment income,autres revenus d'emploi,5,,,2006,7
+61870,342505,31900,173899,23130,124845,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,7
+89800,644842,45000,332492,30800,235935,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,7
+81660,2979266,34470,1478903,17570,1181323,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,7
+8180,6247,2130,1638,800,638,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,7
+15370,69846,2430,13580,750,4832,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,7
+280170,3667817,144000,3548405,114400,12156271,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,7
+355090,1451266,169880,1195343,133370,3653861,B,"interest,other invest. income",revenus de placements,12,,,2006,7
+38380,978306,20190,800745,13940,808517,B,annuity income,revenus de rentes,13,,,2006,7
+69550,306717,35430,275770,27040,904087,B,net rental income,revenus nets de location,14,,,2006,7
+203150,2250354,110720,2534142,94890,10259395,B,taxable capital gains,gains en capital imposables,15,,,2006,7
+67420,821118,21460,519532,8000,534985,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,7
+52420,1818797,23810,1200047,16860,1910015,B,net business income,revenus nets d'entreprise,17,,,2006,7
+34800,2472071,32670,4469420,28470,9477172,B,net professional income,revenus nets de profession libéral,18,,,2006,7
+7390,489188,4140,445362,1940,423744,B,net commission income,revenus nets de commissions,19,,,2006,7
+15180,130212,7210,150577,5620,165851,B,net farming income,revenus nets d'agriculture,20,,,2006,7
+480,27550,140,6238,80,8072,B,net fishing income,revenus nets de pêche,21,,,2006,7
+9290,124496,2010,85386,930,21418,B,tax-exempt income,revenus non imposables,22,,,2006,7
+227830,1947167,118410,2030043,92770,3903196,B,other income,autres revenus,23,,,2006,7
+689530,81712312,271490,50846411,168080,104735032,B,total income assessed,revenu total établi,24,,,2006,7
+233940,1205373,61160,381749,21030,181003,C,rpp deduction,déductions à un rpa,25,,,2006,7
+480530,5300530,189450,3040803,116640,2254555,C,rrsp contributions,déductions à un reer,26,,,2006,7
+213710,196124,52520,45103,20400,16807,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,7
+26150,127618,8650,49575,3650,21225,C,child care expenses,frais de garde d'enfants,28,,,2006,7
+213310,541387,110880,521691,93920,1401839,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,7
+44780,74121,34060,59064,26830,47162,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,7
+80020,575949,36050,388483,19390,357365,C,other employment expenses,autres dépenses d'emploi,31,,,2006,7
+69350,612587,47690,758384,46440,2273541,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,7
+640380,8633689,251770,5244853,155130,6553497,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,7
+68070,327211,31850,168990,22940,123054,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,7
+689200,72786051,271360,45460930,168010,98071978,C,net income after adjustment,revenu net après ajustements,35,,,2006,7
+7090,361400,6470,627413,8110,1338405,C,capital gains deduction,déduction pour gains en capital,36,,,2006,7
+54450,232858,31240,224679,27780,495105,C,losses from other years,pertes d'autres années,37,,,2006,7
+50160,380143,24310,439697,21360,3512404,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,7
+107130,975412,58560,1291794,51520,5346569,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,7
+688980,71812666,271090,44176083,167920,92732923,C,taxable income assessed,revenu imposable établi,40,,,2006,7
+688690,6082275,270660,2388868,167190,1474216,C,basic personal amount,montant personnel de base,41,,,2006,7
+1330,3942,680,1741,310,856,D,age amount,montant en raison de l'âge,42,,,2006,7
+117970,717657,46310,286784,26440,164989,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,7
+605970,1132909,228590,425668,135740,253130,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,7
+506160,350320,160840,110092,77310,52453,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,7
+602940,149904,220350,54718,131440,32610,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,7
+31190,14765,9000,4368,3640,1786,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,7
+93940,185045,42890,84268,24860,48404,D,pension income amount,montant pour revenu de pension,48,,,2006,7
+8240,35075,2430,9822,1200,4888,D,caregiver amount,montant pour aidants naturels,49,,,2006,7
+13530,112247,5160,40319,3330,25987,D,disability amount,montant pour personnes handicapées,50,,,2006,7
+95190,466677,38040,190264,23530,128608,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,7
+10510,8713,2760,2400,920,755,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,7
+15540,53849,5910,20364,2720,9103,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,7
+62070,274929,30070,181817,22490,182850,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,7
+689030,1465678,270990,581118,167600,363818,E,total tax credits,total des crédits d'impôt,55,,,2006,7
+419280,951212,183920,694976,124970,2272550,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,7
+417980,266372,183430,197133,124690,655856,E,"donations,gifts",dons,57,,,2006,7
+689050,1732049,271010,778251,167650,1019675,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,7
+686750,12756374,270270,9139654,167580,22620227,F,basic federal tax,impôt fédéral de base,59,,,2006,7
+269880,548752,140530,530794,112710,1829578,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,7
+33970,111994,23320,79973,19660,68900,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,7
+684590,12634228,269240,9032684,167160,22277862,F,net federal tax,impôt fédéral net,62,,,2006,7
+573520,5610558,224400,4036984,142680,10136139,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,7
+687910,18684505,270370,13318630,167810,32605956,F,total tax payable,total de l'impôt à payer,64,,,2006,7
+5538640,0,16371720,0,0,0,A,number of taxable returns,nombre de déclarations imposables,1,,,2006,8
+5556190,0,24141700,0,0,0,A,total number of returns,nombre total de déclarations,2,,,2006,8
+4727910,372524182,15567850,597076404,0,0,B,employment income,revenus d'emploi,3,,,2006,8
+186020,10455514,466070,11862253,0,0,B,commissions (from employment),commissions (d'emploi),4,,,2006,8
+895620,6731264,2129890,10806468,0,0,B,other employment income,autres revenus d'emploi,5,,,2006,8
+567790,3149427,4175420,22506047,0,0,B,old age security pension,pension de sécurité de la vieillesse,6,,,2006,8
+832940,6004792,5387470,32571813,0,0,B,cpp or qpp benefits,prestations du rpc ou du rrq,7,,,2006,8
+727550,23532353,2853950,49121142,0,0,B,other pensions or superannuation,autres pensions et pensions de retraite,8,,,2006,8
+124270,92676,1332450,1019383,0,0,B,universal child care benefits,prestation universelle pour la garde d'enfants,9,,,2006,8
+296710,1447128,2321920,13085659,0,0,B,employment insurance benefits,prestations d'assurance-emploi,10,,,2006,8
+1628610,25606146,3562560,29895527,0,0,B,taxable amount of dividends,montant imposable des dividendes,11,,,2006,8
+2439700,10409283,7481230,18300077,0,0,B,"interest,other invest. income",revenus de placements,12,,,2006,8
+362630,6835542,1609780,13446215,0,0,B,annuity income,revenus de rentes,13,,,2006,8
+463290,2118444,1222730,3055936,0,0,B,net rental income,revenus nets de location,14,,,2006,8
+1158840,18539034,2529150,21423885,0,0,B,taxable capital gains,gains en capital imposables,15,,,2006,8
+610330,4780917,1752830,9015445,0,0,B,rrsp income,revenu d'un régime enregistré d'épargne-retraite,16,,,2006,8
+388500,10242697,1843960,21921708,0,0,B,net business income,revenus nets d'entreprise,17,,,2006,8
+173570,18660330,340600,20279056,0,0,B,net professional income,revenus nets de profession libéral,18,,,2006,8
+41730,2262732,150260,3137821,0,0,B,net commission income,revenus nets de commissions,19,,,2006,8
+100740,820774,384320,1180781,0,0,B,net farming income,revenus nets d'agriculture,20,,,2006,8
+4950,175596,33420,384472,0,0,B,net fishing income,revenus nets de pêche,21,,,2006,8
+135880,1188408,3367460,19718001,0,0,B,tax-exempt income,revenus non imposables,22,,,2006,8
+1437930,12044232,4045520,18233286,0,0,B,other income,autres revenus,23,,,2006,8
+5556190,537621471,23422360,918041379,0,0,B,total income assessed,revenu total établi,24,,,2006,8
+2206990,8543794,4243720,11432038,0,0,C,rpp deduction,déductions à un rpa,25,,,2006,8
+3273010,23988701,6306420,32038643,0,0,C,rrsp contributions,déductions à un reer,26,,,2006,8
+2226130,1887367,5395960,3090014,0,0,C,"annual union, professional, or like dues","cot. annuelles syndicales, prof., et semblables",27,,,2006,8
+289550,1183402,1171720,3472210,0,0,C,child care expenses,frais de garde d'enfants,28,,,2006,8
+1254640,3615324,2557100,4524729,0,0,C,carrying charges and interest expenses,frais financiers et frais d'intérêts,29,,,2006,8
+271380,416813,1411030,1071375,0,0,C,cpp/qpp contrib. on self-empl./other earning,cotisations au rpc ou au rrq,30,,,2006,8
+471720,2885110,817730,3899784,0,0,C,other employment expenses,autres dépenses d'emploi,31,,,2006,8
+453900,4954935,1545100,6335722,0,0,C,other deductions (from total income),autres déductions (du revenu total),32,,,2006,8
+4968900,47475446,12998780,65864516,0,0,C,total deduction before adjustment,total des déductions avant ajustement,33,,,2006,8
+463010,1138228,465580,1140832,0,0,C,social benefits repayment,remb. des prestations de progr. sociaux,34,,,2006,8
+5554900,489108069,23304980,852583765,0,0,C,net income after adjustment,revenu net après ajustements,35,,,2006,8
+38410,2697501,58360,2868190,0,0,C,capital gains deduction,déduction pour gains en capital,36,,,2006,8
+285220,1384058,535420,1916790,0,0,C,losses from other years,pertes d'autres années,37,,,2006,8
+348490,5945671,3798600,25535992,0,0,C,additional deductions (from net income),déductions supplémentaires (du revenu net),38,,,2006,8
+646580,10028902,4341750,30325526,0,0,C,total deductions (from net income),total des déductions (du revenu net),39,,,2006,8
+5552980,479100327,22720470,822489660,0,0,C,taxable income assessed,revenu imposable établi,40,,,2006,8
+5551190,49036149,24099010,211962967,0,0,C,basic personal amount,montant personnel de base,41,,,2006,8
+279310,373935,4002510,18280046,0,0,D,age amount,montant en raison de l'âge,42,,,2006,8
+831070,5016502,2980920,17919941,0,0,D,"spouse,elig. depend.,adoption amt.","montant pour conjoint,pers. à charge, et frais d'adoption",43,,,2006,8
+4791870,8887431,15384650,18797550,0,0,D,cpp or qpp contributions,cotisations au rpc ou au rrq,44,,,2006,8
+4283870,2919882,13935770,6592488,0,0,D,employment insurance premiums,cotisations à l'assurance-emploi,45,,,2006,8
+4863260,1207362,16165510,3991222,0,0,D,canada employment amount,montant canadien pour l'emploi,46,,,2006,8
+243550,111593,916080,357526,0,0,D,public transit passes amount,credit pour laissez-passer de transport en commun,47,,,2006,8
+827130,1631797,3468010,6515020,0,0,D,pension income amount,montant pour revenu de pension,48,,,2006,8
+58720,246340,161090,655038,0,0,D,caregiver amount,montant pour aidants naturels,49,,,2006,8
+101530,814705,557130,4019901,0,0,D,disability amount,montant pour personnes handicapées,50,,,2006,8
+682020,2930497,2333450,9480570,0,0,D,tuition and education amounts,frais de scolarité et montant relatif aux études,51,,,2006,8
+172010,141782,676720,465931,0,0,D,interest paid on student loans,intérêts payés sur vos prêts étudiants,52,,,2006,8
+134420,520164,843220,3530319,0,0,D,amounts transferred from spouse,montants transférés du conjoint,53,,,2006,8
+554050,1981262,3426720,7385694,0,0,D,allowable amt. of med. expenses,montant admissible des frais médicaux,54,,,2006,8
+5553020,11592871,24105970,47328474,0,0,E,total tax credits,total des crédits d'impôt,55,,,2006,8
+2820810,6752689,5934830,9220568,0,0,E,"charitable donations,cultural, ecological, gov","dons de bienfaisance, dons aux gouvernements, dons de biens culturels ou éco",56,,,2006,8
+2804520,1899132,5865210,2556986,0,0,E,"donations,gifts",dons,57,,,2006,8
+5553130,13492003,24106530,49885460,0,0,E,total non-refundable tax credits,total des crédits d'impôt non remboursables,58,,,2006,8
+5526680,82550373,15934370,106041190,0,0,F,basic federal tax,impôt fédéral de base,59,,,2006,8
+1563870,3859212,3389280,4533021,0,0,F,fed. dividend tax credit,crédit d'impôt pour dividendes,60,,,2006,8
+210620,644860,1081440,1667268,0,0,F,cpp contrib. on self-employ. earning,cot. au rpc pour le revenu d'un travail indép.,61,,,2006,8
+5515620,81772979,15857640,105171449,0,0,F,net federal tax,impôt fédéral net,62,,,2006,8
+4453320,35304698,11316520,44401795,0,0,F,net provincial tax,"impôt provincial,territorial net",63,,,2006,8
+5538640,118862930,16371720,152384520,0,0,F,total tax payable,total de l'impôt à payer,64,,,2006,8

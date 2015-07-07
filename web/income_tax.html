@@ -98,7 +98,7 @@ var plot_variable = [
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
-var margin = {top: 40, right: 30, bottom: 50, left: 130},
+var margin = {top: 40, right: 50, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
@@ -318,24 +318,36 @@ function update_bars(selection) {
 
 
 function draw_chart(all_data) {
-  var plot_data = get_plot_data(all_data);
-  var x_format = get_selected('#plot_variable_selector')['x_format'];
+  var plot_data = get_plot_data(all_data),
+    x_format = get_selected('#plot_variable_selector')['x_format'];
+
   x.domain(get_x_domain(all_data))
-  chart.selectAll(".bar").data(plot_data)
-        .transition(transition_duration)
-      .call(update_bars);
+  
+  chart.selectAll(".bar")
+    .data(plot_data)
+    .transition(transition_duration)
+    .call(update_bars);
+  
+  y.domain(plot_data.map(function(d) { return d.name; }));
+
+  yAxis.scale(y);
+
   xAxis.scale(x)
     .tickFormat(x_format);
+  
   set_xlabel_text();
+  
   chart.select(".x").transition(transition_duration).call(xAxis);
+  
   update_tick_lines();
+  
   set_url_hash();
 }
 
 
 function update_tick_lines() {
-  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
-  var tick_ln = chart.selectAll(".tick-line").data(x_ticks);
+  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]),
+    tick_ln = chart.selectAll(".tick-line").data(x_ticks);
   
   tick_ln.enter().append("line").attr("class", "tick-line");
   tick_ln.exit().remove();
