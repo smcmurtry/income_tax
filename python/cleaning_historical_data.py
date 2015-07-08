@@ -162,33 +162,112 @@ import col_dict_2004_08
 col_dict_2004_08.list_order
 
 
-# In[42]:
+# In[59]:
+
+'A1'.lower()
+
+
+# In[63]:
+
+col_dict_2004_08.col_dict
+
+
+# In[64]:
 
 col_dict = {}
 for row in col_dict_2004_08.col_dict:
     f7_val = row[0]
     for i, x in enumerate(row[1:]):
-        f_col = col_dict_2004_08.list_order[i]
-        x = x.replace('(amount)', '$')
-        x = x.replace('(number)', '#')
-        x = x.replace('Grand Total', 'total')
-        x = x.replace('Grand total', 'total')
-
+        f_col = col_dict_2004_08.list_order[i+1]
         col_dict[(f7_val, f_col)] = x
 
 
-# In[43]:
+# In[93]:
 
-col_dict
+def flatten_df(stacked_df):
+    data_cols = ['F1','F2','F3','F4','F5','F6']
+    df = pd.DataFrame(index=range(65))
+    df['tax_year'] = pd.Series(index=df.index)
+    for i in stacked_df.index:
+        f7_val = stacked_df['f7'][i]
+        item_num = stacked_df['CODE2'][i]
+        tax_year = stacked_df['taxyr'][i]
+        df.ix[item_num-1, 'tax_year'] = tax_year
+        for c in data_cols:
+            d = stacked_df[c][i]
+            key = (str(f7_val), c.lower())
+            if key == ('8', 'f5'): break
+            new_col = col_dict[key]
+            new_col = new_col.replace('$', '')
+            if new_col not in df.columns: df[new_col] = pd.Series(index=df.index)
+            df.ix[item_num-1, new_col] = d
+    return df
 
 
-# In[12]:
+# In[97]:
 
-header_lines = rough_df.query("CODE2 == '1'").index
-df08 = clean_the_df(rough_df, header_lines)
-df08['Item'] = df08['iteme_r1']
-df08 = delete_extra_cols(df08)
-df08.to_csv('../data/cleaned_tax_data_2008.csv')
+flat_df = {}
+for year in dfd: flat_df[year] = flatten_df(dfd[year])
+
+
+# In[102]:
+
+def get_item_dict(df):
+    item_dict = {}
+    for i in df.index:
+        item_dict[df['CODE2'][i]] = df['ITEME'][i]
+    return item_dict
+
+
+# In[108]:
+
+item_dict = {}
+for year in [2005, 2006, 2007, 2008]:
+    item_dict[year] = get_item_dict(dfd[year])
+
+
+# I semi-manually assembled this dictionary from an html table: http://www.cra-arc.gc.ca/gncy/stts/gb04/pst/fnl/tb2-5-eng.html
+
+# In[117]:
+
+import item_dict_2004
+item_dict[2004] = {}
+for pair in item_dict_2004.item_dict:
+    item_dict[2004][pair[1]] = pair[0]
+
+
+# In[122]:
+
+import numpy as np
+
+
+# In[126]:
+
+np.isnan(1)
+
+
+# In[128]:
+
+for year in flat_df:
+    flat_df[year]['item'] = pd.Series(index=flat_df[year].index)
+    for i in flat_df[year].index:
+        if not np.isnan(flat_df[year][flat_df[year].columns[5]][i]):
+            flat_df[year].ix[i, 'item'] = item_dict[year][i+1]
+
+
+# In[133]:
+
+def save_progress(df, year):
+    filename = '../data/cleaned_tax_data_' + str(year) + '.csv'
+    df.to_csv(filename)
+    return filename
+
+
+# In[134]:
+
+clean_fname = {}
+for year in flat_df:
+    clean_fname[year] = save_progress(flat_df[year], year)
 
 
 ### Load the saved tables from files
@@ -486,5 +565,5 @@ f.write(']')
 f.close()
 
 
-# In[8]:
+# In[55]:
 
