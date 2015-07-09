@@ -118,9 +118,7 @@ var xAxis = d3.svg.axis(),
   yAxis = d3.svg.axis();
 
 // d3.csv("../data/all_clean_tax_data.csv", function(data) {
-d3.json("../data/data_2.json", function(data) {
-
-  console.log(data);
+d3.json("../data/data_3.json", function(data) {
 
   add_event_listeners(data);
 
@@ -274,7 +272,7 @@ function get_data_from_row(row) {
   var row_data = [];
   for (var prop in row) {
     // kind of hacky but all the income data properties of row_data have a 'k' in them
-    if (prop.indexOf('k') != -1) {
+    if (prop.indexOf('$') != -1) {
       row_data.push({'name': prop, 'value': +row[prop]}); 
     }
   };
@@ -316,37 +314,53 @@ function update_bars(selection) {
   selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
     .attr("x", function(d) { return x(Math.min(0, d.value)); })
     .attr("y", function(d) { return y(d.name); })
-    .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); });
+    .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
+    .attr("height", y.rangeBand());
 }
+
+
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
 
 
 function draw_chart(all_data) {
   var plot_data = get_plot_data(all_data),
-    x_format = get_selected('#plot_variable_selector')['x_format'];
+    x_format = get_selected('#plot_variable_selector')['x_format'],
+    new_y_labels = plot_data.map(function(d) { return d.name; });
 
   x.domain(get_x_domain(all_data))
+  y.domain(new_y_labels);
   
-  chart.selectAll(".bar")
-    .data(plot_data)
-    .transition(transition_duration)
-    .call(update_bars);
-  
-  y.domain(plot_data.map(function(d) { return d.name; }));
   yAxis.scale(y);
-  chart.selectAll(".y").remove();
+  xAxis.scale(x).tickFormat(x_format);
 
+  chart.selectAll(".y").remove();
   chart.append("g")
     .attr("class", "y axis")
     .call(yAxis);
 
-  xAxis.scale(x)
-    .tickFormat(x_format);
+  chart.select(".x").transition(transition_duration).call(xAxis);
+  update_tick_lines();
+
+  var rebound = chart.selectAll(".bar")
+    .data(plot_data, function(d) { return d.name; });
+  
+  rebound.exit().remove();
+  
+  rebound.enter()
+    .append("rect")
+    .attr("class", "bar");
+  
+  chart.selectAll(".bar")
+    .transition(transition_duration)
+    .call(update_bars);
+
+  chart.selectAll(".tick-line").moveToFront();
   
   set_xlabel_text();
-  
-  chart.select(".x").transition(transition_duration).call(xAxis);
-  
-  update_tick_lines();
   
   set_url_hash();
 }
@@ -402,7 +416,7 @@ function get_available_years(all_data) {
       }
     }
   }
-  return available_years;
+  return available_years.sort();
 }
 
 function convert_to_slug(Text) {
