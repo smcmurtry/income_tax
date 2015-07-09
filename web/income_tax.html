@@ -83,9 +83,9 @@ function populate_dropdown(id, data, text_accessor) {
 
   var exit_selection = selection.exit().remove();
 
-  var enter_selection = selection.enter()
-    .append("option")
-    .text(function(d) { return text_accessor(d); });
+  var enter_selection = selection.enter().append("option");
+  d3.select(id)
+    .selectAll('option').text(function(d) { return text_accessor(d); });
 }
 
 var transition_duration = 500; // in ms
@@ -416,6 +416,7 @@ function get_available_years(all_data) {
       }
     }
   }
+  console.log(available_years)
   return available_years.sort();
 }
 
