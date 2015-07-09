@@ -560,40 +560,26 @@ dfo2.to_csv('../data/tax_data_unclean_items_04_08.csv')
 
 ### Standardize the item titles
 
-# In[3]:
+# In[1]:
 
 import pandas as pd
 df_master = pd.DataFrame.from_csv('../data/tax_data_unclean_items.csv')
 dfo2 = pd.DataFrame.from_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
-# In[4]:
+# In[2]:
 
 print len(set(df_master['item']))
 print len(set(dfo2['item']))
 
 
-# In[5]:
-
-set(list(dfo2['item'])).difference(set(synonym_dict.keys()))
-
-
-# In[235]:
-
-for x in all_items: print x
-
-
-# In[7]:
+# In[3]:
 
 import item_synonyms_2
+item_synonyms_2 = reload(item_synonyms_2)
 
 
-# In[8]:
-
-item_synonyms_2.synonyms
-
-
-# In[10]:
+# In[4]:
 
 synonym_dict = {}
 for li in item_synonyms_2.synonyms:
@@ -602,12 +588,7 @@ for li in item_synonyms_2.synonyms:
             synonym_dict[item] = li[0]
 
 
-# In[11]:
-
-synonym_dict
-
-
-# In[13]:
+# In[5]:
 
 def clean_item_names(df, synonym_dict):
     for i in df.index:
@@ -616,21 +597,106 @@ def clean_item_names(df, synonym_dict):
     return df
 
 
-# In[14]:
+# In[6]:
 
 df_master = clean_item_names(df_master, synonym_dict)
 dfo2 = clean_item_names(dfo2, synonym_dict)
 
 
-# In[15]:
+# In[7]:
 
 dfo2.to_csv('../data/all_clean_tax_data_04_08.csv')
 df_master.to_csv('../data/all_clean_tax_data.csv')
 
 
-#### Converting to JSON
+#### Let's try combining the 50-55k and 55-60k columns for the 2009-12 data to match up better with 2004-08
+
+# In[8]:
+
+import pandas as pd
+df_master = pd.DataFrame.from_csv('../data/all_clean_tax_data.csv')
+dfo2 = pd.DataFrame.from_csv('../data/all_clean_tax_data_04_08.csv')
+
+
+# In[9]:
+
+df_master.columns
+
+
+# In[10]:
+
+df_master['$50k - 60k'] = (df_master['$50k - 55k'] + df_master['$55k - 60k'])
+
+
+# In[11]:
+
+del df_master['$50k - 55k']
+del df_master['$55k - 60k']
+
+
+# In[12]:
+
+new_ordered_cols = ['item', 'type', 'tax_year', 'total', 
+                '< $5k', '$5k - 10k', '$10k - 15k', 
+                '$15k - 20k', '$20k - 25k', '$25k - 30k',
+                '$30k - 35k', '$35k - 40k', '$40k - 45k',
+                '$45k - 50k', '$50k - 60k',
+                '$60k - 70k', '$70k - 80k', '$80k - 90k',
+                '$90k - 100k', '$100k - 150k', '$150k - 250k', 
+                '> $250k']
+
+
+# In[13]:
+
+df_master = df_master[new_ordered_cols]
+
+
+# In[14]:
+
+df_master.to_csv('../data/all_clean_tax_data_fewer_cols.csv')
+
+
+#### Try to fix some of the item naming problems
+
+# In[15]:
+
+old_tax_yrs = dfo2.query("type == '$' and item == 'CPP or QPP benefits'").tax_year
+
 
 # In[16]:
+
+its = list(set(df_master.item).union(set(dfo2.item)))
+its.sort()
+for item in its:
+    new_tax_yrs = list(df_master.query("type == '$' and item == @item").tax_year)
+    old_tax_yrs = list(dfo2.query("type == '$' and item == @item").tax_year)
+    new_tax_yrs.sort()
+    old_tax_yrs.sort()
+    print item, old_tax_yrs + new_tax_yrs
+
+
+#### Deleteing problem rows
+
+# In[23]:
+
+# 2004, social benefits repayment
+indexes_2_drop = dfo2.query("item == 'social benefits repayment' and tax_year == 2004").index
+dfo2 = dfo2.drop(indexes_2_drop)
+
+
+# In[24]:
+
+len(dfo2)
+
+
+# In[32]:
+
+dfo2.index = range(len(dfo2))
+
+
+#### Converting to JSON
+
+# In[33]:
 
 def write_df_to_json(df, open_file, last_write=True):
     for i in df.index:
@@ -644,9 +710,9 @@ def write_df_to_json(df, open_file, last_write=True):
         open_file.write(row_str)
 
 
-# In[17]:
+# In[34]:
 
-f = open('../data/data_2.json', 'w')
+f = open('../data/data_3.json', 'w')
 f.write('[')
 write_df_to_json(df_master, f, last_write=False)
 write_df_to_json(dfo2, f, last_write=True)
@@ -654,5 +720,5 @@ f.write(']')
 f.close()
 
 
-# In[ ]:
+# In[18]:
 
