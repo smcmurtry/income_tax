@@ -55,16 +55,19 @@ function select_element(value_to_select, selector_id, accessor_fn) {
 
 
 function go_to_hash_state(all_data) {
-  if (window.location.hash) {
     var hash_state = window.location.hash.split('+');
     var item = item_slug_dict[hash_state[0].substr(1)];
     var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
     var year = hash_state[2];
-    select_element(item, '#item_selector', function(d) { return d; });
-    select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
-    select_element(year, '#year_selector', function(d) { return d; });
-    draw_chart(all_data);
-  }
+    try {
+      select_element(item, '#item_selector', function(d) { return d; });
+      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
+    } 
+    catch(err) { return false; }
+    update_years(all_data);
+    try { select_element(year, '#year_selector', function(d) { return d; }); } 
+    catch(err) { return false; }
+    return true;
 }
 
 function set_url_hash() {
@@ -75,17 +78,28 @@ function set_url_hash() {
 }
 
 
+function case_sort(a, b) {
+  var a1 = a + ' ', b1 = b + ' '; // in case a and b are numbers
+  var A=a1.toLowerCase(), B=b1.toLowerCase();
+  if (A < B) { return -1; }
+  if (A > B) { return 1; }
+  return 0;
+}
+
+
 function populate_dropdown(id, data, text_accessor) {
 
   var selection = d3.select(id)
     .selectAll('option')
-    .data(data)
+    .data(data, function(d) { return text_accessor(d); });
 
   var exit_selection = selection.exit().remove();
 
   var enter_selection = selection.enter().append("option");
   d3.select(id)
-    .selectAll('option').text(function(d) { return text_accessor(d); });
+    .selectAll('option')
+    .sort(case_sort)
+    .text(function(d) { return text_accessor(d); });
 }
 
 var transition_duration = 500; // in ms
@@ -117,24 +131,29 @@ var y = d3.scale.ordinal()
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
 
-// d3.csv("../data/all_clean_tax_data.csv", function(data) {
 d3.json("../data/data_3.json", function(data) {
 
   add_event_listeners(data);
 
   var unique_items = get_unique_items(data);
-  unique_items.sort(function(a, b) {
-    var A=a.toLowerCase(), B=b.toLowerCase();
-    if (A < B) { return -1; }
-    if (A > B) { return 1; }
-    return 0;
-  });
+  unique_items.sort(case_sort);
 
   populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); } );
   item_slug_dict = get_item_slug_dict(unique_items);
-
   update_plot_variables();
-  update_years(data);
+
+
+  if (window.location.hash) {
+    var success = go_to_hash_state(data);
+    if (!success) {
+      history.pushState('', document.title, window.location.pathname);
+      populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); } );
+      update_plot_variables();
+      update_years(data);
+    }
+  } else {
+    update_years(data);
+  }
 
   var init_data = get_plot_data(data);
 
@@ -183,7 +202,7 @@ d3.json("../data/data_3.json", function(data) {
     .attr("x2", function(d) { return x(d); } )
     .attr("y2", height);
 
-  go_to_hash_state(data);
+  // go_to_hash_state(data);
 
 });
 
@@ -327,6 +346,7 @@ d3.selection.prototype.moveToFront = function() {
 
 
 function draw_chart(all_data) {
+
   var plot_data = get_plot_data(all_data),
     x_format = get_selected('#plot_variable_selector')['x_format'],
     new_y_labels = plot_data.map(function(d) { return d.name; });
@@ -362,7 +382,6 @@ function draw_chart(all_data) {
   
   set_xlabel_text();
   
-  set_url_hash();
 }
 
 
@@ -386,7 +405,8 @@ function add_event_listeners(all_data) {
     .on("change", function() {
       update_plot_variables();
       update_years(all_data);
-      draw_chart(all_data); 
+      draw_chart(all_data);
+      set_url_hash();
     });
 
   d3.select("#plot_variable_selector")
@@ -416,7 +436,6 @@ function get_available_years(all_data) {
       }
     }
   }
-  console.log(available_years)
   return available_years.sort();
 }
 
