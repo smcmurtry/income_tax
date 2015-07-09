@@ -118,7 +118,7 @@ var xAxis = d3.svg.axis(),
   yAxis = d3.svg.axis();
 
 // d3.csv("../data/all_clean_tax_data.csv", function(data) {
-d3.json("../data/data.json", function(data) {
+d3.json("../data/data_2.json", function(data) {
 
   console.log(data);
 
@@ -332,8 +332,12 @@ function draw_chart(all_data) {
     .call(update_bars);
   
   y.domain(plot_data.map(function(d) { return d.name; }));
-
   yAxis.scale(y);
+  chart.selectAll(".y").remove();
+
+  chart.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
 
   xAxis.scale(x)
     .tickFormat(x_format);

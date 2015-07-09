@@ -3,7 +3,7 @@
 
 ## Cleaning Income Tax Data
 
-# In[14]:
+# In[1]:
 
 import pandas as pd
 import urllib
@@ -151,28 +151,12 @@ dfd[2004].columns
 
 ##### Get a dictionary for the columns
 
-# In[24]:
+# In[146]:
 
 import col_dict_2004_08
 
 
-# In[26]:
-
-# col_dict_2004_08.col_dict
-col_dict_2004_08.list_order
-
-
-# In[59]:
-
-'A1'.lower()
-
-
-# In[63]:
-
-col_dict_2004_08.col_dict
-
-
-# In[64]:
+# In[137]:
 
 col_dict = {}
 for row in col_dict_2004_08.col_dict:
@@ -182,11 +166,11 @@ for row in col_dict_2004_08.col_dict:
         col_dict[(f7_val, f_col)] = x
 
 
-# In[93]:
+# In[138]:
 
 def flatten_df(stacked_df):
     data_cols = ['F1','F2','F3','F4','F5','F6']
-    df = pd.DataFrame(index=range(65))
+    df = pd.DataFrame(index=range(len(set(stacked_df['CODE2']))))
     df['tax_year'] = pd.Series(index=df.index)
     for i in stacked_df.index:
         f7_val = stacked_df['f7'][i]
@@ -204,13 +188,13 @@ def flatten_df(stacked_df):
     return df
 
 
-# In[97]:
+# In[139]:
 
 flat_df = {}
 for year in dfd: flat_df[year] = flatten_df(dfd[year])
 
 
-# In[102]:
+# In[140]:
 
 def get_item_dict(df):
     item_dict = {}
@@ -219,7 +203,7 @@ def get_item_dict(df):
     return item_dict
 
 
-# In[108]:
+# In[141]:
 
 item_dict = {}
 for year in [2005, 2006, 2007, 2008]:
@@ -228,7 +212,7 @@ for year in [2005, 2006, 2007, 2008]:
 
 # I semi-manually assembled this dictionary from an html table: http://www.cra-arc.gc.ca/gncy/stts/gb04/pst/fnl/tb2-5-eng.html
 
-# In[117]:
+# In[142]:
 
 import item_dict_2004
 item_dict[2004] = {}
@@ -236,38 +220,27 @@ for pair in item_dict_2004.item_dict:
     item_dict[2004][pair[1]] = pair[0]
 
 
-# In[122]:
-
-import numpy as np
-
-
-# In[126]:
-
-np.isnan(1)
-
-
-# In[128]:
+# In[143]:
 
 for year in flat_df:
     flat_df[year]['item'] = pd.Series(index=flat_df[year].index)
     for i in flat_df[year].index:
-        if not np.isnan(flat_df[year][flat_df[year].columns[5]][i]):
-            flat_df[year].ix[i, 'item'] = item_dict[year][i+1]
+        flat_df[year].ix[i, 'item'] = item_dict[year][i+1]
 
 
-# In[133]:
+# In[147]:
 
-def save_progress(df, year):
-    filename = '../data/cleaned_tax_data_' + str(year) + '.csv'
-    df.to_csv(filename)
-    return filename
+dfo = pd.concat([flat_df[year] for year in flat_df], ignore_index=True)
 
 
-# In[134]:
+# In[149]:
 
-clean_fname = {}
-for year in flat_df:
-    clean_fname[year] = save_progress(flat_df[year], year)
+dfo.to_csv("../data/partially_clean_04_08.csv")
+
+
+# In[201]:
+
+dfo = pd.DataFrame.from_csv("../data/partially_clean_04_08.csv")
 
 
 ### Load the saved tables from files
@@ -354,6 +327,38 @@ df09['>250000 #'] = df09['250000 and over #/250 000 et plus #']
 df09['>250000 $'] = df09['250000 and over $/250 000 et plus $']
 
 
+# In[205]:
+
+dfo.columns
+
+
+# In[203]:
+
+del dfo['50,000 and over (number)']
+del dfo['50,000 and over(amount)']
+del dfo['50,000 - 100,000 (number)']
+del dfo['50,000 - 100,000 (amount)']
+del dfo['Grand Total (number)']
+del dfo['Grand total (amount)']
+del dfo['30,000 - 40,000 (number)']
+del dfo['30,000 - 40,000 (amount)']
+del dfo['40,000 - 50,000 (number)']
+del dfo['40,000 - 50,000 (amount)']
+
+
+# In[204]:
+
+for c in dfo.columns:
+    c2 = c.replace('Loss and nil(amount)', 'Loss and nil (amount)')
+    c2 = c2.replace('250,000 and over', '>250,000')
+    c2 = c2.replace('(amount)', '$')
+    c2 = c2.replace('(number)', '#')
+    c2 = c2.replace(',', '')
+    c2 = c2.replace('Loss and nil', '<0')
+    dfo[c2] = dfo[c]
+    if c != c2: del dfo[c]
+
+
 # Create a tax year column so we can combine into a single table
 
 # In[61]:
@@ -419,9 +424,36 @@ for c in df_master.columns:
         df_master[c] = list(df12[c + ' #']) + list(df11[c + ' #']) + list(df10[c + ' #']) + list(df09[c + ' #'])         + list(df12[c + ' $']) + list(df11[c + ' $']) + list(df10[c + ' $']) + list(df09[c + ' $'])
 
 
+# Now for 2004 - 2008
+
+# In[213]:
+
+new_cols = ['item', 'type', 'tax_year']
+for c in dfo.columns:
+    if '#' in c: new_cols.append(c[:-2])
+
+
+# In[214]:
+
+dfo2 = pd.DataFrame(columns=new_cols, index=range(2*len(dfo)))
+
+
+# In[215]:
+
+for c in dfo2.columns:
+    if c == 'item':
+        dfo2[c] = list(dfo[c]) * 2
+    elif c == 'tax_year':
+        dfo2[c] = [int(x) for x in list(dfo[c])] * 2
+    elif c == 'type':
+        dfo2[c] = ['#']*len(dfo) + ['$']*len(dfo)
+    else:
+        dfo2[c] = list(dfo[c + ' #']) + list(dfo[c + ' $'])
+
+
 ### Making the column headings more readable
 
-# In[79]:
+# In[219]:
 
 col_labels = {
 "<4999": "< $5k",
@@ -444,13 +476,41 @@ col_labels = {
 "150000 - 249999": "$150k - 250k",
 ">250000": "> $250k"}
 
+col_labels_04_08 = {
+'<0': '< $0',
+"1 - 10000": "$1 - 10k",
+"10000 - 15000": "$10k - 15k",
+"15000 - 20000": "$15k - 20k",
+"20000 - 25000": "$20k - 25k",
+"25000 - 30000": "$25k - 30k",
+"30000 - 35000": "$30k - 35k",
+"35000 - 40000": "$35k - 40k",
+"40000 - 45000": "$40k - 45k",
+"45000 - 50000": "$45k - 50k",
+"50000 - 60000": "$50k - 60k",
+"60000 - 70000": "$60k - 70k",
+"70000 - 80000": "$70k - 80k",
+"80000 - 90000": "$80k - 90k",
+"90000 - 100000": "$90k - 100k",
+"100000 - 150000": "$100k - 150k",
+"150000 - 250000": "$150k - 250k",
+">250000": "> $250k"}
 
-# In[80]:
 
-for col in df_master.columns:
-    if col in col_labels:
-        df_master[col_labels[col]] = df_master[col]
-        del df_master[col]
+# In[220]:
+
+def rename_cols(df, col_label_dict):
+    for col in df.columns:
+        if col in col_label_dict:
+            df[col_label_dict[col]] = df[col]
+            del df[col]
+    return df
+
+
+# In[221]:
+
+df_master = rename_cols(df_master, col_labels)
+dfo2 = rename_cols(dfo2, col_labels_04_08)
 
 
 # In[81]:
@@ -470,21 +530,24 @@ ordered_cols = ['item', 'type', 'tax_year', 'total',
 df_master = df_master[ordered_cols]
 
 
-# In[83]:
-
-df_master.query("type == '$'").head()
-
-
 ### Multiply the dollar amounts by 1000
 
-# In[84]:
+# In[222]:
 
-for i in df_master.index:
-    print i,
-    if df_master.type[i] == '$':
-        for col in set(df_master.columns).difference(set(['item', 'type', 'tax_year'])):
-            # all the dollar amounts are already integers, so I will keep them that way
-            df_master.ix[i, col] = 1000 * df_master[col][i]
+def dollars_times_thous(df):
+    for i in df.index:
+        print i,
+        if df.type[i] == '$':
+            for col in set(df.columns).difference(set(['item', 'type', 'tax_year'])):
+                # all the dollar amounts are already integers, so I will keep them that way
+                df.ix[i, col] = 1000 * df[col][i]
+    return df
+
+
+# In[223]:
+
+df_master = dollars_times_thous(df_master)
+dfo2 = dollars_times_thous(dfo2)
 
 
 ### Save the cleaned data
@@ -492,78 +555,104 @@ for i in df_master.index:
 # In[85]:
 
 df_master.to_csv('../data/tax_data_unclean_items.csv')
+dfo2.to_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
 ### Standardize the item titles
 
-# In[1]:
+# In[3]:
 
 import pandas as pd
 df_master = pd.DataFrame.from_csv('../data/tax_data_unclean_items.csv')
-
-
-# In[2]:
-
-len(set(df_master['item']))
-
-
-# In[3]:
-
-import item_synonyms
+dfo2 = pd.DataFrame.from_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
 # In[4]:
 
-synonym_dict = {}
-for li in item_synonyms.synonyms:
-    if len(li) > 1:
-        for item in li[1:]:
-            synonym_dict[item] = li[0]
+print len(set(df_master['item']))
+print len(set(dfo2['item']))
 
 
 # In[5]:
 
-synonym_dict
+set(list(dfo2['item'])).difference(set(synonym_dict.keys()))
 
 
-# In[6]:
+# In[235]:
 
-for i in df_master.index:
-    if df_master.item[i] in synonym_dict.keys():
-        df_master.ix[i, 'item'] = synonym_dict[df_master.item[i]]
+for x in all_items: print x
 
 
 # In[7]:
 
+import item_synonyms_2
+
+
+# In[8]:
+
+item_synonyms_2.synonyms
+
+
+# In[10]:
+
+synonym_dict = {}
+for li in item_synonyms_2.synonyms:
+    if len(li) > 1:
+        for item in li:
+            synonym_dict[item] = li[0]
+
+
+# In[11]:
+
+synonym_dict
+
+
+# In[13]:
+
+def clean_item_names(df, synonym_dict):
+    for i in df.index:
+        if df.item[i] in synonym_dict.keys():
+            df.ix[i, 'item'] = synonym_dict[df.item[i]]
+    return df
+
+
+# In[14]:
+
+df_master = clean_item_names(df_master, synonym_dict)
+dfo2 = clean_item_names(dfo2, synonym_dict)
+
+
+# In[15]:
+
+dfo2.to_csv('../data/all_clean_tax_data_04_08.csv')
 df_master.to_csv('../data/all_clean_tax_data.csv')
 
 
 #### Converting to JSON
 
-# In[52]:
+# In[16]:
 
-f = open('../data/data.json', 'w')
+def write_df_to_json(df, open_file, last_write=True):
+    for i in df.index:
+        row_str = '{'
+        for j, c in enumerate(df.columns):
+            row_str += '"' + c + '"' + ': ' + '"' + str(df[c][i]) 
+            if j+1 == len(df.columns): row_str += '"'
+            else: row_str += '", '
+        if i+1 == len(df) and last_write: row_str += '}\n'
+        else: row_str += '},\n'
+        open_file.write(row_str)
 
 
-# In[53]:
+# In[17]:
 
+f = open('../data/data_2.json', 'w')
 f.write('[')
-for i in df_master.index:
-    row_str = '{'
-    for j, c in enumerate(df_master.columns):
-        row_str += '"' + c + '"' + ': ' + '"' + str(df_master[c][i]) 
-        if j+1 == len(df_master.columns): row_str += '"'
-        else: row_str += '", '
-    if i+1 == len(df_master): row_str += '}\n'
-    else: row_str += '},\n'
-    f.write(row_str)
+write_df_to_json(df_master, f, last_write=False)
+write_df_to_json(dfo2, f, last_write=True)
 f.write(']')
-
-
-# In[54]:
-
 f.close()
 
 
-# In[55]:
+# In[ ]:
 
