@@ -677,26 +677,17 @@ for item in its:
 
 #### Deleteing problem rows
 
-# In[23]:
+# # 2004, social benefits repayment
+# indexes_2_drop = dfo2.query("item == 'social benefits repayment' and tax_year == 2004").index
+# dfo2 = dfo2.drop(indexes_2_drop)
 
-# 2004, social benefits repayment
-indexes_2_drop = dfo2.query("item == 'social benefits repayment' and tax_year == 2004").index
-dfo2 = dfo2.drop(indexes_2_drop)
+# len(dfo2)
 
-
-# In[24]:
-
-len(dfo2)
-
-
-# In[32]:
-
-dfo2.index = range(len(dfo2))
-
+# dfo2.index = range(len(dfo2))
 
 #### Converting to JSON
 
-# In[33]:
+# In[17]:
 
 def write_df_to_json(df, open_file, last_write=True):
     for i in df.index:
@@ -710,7 +701,7 @@ def write_df_to_json(df, open_file, last_write=True):
         open_file.write(row_str)
 
 
-# In[34]:
+# In[18]:
 
 f = open('../data/data_3.json', 'w')
 f.write('[')
@@ -720,5 +711,5 @@ f.write(']')
 f.close()
 
 
-# In[18]:
+# In[19]:
 
