@@ -5,18 +5,26 @@ body {
   text-align: center;
 }
 
-#selectors, #outer-xlabel {
+#selectors, #outer-xlabel, #explanation {
   margin-left: 130px;
+}
+
+#outer-xlabel, #explanation {
+  width: 620px;
+}
+
+#explanation {
+  font-size: 16px;
+  text-align: left;
+  margin-top: 20px;
 }
 
 #outer-xlabel {
   height: 30px;
-    margin-top: 70px;
-    width: 620px;
+  margin-top: 70px;
 }
 
 #xlabel {
-
   text-align: center;
 }
 
