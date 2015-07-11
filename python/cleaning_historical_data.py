@@ -238,15 +238,11 @@ dfo = pd.concat([flat_df[year] for year in flat_df], ignore_index=True)
 dfo.to_csv("../data/partially_clean_04_08.csv")
 
 
-# In[201]:
+### Save point 1
+
+# In[3]:
 
 dfo = pd.DataFrame.from_csv("../data/partially_clean_04_08.csv")
-
-
-### Load the saved tables from files
-
-# In[50]:
-
 df09 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2009.csv')
 df10 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2010.csv')
 df11 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2011.csv')
@@ -255,29 +251,29 @@ df12 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2012.csv')
 
 ### Standardize the column names
 
-# In[51]:
+# In[4]:
 
 df12.columns
 
 
-# In[52]:
+# In[5]:
 
 for c in df11.columns:
     if c not in df12.columns: print c
 
 
-# In[53]:
+# In[6]:
 
 for c in df12.columns:
     if c not in df11.columns: print c
 
 
-# In[54]:
+# In[7]:
 
 df11.columns
 
 
-# In[55]:
+# In[8]:
 
 def clean_2011_2012_dfs(df):
     df["total #"] = df[' Grand total/Total global #']
@@ -289,18 +285,18 @@ def clean_2011_2012_dfs(df):
     return df
 
 
-# In[56]:
+# In[9]:
 
 df11 = clean_2011_2012_dfs(df11)
 df12 = clean_2011_2012_dfs(df12)
 
 
-# In[57]:
+# In[10]:
 
 df10.columns
 
 
-# In[58]:
+# In[11]:
 
 df10['total #'] = df10['Grand total/Total global #']
 df10['total $'] = df10['Grand total/Total global $']
@@ -310,12 +306,12 @@ df10['>250000 #'] = df10['250000 and over/et plus #']
 df10['>250000 $'] = df10['250000 and over/et plus $']
 
 
-# In[59]:
+# In[12]:
 
 df09.columns
 
 
-# In[60]:
+# In[13]:
 
 df09['35000 - 39999 $'] = df09['35000 - 39999 $40000 - 44999 #']
 df09['10000 - 14999 #'] = df09['10000 - 14999 # ']
@@ -327,12 +323,12 @@ df09['>250000 #'] = df09['250000 and over #/250 000 et plus #']
 df09['>250000 $'] = df09['250000 and over $/250 000 et plus $']
 
 
-# In[205]:
+# In[14]:
 
 dfo.columns
 
 
-# In[203]:
+# In[15]:
 
 del dfo['50,000 and over (number)']
 del dfo['50,000 and over(amount)']
@@ -346,7 +342,7 @@ del dfo['40,000 - 50,000 (number)']
 del dfo['40,000 - 50,000 (amount)']
 
 
-# In[204]:
+# In[16]:
 
 for c in dfo.columns:
     c2 = c.replace('Loss and nil(amount)', 'Loss and nil (amount)')
@@ -361,7 +357,7 @@ for c in dfo.columns:
 
 # Create a tax year column so we can combine into a single table
 
-# In[61]:
+# In[17]:
 
 df12["tax_year"] = pd.Series([2012]*len(df12), index=df12.index)
 df11["tax_year"] = pd.Series([2011]*len(df11), index=df11.index)
@@ -371,7 +367,7 @@ df09["tax_year"] = pd.Series([2009]*len(df09), index=df09.index)
 
 # After examining the datafiles, it appears that the dollar columns in all files are in thousands, even though the 2011 file is the only one that says this explicitly. I will remove the ' (000)' from the column titles for the 2011 file, and modify the dollar amounts later.
 
-# In[62]:
+# In[18]:
 
 def remove_thousands(df):
     for c in df.columns:
@@ -380,18 +376,18 @@ def remove_thousands(df):
     return df
 
 
-# In[63]:
+# In[19]:
 
 df11 = remove_thousands(df11)
 df12 = remove_thousands(df12)
 
 
-# In[64]:
+# In[20]:
 
 common_cols = set(df12.columns).intersection(set(df11.columns)).intersection(set(df10.columns)).intersection(set(df09.columns))
 
 
-# In[66]:
+# In[21]:
 
 clean_cols = []
 clean_cols.append('item')
@@ -401,17 +397,17 @@ for c in common_cols:
     if '#' in c: clean_cols.append(c[:-2])
 
 
-# In[67]:
+# In[22]:
 
 half_n_rows = len(df12) + len(df11) + len(df10) + len(df09)
 
 
-# In[68]:
+# In[23]:
 
 df_master = pd.DataFrame(columns=clean_cols, index=range(2*half_n_rows))
 
 
-# In[69]:
+# In[24]:
 
 for c in df_master.columns:
     if c == 'item':
@@ -426,19 +422,19 @@ for c in df_master.columns:
 
 # Now for 2004 - 2008
 
-# In[213]:
+# In[25]:
 
 new_cols = ['item', 'type', 'tax_year']
 for c in dfo.columns:
     if '#' in c: new_cols.append(c[:-2])
 
 
-# In[214]:
+# In[26]:
 
 dfo2 = pd.DataFrame(columns=new_cols, index=range(2*len(dfo)))
 
 
-# In[215]:
+# In[27]:
 
 for c in dfo2.columns:
     if c == 'item':
@@ -453,7 +449,7 @@ for c in dfo2.columns:
 
 ### Making the column headings more readable
 
-# In[219]:
+# In[28]:
 
 col_labels = {
 "<4999": "< $5k",
@@ -497,7 +493,7 @@ col_labels_04_08 = {
 ">250000": "> $250k"}
 
 
-# In[220]:
+# In[29]:
 
 def rename_cols(df, col_label_dict):
     for col in df.columns:
@@ -507,13 +503,13 @@ def rename_cols(df, col_label_dict):
     return df
 
 
-# In[221]:
+# In[30]:
 
 df_master = rename_cols(df_master, col_labels)
 dfo2 = rename_cols(dfo2, col_labels_04_08)
 
 
-# In[81]:
+# In[31]:
 
 ordered_cols = ['item', 'type', 'tax_year', 'total', 
                 '< $5k', '$5k - 10k', '$10k - 15k', 
@@ -525,61 +521,79 @@ ordered_cols = ['item', 'type', 'tax_year', 'total',
                 '> $250k']
 
 
-# In[82]:
+# In[32]:
 
 df_master = df_master[ordered_cols]
 
 
-### Multiply the dollar amounts by 1000
+### Adjust to 2015 dollars and multiply the dollar amounts by 1000
 
-# In[222]:
+# Using the december to december inflation rates from:  http://www.inflation.eu/inflation-rates/canada/historic-inflation/cpi-inflation-canada.aspx
 
-def dollars_times_thous(df):
+# In[33]:
+
+inflation_rate = {2014: 1.47, 2013: 1.24, 2012: 0.83,
+    2011: 2.30, 2010: 2.35, 2009: 1.32,
+    2008: 1.16, 2007: 2.38, 2006: 1.67,
+    2005: 2.09, 2004: 2.13}
+
+inflation_multipliers = {}
+for yr_rate in inflation_rate:
+    for yr_mult in range(2004, yr_rate+1):
+        if yr_mult in inflation_multipliers:
+            inflation_multipliers[yr_mult] = (1. + 0.01*inflation_rate[yr_rate]) * inflation_multipliers[yr_mult]
+        else:
+            inflation_multipliers[yr_mult] = 1.
+
+
+# In[34]:
+
+def adjust_dollar_amounts(df):
     for i in df.index:
+        tax_year = df.tax_year[i]
         print i,
         if df.type[i] == '$':
             for col in set(df.columns).difference(set(['item', 'type', 'tax_year'])):
-                # all the dollar amounts are already integers, so I will keep them that way
-                df.ix[i, col] = 1000 * df[col][i]
+                df.ix[i, col] = 1000. * inflation_multipliers[tax_year] * df[col][i]
     return df
 
 
-# In[223]:
+# In[35]:
 
-df_master = dollars_times_thous(df_master)
-dfo2 = dollars_times_thous(dfo2)
+df_master = adjust_dollar_amounts(df_master)
+dfo2 = adjust_dollar_amounts(dfo2)
 
 
-### Save the cleaned data
-
-# In[85]:
+# In[36]:
 
 df_master.to_csv('../data/tax_data_unclean_items.csv')
 dfo2.to_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
-### Standardize the item titles
+### Save point 2
 
-# In[1]:
+# In[37]:
 
 import pandas as pd
 df_master = pd.DataFrame.from_csv('../data/tax_data_unclean_items.csv')
 dfo2 = pd.DataFrame.from_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
-# In[2]:
+### Standardize the item titles
+
+# In[38]:
 
 print len(set(df_master['item']))
 print len(set(dfo2['item']))
 
 
-# In[3]:
+# In[39]:
 
 import item_synonyms_2
 item_synonyms_2 = reload(item_synonyms_2)
 
 
-# In[4]:
+# In[40]:
 
 synonym_dict = {}
 for li in item_synonyms_2.synonyms:
@@ -588,7 +602,7 @@ for li in item_synonyms_2.synonyms:
             synonym_dict[item] = li[0]
 
 
-# In[5]:
+# In[41]:
 
 def clean_item_names(df, synonym_dict):
     for i in df.index:
@@ -597,13 +611,13 @@ def clean_item_names(df, synonym_dict):
     return df
 
 
-# In[6]:
+# In[42]:
 
 df_master = clean_item_names(df_master, synonym_dict)
 dfo2 = clean_item_names(dfo2, synonym_dict)
 
 
-# In[7]:
+# In[43]:
 
 dfo2.to_csv('../data/all_clean_tax_data_04_08.csv')
 df_master.to_csv('../data/all_clean_tax_data.csv')
@@ -611,30 +625,30 @@ df_master.to_csv('../data/all_clean_tax_data.csv')
 
 #### Let's try combining the 50-55k and 55-60k columns for the 2009-12 data to match up better with 2004-08
 
-# In[8]:
+# In[44]:
 
 import pandas as pd
 df_master = pd.DataFrame.from_csv('../data/all_clean_tax_data.csv')
 dfo2 = pd.DataFrame.from_csv('../data/all_clean_tax_data_04_08.csv')
 
 
-# In[9]:
+# In[45]:
 
 df_master.columns
 
 
-# In[10]:
+# In[46]:
 
 df_master['$50k - 60k'] = (df_master['$50k - 55k'] + df_master['$55k - 60k'])
 
 
-# In[11]:
+# In[47]:
 
 del df_master['$50k - 55k']
 del df_master['$55k - 60k']
 
 
-# In[12]:
+# In[48]:
 
 new_ordered_cols = ['item', 'type', 'tax_year', 'total', 
                 '< $5k', '$5k - 10k', '$10k - 15k', 
@@ -646,24 +660,24 @@ new_ordered_cols = ['item', 'type', 'tax_year', 'total',
                 '> $250k']
 
 
-# In[13]:
+# In[49]:
 
 df_master = df_master[new_ordered_cols]
 
 
-# In[14]:
+# In[50]:
 
 df_master.to_csv('../data/all_clean_tax_data_fewer_cols.csv')
 
 
 #### Try to fix some of the item naming problems
 
-# In[15]:
+# In[51]:
 
 old_tax_yrs = dfo2.query("type == '$' and item == 'CPP or QPP benefits'").tax_year
 
 
-# In[16]:
+# In[52]:
 
 its = list(set(df_master.item).union(set(dfo2.item)))
 its.sort()
@@ -677,7 +691,7 @@ for item in its:
 
 #### Deleteing problem rows
 
-# In[17]:
+# In[53]:
 
 # 2004, social benefits repayment
 def drop_row(item, year, df):
@@ -686,29 +700,16 @@ def drop_row(item, year, df):
     return df
 
 
-# In[18]:
+# In[54]:
 
 dfo2 = drop_row('social benefits repayment', 2004, dfo2)
-
-
-# In[19]:
-
 dfo2 = drop_row('Federal Tax', 2004, dfo2)
-
-
-# In[20]:
-
-len(dfo2)
-
-
-# In[21]:
-
 dfo2.index = range(len(dfo2))
 
 
 #### Converting to JSON
 
-# In[22]:
+# In[58]:
 
 def write_df_to_json(df, open_file, last_write=True):
     for i in df.index:
@@ -722,7 +723,7 @@ def write_df_to_json(df, open_file, last_write=True):
         open_file.write(row_str)
 
 
-# In[23]:
+# In[59]:
 
 f = open('../data/data_3.json', 'w')
 f.write('[')
@@ -732,5 +733,5 @@ f.write(']')
 f.close()
 
 
-# In[19]:
+# In[24]:
 
