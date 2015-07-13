@@ -92,6 +92,7 @@ var y = d3.scale.ordinal()
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
 
+
 d3.json("../data/data.json", function(data) {
 
   add_event_listeners(data);
@@ -99,7 +100,7 @@ d3.json("../data/data.json", function(data) {
   var unique_items = get_unique_items(data);
   unique_items.sort(case_sort);
 
-  populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); } );
+  populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
   item_slug_dict = get_item_slug_dict(unique_items);
   update_plot_variables();
 
@@ -108,7 +109,7 @@ d3.json("../data/data.json", function(data) {
     var success = go_to_hash_state(data);
     if (!success) {
       history.pushState('', document.title, window.location.pathname);
-      populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); } );
+      populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
       update_plot_variables();
       update_years(data);
     }
@@ -213,11 +214,11 @@ function case_sort(a, b) {
 }
 
 
-function populate_dropdown(id, data, text_accessor) {
+function populate_dropdown(id, data, text_accessor, data_accessor) {
 
   var selection = d3.select(id)
     .selectAll('option')
-    .data(data, function(d) { return text_accessor(d); });
+    .data(data, function(d) { return data_accessor(d); });
 
   var exit_selection = selection.exit().remove();
 
@@ -431,14 +432,20 @@ function add_event_listeners(all_data) {
     });
 
   d3.select("#plot_variable_selector")
-    .on("change", function() { draw_chart(all_data); });
+    .on("change", function() { 
+      draw_chart(all_data);
+      set_url_hash();
+    });
 
   d3.select("#year_selector")
-    .on("change", function() { draw_chart(all_data); });
+    .on("change", function() { 
+      draw_chart(all_data);
+      set_url_hash();
+      });
 }
 
 function update_plot_variables() {
-  populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; });
+  populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
 }
 
 function update_years(all_data) {
@@ -447,7 +454,7 @@ function update_years(all_data) {
   populate_dropdown("#year_selector", available_years, function (d) { 
     if (d != 2012) { return d; }
     else { return d + '*'; }
-  });
+  }, function(d) { return d; });
 }
 
 
