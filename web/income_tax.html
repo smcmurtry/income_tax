@@ -61,73 +61,6 @@
 
 <script>
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-var item_slug_dict;
-
-function select_element(value_to_select, selector_id, accessor_fn) {
-  var index_to_select = d3.select(selector_id)
-    .selectAll('option')
-    .filter(function(d) { return accessor_fn(d) == value_to_select; })
-    .property('index');
-
-  d3.select(selector_id)
-    .property('selectedIndex', index_to_select);
-}
-
-
-function go_to_hash_state(all_data) {
-    var hash_state = window.location.hash.split('+');
-    var item = item_slug_dict[hash_state[0].substr(1)];
-    var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
-    var year = hash_state[2];
-    try {
-      select_element(item, '#item_selector', function(d) { return d; });
-      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
-    } 
-    catch(err) { return false; }
-    update_years(all_data);
-    try { select_element(year, '#year_selector', function(d) { return d; }); } 
-    catch(err) { return false; }
-    return true;
-}
-
-function set_url_hash() {
-  var selected_item = get_selected('#item_selector'),
-  selected_plot_id = get_selected('#plot_variable_selector')['id'],
-  selected_year = get_selected('#year_selector');
-  window.location.hash = convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
-}
-
-
-function case_sort(a, b) {
-  var a1 = a + ' ', b1 = b + ' '; // in case a and b are numbers
-  var A=a1.toLowerCase(), B=b1.toLowerCase();
-  if (A < B) { return -1; }
-  if (A > B) { return 1; }
-  return 0;
-}
-
-
-function populate_dropdown(id, data, text_accessor) {
-
-  var selection = d3.select(id)
-    .selectAll('option')
-    .data(data, function(d) { return text_accessor(d); });
-
-  var exit_selection = selection.exit().remove();
-
-  var enter_selection = selection.enter().append("option");
-  d3.select(id)
-    .selectAll('option')
-    .sort(case_sort)
-    .text(function(d) { return text_accessor(d); });
-}
-
-var transition_duration = 500; // in ms
-
 var plot_variable = [
   {'id':0, 'name': 'Total item amount', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
   {'id':1, 'name': 'Number of returns filed with item', 'title_text': ['Number of returns filed with ', ''], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
@@ -135,6 +68,10 @@ var plot_variable = [
   {'id':3, 'name': 'Average item amount among filers', 'title_text': ['Average ', ' among filers'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
+
+var transition_duration = 500; // in ms
+
+var item_slug_dict;
 
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
@@ -228,6 +165,68 @@ d3.json("../data/data.json", function(data) {
 
 });
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function select_element(value_to_select, selector_id, accessor_fn) {
+  var index_to_select = d3.select(selector_id)
+    .selectAll('option')
+    .filter(function(d) { return accessor_fn(d) == value_to_select; })
+    .property('index');
+
+  d3.select(selector_id)
+    .property('selectedIndex', index_to_select);
+}
+
+
+function go_to_hash_state(all_data) {
+    var hash_state = window.location.hash.split('+');
+    var item = item_slug_dict[hash_state[0].substr(1)];
+    var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
+    var year = hash_state[2];
+    try {
+      select_element(item, '#item_selector', function(d) { return d; });
+      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
+    } 
+    catch(err) { return false; }
+    update_years(all_data);
+    try { select_element(year, '#year_selector', function(d) { return d; }); } 
+    catch(err) { return false; }
+    return true;
+}
+
+function set_url_hash() {
+  var selected_item = get_selected('#item_selector'),
+  selected_plot_id = get_selected('#plot_variable_selector')['id'],
+  selected_year = get_selected('#year_selector');
+  window.location.hash = convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
+}
+
+
+function case_sort(a, b) {
+  var a1 = a + ' ', b1 = b + ' '; // in case a and b are numbers
+  var A=a1.toLowerCase(), B=b1.toLowerCase();
+  if (A < B) { return -1; }
+  if (A > B) { return 1; }
+  return 0;
+}
+
+
+function populate_dropdown(id, data, text_accessor) {
+
+  var selection = d3.select(id)
+    .selectAll('option')
+    .data(data, function(d) { return text_accessor(d); });
+
+  var exit_selection = selection.exit().remove();
+
+  var enter_selection = selection.enter().append("option");
+  d3.select(id)
+    .selectAll('option')
+    .sort(case_sort)
+    .text(function(d) { return text_accessor(d); });
+}
 
 function add_span(class_name, text) {
   d3.select("#xlabel")
