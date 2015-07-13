@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-## Cleaning Income Tax Data
+# # Cleaning Income Tax Data
 
 # In[1]:
 
@@ -27,7 +27,7 @@ tax_by_income_url = {2004: "http://www.cra-arc.gc.ca/gncy/stts/gb04/pst/fnl/csv/
 column_dictionary_04_08 = 'http://www.cra-arc.gc.ca/gncy/stts/gb04/pst/fnl/tb2_f1-f7-eng.html'
 
 
-### Preliminary cleaning
+# ## Preliminary cleaning
 
 # In[11]:
 
@@ -66,9 +66,9 @@ def write_online_table_to_file(url, datafile_name):
     return datafile_name
 
 
-### Save the online tables to files
+# ## Save the online tables to files
 
-##### 2012 data (preliminary)
+# #### 2012 data (preliminary)
 
 # In[5]:
 
@@ -77,7 +77,7 @@ df12 = pd.DataFrame.from_csv("../data/raw_tax_data_2012.csv", index_col=None)
 df12.to_csv('../data/cleaned_tax_data_2012.csv')
 
 
-##### 2011 data
+# #### 2011 data
 
 # In[6]:
 
@@ -86,7 +86,7 @@ df11 = pd.DataFrame.from_csv("../data/raw_tax_data_2011.csv", index_col=None)
 df11.to_csv('../data/cleaned_tax_data_2011.csv')
 
 
-##### 2010 data
+# #### 2010 data
 
 # In[7]:
 
@@ -103,7 +103,7 @@ df10 = delete_extra_cols(df10)
 df10.to_csv('../data/cleaned_tax_data_2010.csv')
 
 
-##### 2009 data
+# #### 2009 data
 
 # In[9]:
 
@@ -120,7 +120,7 @@ df09 = delete_extra_cols(df09)
 df09.to_csv('../data/cleaned_tax_data_2009.csv')
 
 
-##### 2004 - 2008 data
+# #### 2004 - 2008 data
 
 # In[16]:
 
@@ -149,7 +149,7 @@ for year in f_names:
 dfd[2004].columns
 
 
-##### Get a dictionary for the columns
+# #### Get a dictionary for the columns
 
 # In[146]:
 
@@ -238,7 +238,7 @@ dfo = pd.concat([flat_df[year] for year in flat_df], ignore_index=True)
 dfo.to_csv("../data/partially_clean_04_08.csv")
 
 
-### Save point 1
+# ## Save point 1
 
 # In[3]:
 
@@ -249,7 +249,7 @@ df11 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2011.csv')
 df12 = pd.DataFrame.from_csv('../data/cleaned_tax_data_2012.csv')
 
 
-### Standardize the column names
+# ## Standardize the column names
 
 # In[4]:
 
@@ -447,7 +447,7 @@ for c in dfo2.columns:
         dfo2[c] = list(dfo[c + ' #']) + list(dfo[c + ' $'])
 
 
-### Making the column headings more readable
+# ## Making the column headings more readable
 
 # In[28]:
 
@@ -526,7 +526,7 @@ ordered_cols = ['item', 'type', 'tax_year', 'total',
 df_master = df_master[ordered_cols]
 
 
-### Adjust to 2015 dollars and multiply the dollar amounts by 1000
+# ## Adjust to 2015 dollars and multiply the dollar amounts by 1000
 
 # Using the december to december inflation rates from:  http://www.inflation.eu/inflation-rates/canada/historic-inflation/cpi-inflation-canada.aspx
 
@@ -570,7 +570,7 @@ df_master.to_csv('../data/tax_data_unclean_items.csv')
 dfo2.to_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
-### Save point 2
+# ## Save point 2
 
 # In[37]:
 
@@ -579,7 +579,7 @@ df_master = pd.DataFrame.from_csv('../data/tax_data_unclean_items.csv')
 dfo2 = pd.DataFrame.from_csv('../data/tax_data_unclean_items_04_08.csv')
 
 
-### Standardize the item titles
+# ## Standardize the item titles
 
 # In[38]:
 
@@ -623,7 +623,7 @@ dfo2.to_csv('../data/all_clean_tax_data_04_08.csv')
 df_master.to_csv('../data/all_clean_tax_data.csv')
 
 
-#### Let's try combining the 50-55k and 55-60k columns for the 2009-12 data to match up better with 2004-08
+# ### Let's try combining the 50-55k and 55-60k columns for the 2009-12 data to match up better with 2004-08
 
 # In[44]:
 
@@ -670,7 +670,7 @@ df_master = df_master[new_ordered_cols]
 df_master.to_csv('../data/all_clean_tax_data_fewer_cols.csv')
 
 
-#### Try to fix some of the item naming problems
+# ### Try to fix some of the item naming problems
 
 # In[51]:
 
@@ -689,7 +689,7 @@ for item in its:
     print item, old_tax_yrs + new_tax_yrs
 
 
-#### Deleteing problem rows
+# ### Deleteing problem rows
 
 # In[53]:
 
@@ -707,7 +707,7 @@ dfo2 = drop_row('Federal Tax', 2004, dfo2)
 dfo2.index = range(len(dfo2))
 
 
-#### Converting to JSON
+# ### Converting to JSON
 
 # In[58]:
 
@@ -733,5 +733,5 @@ f.write(']')
 f.close()
 
 
-# In[24]:
+# In[60]:
 
