@@ -5,7 +5,7 @@ body {
   text-align: center;
 }
 
-#selectors, #outer-xlabel, #explanation {
+#selectors, #outer-xlabel, #explanation, #slider_container {
   margin-left: 130px;
 }
 
@@ -79,4 +79,50 @@ body {
   fill: none;
   stroke: white;
   shape-rendering: crispEdges;
+}
+
+#slider_container {
+  width: 670px;
+  margin-bottom: 50px;
+}
+
+#slider_container .axis {
+  font: 10px sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+#slider_container .axis .domain {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .3;
+  stroke-width: 10px;
+  stroke-linecap: round;
+}
+
+#slider_container .axis .halo {
+  fill: none;
+  stroke: #ddd;
+  stroke-width: 8px;
+  stroke-linecap: round;
+}
+
+#slider_container .slider .handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: .5;
+  stroke-width: 1.25px;
+  cursor: crosshair;
+}
+
+#play_button_container {
+  height: 55px;
+  float: left;
+  margin-top: 15px;
+}
+
+#play_button {
+  width: 30px;
+  cursor: pointer;
 }

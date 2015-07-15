@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Income Tax</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="income_tax.css"/>
   <script src="d3.v3.min.js"></script>
 </head>
@@ -17,11 +18,25 @@
 <svg id='chart'></svg>
 </div>
 
+<div id="slider_container">
+  <div id="play_button_container">
+    <i id="play_button" type="button" class="fa fa-play"></i>
+  </div>
+  <div id="slider"></div>
+</div>
+
 <div id='selectors'>
+
+<div class='sel'> 
+  <div>Item Category</div>
+  <select id='item_cat_selector'></select>
+</div>
+
 <div class='sel'> 
   <div>Tax Item</div>
   <select id='item_selector'></select>
 </div>
+
 <div class='sel'>
   <div>Chart Type</div>
   <select id='plot_variable_selector'></select>
@@ -70,7 +85,6 @@ var plot_variable = [
   {'id':5, 'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
 var transition_duration = 500; // in ms
-
 var item_slug_dict;
 
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
@@ -92,30 +106,88 @@ var y = d3.scale.ordinal()
 var xAxis = d3.svg.axis(), 
   yAxis = d3.svg.axis();
 
+ // slider initialization starts here
+  var available_years = [2004, 2005, 2008, 2010, 2011, 2012];
+  var slider_margin = {top: 5, right: 20, bottom: 0, left: 20},
+      slider_width = 600 - slider_margin.left - slider_margin.right,
+      slider_height = 50 - slider_margin.bottom - slider_margin.top;
+
+  var x_slider = d3.scale.linear()
+      .domain([2004, 2012])
+      .range([0, slider_width])
+      .clamp(true);
+
+  var slider_xAxis = d3.svg.axis()
+        .scale(x_slider)
+        .orient("bottom")
+        .tickSize(0)
+        .tickPadding(12);
+
+  var brush = d3.svg.brush()
+      .x(x_slider)
+      .on("brush", brushed);
+
+  var svg_slider = d3.select("#slider").append("svg")
+      .attr("width", slider_width + slider_margin.left + slider_margin.right)
+      .attr("height", slider_height + slider_margin.top + slider_margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + slider_margin.left + "," + slider_margin.top + ")");
+
+  var slider_axis = svg_slider.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + slider_height / 2 + ")")
+      .call(slider_xAxis);
+
+  slider_axis.select(".domain")
+    .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+      .attr("class", "halo");
+
+  var slider = svg_slider.append("g")
+      .attr("class", "slider")
+      .call(brush);
+
+  slider.selectAll(".extent,.resize")
+      .remove();
+
+  slider.select(".background")
+      .attr("height", slider_height);
+
+  var handle = slider.append("circle")
+      .attr("class", "handle")
+      .attr("transform", "translate(0," + slider_height / 2 + ")")
+      .attr("r", 9);
+
 
 d3.json("../data/data.json", function(data) {
 
   add_event_listeners(data);
 
-  var unique_items = get_unique_items(data);
-  unique_items.sort(case_sort);
+  var unique_categories = get_unique(data, 'item_category');
+  unique_categories = remove_from_array(unique_categories, ['number items']);
+  unique_categories.push('all items');
+  unique_categories.sort(case_sort);
+  populate_dropdown("#item_cat_selector", unique_categories, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
 
-  populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
+  // this relies on 'all items' being selected at this point
+  var unique_items = get_available_items(data);
+  update_items(data);
   item_slug_dict = get_item_slug_dict(unique_items);
   update_plot_variables();
 
 
-  if (window.location.hash) {
-    var success = go_to_hash_state(data);
-    if (!success) {
-      history.pushState('', document.title, window.location.pathname);
-      populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
-      update_plot_variables();
-      update_years(data);
-    }
-  } else {
-    update_years(data);
-  }
+  // if (window.location.hash) {
+  //   var success = go_to_hash_state(data);
+  //   if (!success) {
+  //     history.pushState('', document.title, window.location.pathname);
+  //     populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
+  //     update_plot_variables();
+  //     update_years(data);
+  //   }
+  // } 
+  // else {
+  //   update_years(data);
+  // }
+  update_years(data);
 
   var init_data = get_plot_data(data);
 
@@ -164,6 +236,8 @@ d3.json("../data/data.json", function(data) {
     .attr("x2", function(d) { return x(d); } )
     .attr("y2", height);
 
+  update_slider_years(available_years);
+
 });
 
 function capitalizeFirstLetter(string) {
@@ -180,6 +254,13 @@ function select_element(value_to_select, selector_id, accessor_fn) {
     .property('selectedIndex', index_to_select);
 }
 
+function remove_from_array(array, array_to_remove) {
+  for (var i = array_to_remove.length - 1; i >= 0; i--) {
+    var index = array.indexOf(array_to_remove[i]);
+    if (index > -1) { array.splice(index, 1); }
+  };
+  return array;
+}
 
 function go_to_hash_state(all_data) {
     var hash_state = window.location.hash.split('+');
@@ -312,7 +393,7 @@ function get_plot_data(all_data, year) {
 function get_data_from_row(row) {
   var row_data = [];
   for (var prop in row) {
-    // kind of hacky but all the income data properties of row_data have a 'k' in them
+    // kind of hacky but all the income data properties of row_data have a '$' in them
     if (prop.indexOf('$') != -1) {
       row_data.push({'name': prop, 'value': +row[prop]}); 
     }
@@ -341,14 +422,12 @@ function get_rows(arg, all_data) {
   return valid_rows;
 }
 
-function get_unique_items(all_data) {
-  var items_to_exclude = ['total number of returns', 'number of taxable returns', 'number of non-taxable returns'];
-  var unique_items = []; 
+function get_unique(all_data, property) {
+  var unique = [];
   for (var i = all_data.length - 1; i >= 0; i--) {
-    if (items_to_exclude.indexOf(all_data[i].item) != -1 ) { continue; }
-    if (unique_items.indexOf(all_data[i].item) == -1) { unique_items.push(all_data[i].item); }
+    if (unique.indexOf(all_data[i][property]) == -1) { unique.push(all_data[i][property]); }
   };
-  return unique_items;
+  return unique;
 }
 
 function update_bars(selection) {
@@ -423,6 +502,16 @@ function update_tick_lines() {
 
 
 function add_event_listeners(all_data) {
+  d3.select("#item_cat_selector")
+    .on("change", function() {
+      update_items(all_data);
+      update_plot_variables();
+      update_years(all_data);
+      draw_chart(all_data);
+      set_url_hash();
+    });
+
+
   d3.select("#item_selector")
     .on("change", function() {
       update_plot_variables();
@@ -448,15 +537,40 @@ function update_plot_variables() {
   populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
 }
 
+function update_items(all_data) {
+  var available_items = get_available_items(all_data);
+  available_items.sort(case_sort);
+  populate_dropdown("#item_selector", available_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
+
+}
+
+function get_available_items(all_data) {
+  var selected_category = get_selected("#item_cat_selector");
+  var available_items = [];
+  if (selected_category == 'all items') { 
+    available_items = get_unique(all_data, "item");
+    available_items = remove_from_array(available_items, ['total number of returns', 'number of taxable returns', 'number of non-taxable returns']);
+    return available_items;
+  } else {
+    for (var i = all_data.length - 1; i >= 0; i--) {
+      if (all_data[i].item_category == selected_category) {
+        if (available_items.indexOf(all_data[i].item) == -1) {
+          available_items.push(all_data[i].item);
+        }
+      }
+    }
+    return available_items;
+  }
+}
+
+
 function update_years(all_data) {
   var available_years = get_available_years(all_data);
-
   populate_dropdown("#year_selector", available_years, function (d) { 
     if (d != 2012) { return d; }
     else { return d + '*'; }
   }, function(d) { return d; });
 }
-
 
 function get_available_years(all_data) {
   var selected_item = get_selected("#item_selector");
@@ -471,6 +585,7 @@ function get_available_years(all_data) {
   return available_years.sort();
 }
 
+
 function convert_to_slug(Text) {
   return Text.toLowerCase()
              .replace(/ /g,'-')
@@ -484,6 +599,90 @@ function get_item_slug_dict(unique_items) {
     item_slug_dict[slug] = unique_items[i];
   };
   return item_slug_dict;
+}
+
+// slider functions start here
+
+function update_slider_years(available_years) {
+  brush.extent([available_years[0], available_years[0]])
+    .on("brushend", get_brushended(available_years));
+  slider_xAxis.tickFormat(get_available_tick_labels(available_years));
+  slider_axis.call(slider_xAxis);
+  d3.select("#play_button")
+    .on("click", play(available_years));
+} 
+
+function get_available_tick_labels(available_years) {
+  return function(d) {
+    if (available_years.indexOf(d) != -1) { return d; } 
+    else { return ''; }
+  }
+}
+
+function closest (num, arr) {
+    var curr = arr[0];
+    var diff = Math.abs (num - curr);
+    for (var val = 0; val < arr.length; val++) {
+        var newdiff = Math.abs (num - arr[val]);
+        if (newdiff < diff) {
+            diff = newdiff;
+            curr = arr[val];
+        }
+    }
+    return curr;
+}
+
+function brushed() {
+  var value = brush.extent()[0];
+  // continuous position updating on drag
+  if (d3.event.sourceEvent) { // not a programmatic event
+    value = x_slider.invert(d3.mouse(this)[0]);
+    brush.extent([value, value]);
+  }
+  handle.attr("cx", x_slider(value));
+}
+
+function get_brushended(available_years) {
+  return function brushended() {
+    var value = closest(brush.extent()[0], available_years);
+    handle.attr("cx", x_slider(value));
+    brush.extent([value, value]);
+    console.log(value);
+  }
+}
+
+function play(available_years) {
+  return function() {
+    d3.select("#play_button")
+      .attr("class", "fa fa-pause")
+      .on("click", pause(available_years));
+
+    var start_year = closest(brush.extent()[0], available_years);
+    var start_ind = available_years.indexOf(start_year);
+    var loop_start_ind;
+    if (start_ind == available_years.length - 1) { loop_start_ind = 1; } 
+    else { loop_start_ind = start_ind + 1; } 
+
+    slider.call(brush.event)
+          .call(brush.extent([available_years[loop_start_ind-1], available_years[loop_start_ind-1]]))
+
+    var trans = slider.call(brush.event);
+    for (var i = loop_start_ind; i < available_years.length; i++) {
+      trans = trans.transition() // chain the transitions
+          .duration(750)
+          .call(brush.extent([available_years[i], available_years[i]]))
+          .call(brush.event)
+    }
+    trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years)) });
+  }
+}
+
+function pause(available_years) {
+  return function() {
+    slider.transition()
+      .call(get_brushended(available_years));
+    d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years));
+  }
 }
 
 </script>
