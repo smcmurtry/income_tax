@@ -236,7 +236,6 @@ d3.json("../data/data.json", function(data) {
     .attr("x2", function(d) { return x(d); } )
     .attr("y2", height);
 
-  update_slider_years(available_years);
 
 });
 
@@ -281,7 +280,7 @@ function go_to_hash_state(all_data) {
 function set_url_hash() {
   var selected_item = get_selected('#item_selector'),
   selected_plot_id = get_selected('#plot_variable_selector')['id'],
-  selected_year = get_selected('#year_selector');
+  selected_year = get_selected_year();
   window.location.hash = convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
 }
 
@@ -359,7 +358,7 @@ function get_selected(id) {
 
 function get_plot_data(all_data, year) {
   // year is an optional argument
-  if (typeof year === 'undefined') { year = get_selected('#year_selector'); }
+  if (typeof year === 'undefined') { year = get_selected_year(); }
 
   var selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
@@ -566,6 +565,9 @@ function get_available_items(all_data) {
 
 function update_years(all_data) {
   var available_years = get_available_years(all_data);
+  //xxx
+  update_slider_years(available_years, all_data);
+
   populate_dropdown("#year_selector", available_years, function (d) { 
     if (d != 2012) { return d; }
     else { return d + '*'; }
@@ -578,7 +580,7 @@ function get_available_years(all_data) {
   for (var i = all_data.length - 1; i >= 0; i--) {
     if (all_data[i].item == selected_item) {
       if (available_years.indexOf(all_data[i].tax_year) == -1) {
-        available_years.push(all_data[i].tax_year);
+        available_years.push(+all_data[i].tax_year);
       }
     }
   }
@@ -603,11 +605,12 @@ function get_item_slug_dict(unique_items) {
 
 // slider functions start here
 
-function update_slider_years(available_years) {
+function update_slider_years(available_years, all_data) {
   brush.extent([available_years[0], available_years[0]])
-    .on("brushend", get_brushended(available_years));
+    .on("brushend", get_brushended(available_years, all_data));
   slider_xAxis.tickFormat(get_available_tick_labels(available_years));
   slider_axis.call(slider_xAxis);
+  console.log(available_years)
   d3.select("#play_button")
     .on("click", play(available_years));
 } 
@@ -642,20 +645,23 @@ function brushed() {
   handle.attr("cx", x_slider(value));
 }
 
-function get_brushended(available_years) {
+function get_brushended(available_years, all_data) {
   return function brushended() {
     var value = closest(brush.extent()[0], available_years);
     handle.attr("cx", x_slider(value));
     brush.extent([value, value]);
     console.log(value);
+    //xxx
+    draw_chart(all_data);
+    set_url_hash();
   }
 }
 
-function play(available_years) {
+function play(available_years, all_data) {
   return function() {
     d3.select("#play_button")
       .attr("class", "fa fa-pause")
-      .on("click", pause(available_years));
+      .on("click", pause(available_years, all_data));
 
     var start_year = closest(brush.extent()[0], available_years);
     var start_ind = available_years.indexOf(start_year);
@@ -669,20 +675,25 @@ function play(available_years) {
     var trans = slider.call(brush.event);
     for (var i = loop_start_ind; i < available_years.length; i++) {
       trans = trans.transition() // chain the transitions
-          .duration(750)
+          .duration(transition_duration)
           .call(brush.extent([available_years[i], available_years[i]]))
-          .call(brush.event)
+          .call(brush.event);
+          // .call(function() { draw_chart(all_data) } );
     }
-    trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years)) });
+    trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
   }
 }
 
-function pause(available_years) {
+function pause(available_years, all_data) {
   return function() {
     slider.transition()
-      .call(get_brushended(available_years));
-    d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years));
+      .call(get_brushended(available_years, all_data));
+    d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data));
   }
+}
+
+function get_selected_year() {
+  return brush.extent()[0];
 }
 
 </script>
