@@ -84,7 +84,7 @@ var plot_variable = [
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
-var transition_duration = 500; // in ms
+var transition_duration = 1500; // in ms
 var item_slug_dict;
 
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
@@ -445,10 +445,12 @@ d3.selection.prototype.moveToFront = function() {
 };
 
 
-function draw_chart(all_data) {
+function draw_chart(all_data, year) {
+  var plot_data;
+  if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
+  else {  plot_data = get_plot_data(all_data, year); }
 
-  var plot_data = get_plot_data(all_data),
-    x_format = get_selected('#plot_variable_selector')['x_format'],
+  var x_format = get_selected('#plot_variable_selector')['x_format'],
     new_y_labels = plot_data.map(function(d) { return d.name; });
 
   x.domain(get_x_domain(all_data))
@@ -462,7 +464,10 @@ function draw_chart(all_data) {
     .attr("class", "y axis")
     .call(yAxis);
 
-  chart.select(".x").transition(transition_duration).call(xAxis);
+  chart.select(".x")
+  .transition()
+  .duration(transition_duration)
+  .call(xAxis);
   update_tick_lines();
 
   var rebound = chart.selectAll(".bar")
@@ -475,7 +480,8 @@ function draw_chart(all_data) {
     .attr("class", "bar");
   
   chart.selectAll(".bar")
-    .transition(transition_duration)
+    .transition()
+    .duration(transition_duration)
     .call(update_bars);
 
   chart.selectAll(".tick-line").moveToFront();
@@ -579,7 +585,7 @@ function get_available_years(all_data) {
   var available_years = [];  
   for (var i = all_data.length - 1; i >= 0; i--) {
     if (all_data[i].item == selected_item) {
-      if (available_years.indexOf(all_data[i].tax_year) == -1) {
+      if (available_years.indexOf(+all_data[i].tax_year) == -1) {
         available_years.push(+all_data[i].tax_year);
       }
     }
@@ -612,7 +618,7 @@ function update_slider_years(available_years, all_data) {
   slider_axis.call(slider_xAxis);
   console.log(available_years)
   d3.select("#play_button")
-    .on("click", play(available_years));
+    .on("click", play(available_years, all_data));
 } 
 
 function get_available_tick_labels(available_years) {
@@ -647,12 +653,12 @@ function brushed() {
 
 function get_brushended(available_years, all_data) {
   return function brushended() {
-    var value = closest(brush.extent()[0], available_years);
-    handle.attr("cx", x_slider(value));
-    brush.extent([value, value]);
-    console.log(value);
+    var year = closest(brush.extent()[0], available_years);
+    handle.attr("cx", x_slider(year));
+    brush.extent([year, year]);
+    console.log(year);
     //xxx
-    draw_chart(all_data);
+    draw_chart(all_data, year);
     set_url_hash();
   }
 }
@@ -669,16 +675,17 @@ function play(available_years, all_data) {
     if (start_ind == available_years.length - 1) { loop_start_ind = 1; } 
     else { loop_start_ind = start_ind + 1; } 
 
-    slider.call(brush.event)
+    d3.select(".slider").call(brush.event)
           .call(brush.extent([available_years[loop_start_ind-1], available_years[loop_start_ind-1]]))
 
-    var trans = slider.call(brush.event);
+    var trans = d3.select(".slider").call(brush.event);
     for (var i = loop_start_ind; i < available_years.length; i++) {
       trans = trans.transition() // chain the transitions
           .duration(transition_duration)
           .call(brush.extent([available_years[i], available_years[i]]))
-          .call(brush.event);
-          // .call(function() { draw_chart(all_data) } );
+          .call(brush.event)
+          .call(function() { draw_chart(all_data, available_years[i]); });
+
     }
     trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
   }
@@ -686,7 +693,9 @@ function play(available_years, all_data) {
 
 function pause(available_years, all_data) {
   return function() {
-    slider.transition()
+    // cancel the draw transition
+
+    d3.select(".slider").transition()
       .call(get_brushended(available_years, all_data));
     d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data));
   }
