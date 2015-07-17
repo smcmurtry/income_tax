@@ -15,7 +15,7 @@
 <div id='outer-xlabel'>
   <div id='xlabel'></div>
 </div>
-<svg id='chart'></svg>
+<div id='chart'></div>
 </div>
 
 <div id="slider_container">
@@ -87,11 +87,7 @@ var margin = {top: 40, right: 50, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-var chart = d3.select("#chart")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var chart = create_svg("#chart", margin, width, height);
 
 var x = d3.scale.linear()
           .range([0, width]);
@@ -108,49 +104,44 @@ var xAxis = d3.svg.axis().orient("top"),
       slider_height = 50 - slider_margin.bottom - slider_margin.top;
 
   var x_slider = d3.scale.linear()
-      .domain([2004, 2012])
-      .range([0, slider_width])
-      .clamp(true);
+                   .domain([2004, 2012])
+                   .range([0, slider_width])
+                   .clamp(true);
 
   var slider_xAxis = d3.svg.axis()
-        .scale(x_slider)
-        .orient("bottom")
-        .tickSize(0)
-        .tickPadding(12);
+                       .scale(x_slider)
+                       .orient("bottom")
+                       .tickSize(0)
+                       .tickPadding(12);
 
   var brush = d3.svg.brush()
-      .x(x_slider)
-      .on("brush", brushed);
+                .x(x_slider)
+                .on("brush", brushed);
 
-  var svg_slider = d3.select("#slider").append("svg")
-      .attr("width", slider_width + slider_margin.left + slider_margin.right)
-      .attr("height", slider_height + slider_margin.top + slider_margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + slider_margin.left + "," + slider_margin.top + ")");
+  var svg_slider = create_svg("#slider", slider_margin, slider_width, slider_height);
 
   var slider_axis = svg_slider.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + slider_height / 2 + ")")
-      .call(slider_xAxis);
+                              .attr("class", "x axis")
+                              .attr("transform", "translate(0," + slider_height / 2 + ")")
+                              .call(slider_xAxis);
 
   slider_axis.select(".domain")
-    .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-      .attr("class", "halo");
+             .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+             .attr("class", "halo");
 
   var slider = svg_slider.append("g")
-      .attr("class", "slider")
-      .call(brush);
+                         .attr("class", "slider")
+                         .call(brush);
 
-  slider.selectAll(".extent,.resize")
-      .remove();
+  slider.selectAll(".extent,.resize").remove();
 
   slider.select(".background")
-      .attr("height", slider_height);
+        .attr("height", slider_height);
 
   var handle = slider.append("circle")
-      .attr("class", "handle")
-      .attr("transform", "translate(0," + slider_height / 2 + ")")
-      .attr("r", 9);
+                     .attr("class", "handle")
+                     .attr("transform", "translate(0," + slider_height / 2 + ")")
+                     .attr("r", 9);
 
 
 d3.json("../data/data.json", function(data) {
@@ -296,7 +287,6 @@ function draw_chart(all_data, year, trans_duration) {
 
 
 function populate_dropdown(id, data, text_accessor, data_accessor) {
-
   var selection = d3.select(id)
                     .selectAll('option')
                     .data(data, function(d) { return data_accessor(d); });
@@ -565,7 +555,6 @@ var hash_fn = {
                             .selectAll('option')
                             .filter(function(d) { return accessor_fn(d) == value_to_select; })
                             .property('index');
-
     d3.select(selector_id)
       .property('selectedIndex', index_to_select);
   }
@@ -574,6 +563,14 @@ var hash_fn = {
 
 
 // don't need to look at these
+
+function create_svg(id, margin, w, h) {
+  return d3.select(id).append("svg")
+           .attr("width", w + margin.left + margin.right)
+           .attr("height", h + margin.top + margin.bottom)
+           .append("g")
+           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+}
 
 function closest (num, arr) {
     var curr = arr[0];
