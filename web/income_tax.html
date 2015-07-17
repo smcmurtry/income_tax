@@ -100,7 +100,7 @@ var y = d3.scale.ordinal()
           .rangeRoundBands([height, 0], 0.2, 0); // not sure what's up with the 2nd and 3rd arguments
 
 var xAxis = d3.svg.axis().orient("top"),
-  yAxis = d3.svg.axis().orient("left");
+    yAxis = d3.svg.axis().orient("left");
 
  // slider initialization starts here
   var slider_margin = {top: 5, right: 20, bottom: 0, left: 20},
@@ -156,18 +156,14 @@ var xAxis = d3.svg.axis().orient("top"),
 d3.json("../data/data.json", function(data) {
 
   add_event_listeners(data);
+  update_categories(data);
+  update_items(data);
+  populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
 
-  var unique_categories = get_unique(data, 'item_category');
-  unique_categories = remove_from_array(unique_categories, ['number items']);
-  unique_categories.push('all items');
-  unique_categories.sort(case_sort);
-  populate_dropdown("#item_cat_selector", unique_categories, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
 
   // this relies on 'all items' being selected at this point
   var unique_items = get_available_items(data);
-  update_items(data);
   item_slug_dict = hash_fn.get_item_slug_dict(unique_items);
-  update_plot_variables();
 
 
 // // try to go to the requested hash state if possible
@@ -246,6 +242,17 @@ function draw_x_axis(all_data, trans_duration) {
     xlabel.append("span").attr('class', 'item').text(selected_item);
     xlabel.append("span").attr('class', 'description').text(selected_plot['title_text'][1]);
   }
+
+  function get_x_domain() {
+    var available_years = get_available_years(all_data);
+    all_years_plot_data = [];
+    for (var i = 0; i < available_years.length; i++) {
+      all_years_plot_data = all_years_plot_data.concat(get_plot_data(all_data, available_years[i]));
+    };
+    var extent = d3.extent(all_years_plot_data, function(d) { return d.value; } );
+    if (extent[0] > 0) { return [0, extent[1]]; } 
+    else { return extent; }
+  }
 }
 
 
@@ -323,18 +330,6 @@ function populate_dropdown(id, data, text_accessor, data_accessor) {
 }
 
 
-function get_x_domain(all_data) {
-  var available_years = get_available_years(all_data);
-  all_years_plot_data = [];
-  for (var i = 0; i < available_years.length; i++) {
-    all_years_plot_data = all_years_plot_data.concat(get_plot_data(all_data, available_years[i]));
-  };
-  var extent = d3.extent(all_years_plot_data, function(d) { return d.value; } );
-  if (extent[0] > 0) { return [0, extent[1]]; } 
-  else { return extent; }
-}
-
-
 function get_selected(id) {
   var options = d3.select(id).selectAll('option');
   var index = d3.select(id).property('selectedIndex');
@@ -355,20 +350,17 @@ function get_plot_data(all_data, year) {
 
   if ( selected_plot.id == 2 || selected_plot.id == 5) {
     var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0];
-    var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data).reverse();
+    return divide(numerator_data, get_data_from_row(denominator_row)).reverse();
   }
 
   if (selected_plot.id == 3) {
     var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0];
-    var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data).reverse();
+    return divide(numerator_data, get_data_from_row(denominator_row)).reverse();
   }
 
   if (selected_plot.id == 4) {
     var denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
-    var denominator_data = get_data_from_row(denominator_row);
-    return divide(numerator_data, denominator_data).reverse();
+    return divide(numerator_data, get_data_from_row(denominator_row)).reverse();
   }
 
   return null;
@@ -420,7 +412,6 @@ function add_event_listeners(all_data) {
   d3.select("#item_cat_selector")
     .on("change", function() {
       update_items(all_data);
-      update_plot_variables();
       update_slider_years(all_data);
       draw_x_axis(all_data);
       draw_chart(all_data);
@@ -430,7 +421,6 @@ function add_event_listeners(all_data) {
 
   d3.select("#item_selector")
     .on("change", function() {
-      update_plot_variables();
       update_slider_years(all_data);
       draw_x_axis(all_data);
       draw_chart(all_data);
@@ -445,15 +435,20 @@ function add_event_listeners(all_data) {
     });
 }
 
-function update_plot_variables() {
-  populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
-}
 
 function update_items(all_data) {
   var available_items = get_available_items(all_data);
   available_items.sort(case_sort);
   populate_dropdown("#item_selector", available_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
 
+}
+
+function update_categories(all_data) {
+  var unique_categories = get_unique(all_data, 'item_category');
+  unique_categories = remove_from_array(unique_categories, ['number items']);
+  unique_categories.push('all items');
+  unique_categories.sort(case_sort);
+  populate_dropdown("#item_cat_selector", unique_categories, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
 }
 
 function get_available_items(all_data) {
@@ -627,7 +622,6 @@ var hash_fn = {
   reset_hash: function() {
     history.pushState('', document.title, window.location.pathname);
     populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
-    update_plot_variables();
     update_slider_years(data);
   }
 }
