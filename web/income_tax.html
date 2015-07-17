@@ -154,17 +154,12 @@ var xAxis = d3.svg.axis().orient("top"),
 
 
 d3.json("../data/data.json", function(data) {
+  item_slug_dict = hash_fn.get_item_slug_dict(get_unique(data, 'item'));
 
   add_event_listeners(data);
   update_categories(data);
   update_items(data);
   populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
-
-
-  // this relies on 'all items' being selected at this point
-  var unique_items = get_available_items(data);
-  item_slug_dict = hash_fn.get_item_slug_dict(unique_items);
-
 
 // // try to go to the requested hash state if possible
 //   if (window.location.hash) {
@@ -266,18 +261,16 @@ function draw_chart(all_data, year, trans_duration) {
   else { t = trans_duration; }
 
   var new_y_labels = plot_data.map(function(d) { return d.name; });
-
   y.domain(new_y_labels);
-  
   yAxis.scale(y);
 
   chart.selectAll(".y").remove();
   chart.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
+       .attr("class", "y axis")
+       .call(yAxis);
 
   var rebound = chart.selectAll(".bar")
-    .data(plot_data, function(d) { return d.name; });
+                     .data(plot_data, function(d) { return d.name; });
   
   rebound.exit().remove();
   
@@ -317,12 +310,12 @@ function select_element(value_to_select, selector_id, accessor_fn) {
 function populate_dropdown(id, data, text_accessor, data_accessor) {
 
   var selection = d3.select(id)
-    .selectAll('option')
-    .data(data, function(d) { return data_accessor(d); });
+                    .selectAll('option')
+                    .data(data, function(d) { return data_accessor(d); });
 
   var exit_selection = selection.exit().remove();
-
   var enter_selection = selection.enter().append("option");
+  
   d3.select(id)
     .selectAll('option')
     .sort(case_sort)
@@ -394,15 +387,16 @@ function get_rows(arg, all_data) {
     if (arg.hasOwnProperty('tax_year') && all_data[i].tax_year != arg['tax_year']) { continue; }
     if (arg.hasOwnProperty('item_unit') && all_data[i].type != arg['item_unit']) { continue; }
     if (arg.hasOwnProperty('item_name') && all_data[i].item != arg['item_name']) { continue; }
+    if (arg.hasOwnProperty('item_category') && all_data[i].item_category != arg['item_category']) { continue; }
     valid_rows.push(all_data[i]);
   };
   return valid_rows;
 }
 
-function get_unique(all_data, property) {
+function get_unique(data_rows, property) {
   var unique = [];
-  for (var i = all_data.length - 1; i >= 0; i--) {
-    if (unique.indexOf(all_data[i][property]) == -1) { unique.push(all_data[i][property]); }
+  for (var i = data_rows.length - 1; i >= 0; i--) {
+    if (unique.indexOf(data_rows[i][property]) == -1) { unique.push(data_rows[i][property]); }
   };
   return unique;
 }
@@ -437,10 +431,16 @@ function add_event_listeners(all_data) {
 
 
 function update_items(all_data) {
-  var available_items = get_available_items(all_data);
+  var available_items;
+  if (get_selected("#item_cat_selector") == 'all items') {
+    available_items = get_unique(all_data, "item");
+    available_items = remove_from_array(available_items, ['total number of returns', 'number of taxable returns', 'number of non-taxable returns']);
+  } else {
+    var rows = get_rows({item_category: get_selected("#item_cat_selector")}, all_data);
+    available_items = get_unique(rows, "item");
+  }
   available_items.sort(case_sort);
   populate_dropdown("#item_selector", available_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
-
 }
 
 function update_categories(all_data) {
@@ -451,38 +451,12 @@ function update_categories(all_data) {
   populate_dropdown("#item_cat_selector", unique_categories, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
 }
 
-function get_available_items(all_data) {
-  var selected_category = get_selected("#item_cat_selector");
-  var available_items = [];
-  if (selected_category == 'all items') { 
-    available_items = get_unique(all_data, "item");
-    available_items = remove_from_array(available_items, ['total number of returns', 'number of taxable returns', 'number of non-taxable returns']);
-    return available_items;
-  } else {
-    for (var i = all_data.length - 1; i >= 0; i--) {
-      if (all_data[i].item_category == selected_category) {
-        if (available_items.indexOf(all_data[i].item) == -1) {
-          available_items.push(all_data[i].item);
-        }
-      }
-    }
-    return available_items;
-  }
-}
 
 function get_available_years(all_data) {
-  var selected_item = get_selected("#item_selector");
-  var available_years = [];  
-  for (var i = all_data.length - 1; i >= 0; i--) {
-    if (all_data[i].item == selected_item) {
-      if (available_years.indexOf(+all_data[i].tax_year) == -1) {
-        available_years.push(+all_data[i].tax_year);
-      }
-    }
-  }
-  return available_years.sort();
+  var rows = get_rows({item_name: get_selected("#item_selector")}, all_data);
+  unique_years = get_unique(rows, 'tax_year').map(function(d) { return +d; });
+  return unique_years.sort();
 }
-
 
 
 
