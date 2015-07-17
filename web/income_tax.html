@@ -295,18 +295,6 @@ function draw_chart(all_data, year, trans_duration) {
 }
 
 
-function select_element(value_to_select, selector_id, accessor_fn) {
-  var index_to_select = d3.select(selector_id)
-    .selectAll('option')
-    .filter(function(d) { return accessor_fn(d) == value_to_select; })
-    .property('index');
-
-  d3.select(selector_id)
-    .property('selectedIndex', index_to_select);
-}
-
-
-
 function populate_dropdown(id, data, text_accessor, data_accessor) {
 
   var selection = d3.select(id)
@@ -337,27 +325,18 @@ function get_plot_data(all_data, year) {
   var selected_item = get_selected('#item_selector'),
     selected_plot = get_selected('#plot_variable_selector');
   var numerator_row = get_rows({ tax_year: year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
-  var numerator_data = get_data_from_row(numerator_row);
+  var denominator_row;
 
-  if (selected_plot.id == 0 || selected_plot.id == 1) { return numerator_data; }
-
-  if ( selected_plot.id == 2 || selected_plot.id == 5) {
-    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0];
-    return divide(numerator_data, get_data_from_row(denominator_row)).reverse();
+  if (selected_plot.id == 0 || selected_plot.id == 1) { 
+    return get_data_from_row(numerator_row); 
+  } else if ( selected_plot.id == 2 || selected_plot.id == 5) {
+    denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0];
+  } else if (selected_plot.id == 3) {
+    denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0];
+  } else if (selected_plot.id == 4) {
+    denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
   }
-
-  if (selected_plot.id == 3) {
-    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0];
-    return divide(numerator_data, get_data_from_row(denominator_row)).reverse();
-  }
-
-  if (selected_plot.id == 4) {
-    var denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
-    return divide(numerator_data, get_data_from_row(denominator_row)).reverse();
-  }
-
-  return null;
-
+  return divide(get_data_from_row(numerator_row), get_data_from_row(denominator_row)).reverse();
 }
 
 function get_data_from_row(row) {
@@ -391,14 +370,6 @@ function get_rows(arg, all_data) {
     valid_rows.push(all_data[i]);
   };
   return valid_rows;
-}
-
-function get_unique(data_rows, property) {
-  var unique = [];
-  for (var i = data_rows.length - 1; i >= 0; i--) {
-    if (unique.indexOf(data_rows[i][property]) == -1) { unique.push(data_rows[i][property]); }
-  };
-  return unique;
 }
 
 
@@ -465,7 +436,7 @@ function get_available_years(all_data) {
 function update_slider_years(all_data) {
   var available_years = get_available_years(all_data);
   brush.extent([available_years[0], available_years[0]])
-    .on("brushend", get_brushended(available_years, all_data));
+       .on("brushend", get_brushended(available_years, all_data));
   slider_xAxis.tickFormat(get_available_tick_labels(available_years));
   slider_axis.call(slider_xAxis);
   d3.select("#play_button")
@@ -549,15 +520,6 @@ function get_selected_year() {
 
 
 
-
-
-
-
-
-
-
-
-
 var hash_fn = {
   convert_to_slug: function(Text) {
     return Text.toLowerCase()
@@ -584,12 +546,12 @@ var hash_fn = {
     var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
     var year = hash_state[2];
     try {
-      select_element(item, '#item_selector', function(d) { return d; });
-      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
+      hash_fn.select_element(item, '#item_selector', function(d) { return d; });
+      hash_fn.select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
     } 
     catch(err) { return false; }
     update_slider_years(all_data);
-    try { select_element(year, '#year_selector', function(d) { return d; }); } 
+    try { hash_fn.select_element(year, '#year_selector', function(d) { return d; }); } 
     catch(err) { return false; }
     return true;
   },
@@ -597,6 +559,15 @@ var hash_fn = {
     history.pushState('', document.title, window.location.pathname);
     populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
     update_slider_years(data);
+  },
+  select_element: function(value_to_select, selector_id, accessor_fn) {
+    var index_to_select = d3.select(selector_id)
+                            .selectAll('option')
+                            .filter(function(d) { return accessor_fn(d) == value_to_select; })
+                            .property('index');
+
+    d3.select(selector_id)
+      .property('selectedIndex', index_to_select);
   }
 }
 
@@ -615,6 +586,14 @@ function closest (num, arr) {
         }
     }
     return curr;
+}
+
+function get_unique(data_rows, property) {
+  var unique = [];
+  for (var i = data_rows.length - 1; i >= 0; i--) {
+    if (unique.indexOf(data_rows[i][property]) == -1) { unique.push(data_rows[i][property]); }
+  };
+  return unique;
 }
 
 function case_sort(a, b) {
