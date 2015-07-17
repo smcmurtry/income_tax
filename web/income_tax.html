@@ -41,10 +41,6 @@
   <div>Chart Type</div>
   <select id='plot_variable_selector'></select>
 </div>
-<div class='sel'>
-  <div>Tax Year</div>
-  <select id='year_selector'></select>
-</div>
 </div>
 
 <div id='explanation'>
@@ -84,7 +80,7 @@ var plot_variable = [
   {'id':4, 'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
   {'id':5, 'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}];
 
-var transition_duration = 1500; // in ms
+var transition_duration = 700; // in ms
 var item_slug_dict;
 
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
@@ -171,7 +167,7 @@ d3.json("../data/data.json", function(data) {
   // this relies on 'all items' being selected at this point
   var unique_items = get_available_items(data);
   update_items(data);
-  item_slug_dict = get_item_slug_dict(unique_items);
+  item_slug_dict = hash_fn.get_item_slug_dict(unique_items);
   update_plot_variables();
 
 
@@ -194,26 +190,11 @@ d3.json("../data/data.json", function(data) {
   x.domain(get_x_domain(data));
   y.domain(init_data.map(function(d) { return d.name; }));
 
-  xAxis.scale(x)
-    .tickFormat(dollar_format)
-    .orient("top");
-
-  yAxis.scale(y)
-    .orient("left");
-
-  var bar = chart.selectAll(".bar").data(init_data)
-    .enter()
-    .append("rect")
-    .call(update_bars)
-    .attr("height", y.rangeBand());
+  xAxis.scale(x).orient("top");
+  yAxis.scale(y).orient("left");
 
   chart.append("g")
-    .attr("class", "x axis")
-    .call(xAxis);
-
-  chart.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
+    .attr("class", "x axis");
 
   var ylabel = chart.append("g")
     .attr("class", "y-label")
@@ -224,24 +205,103 @@ d3.json("../data/data.json", function(data) {
     .attr("y", -margin.left * 2./3)
     .text("Annual Income");
 
-  set_xlabel_text();
-
-  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
-  chart.selectAll(".tick-line")
-    .data(x_ticks)
-    .enter()
-    .append("line")
-    .attr("class", "tick-line")
-    .attr("x1", function(d) { return x(d); } )
-    .attr("x2", function(d) { return x(d); } )
-    .attr("y2", height);
-
+  draw_x_axis(data, 0);
+  draw_chart(data);
 
 });
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+
+function draw_x_axis(all_data, trans_duration) {
+  // update x axis with a transition
+  var t;
+  if (typeof trans_duration === 'undefined') { t = transition_duration; }
+  else { t = trans_duration; }
+
+  var x_format = get_selected('#plot_variable_selector')['x_format'];
+  x.domain(get_x_domain(all_data));
+
+  xAxis.scale(x).tickFormat(x_format);
+
+  chart.select(".x")
+    .transition()
+    .duration(t)
+    .call(xAxis);
+
+  update_tick_lines(t);
+
+  set_xlabel_text();
+
+  function update_tick_lines() {
+    var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]);
+    var tick_ln = chart.selectAll(".tick-line").data(x_ticks);
+    
+    tick_ln.enter().append("line").attr("class", "tick-line");
+    tick_ln.exit().remove();
+
+    chart.selectAll(".tick-line")
+      .transition(t)
+      .attr("x1", function(d) { return x(d); } )
+      .attr("x2", function(d) { return x(d); } )
+      .attr("y2", height);
+  }
+
+  function set_xlabel_text() {
+    var selected_item = get_selected('#item_selector'),
+      selected_plot = get_selected('#plot_variable_selector');
+    var xlabel = d3.select("#xlabel");
+    xlabel.selectAll("span").remove();
+    xlabel.append("span").attr('class', 'description').text(selected_plot['title_text'][0]);
+    xlabel.append("span").attr('class', 'item').text(selected_item);
+    xlabel.append("span").attr('class', 'description').text(selected_plot['title_text'][1]);
+  }
 }
+
+
+function draw_chart(all_data, year, trans_duration) {
+  // redraw the bar chart with a transition
+  var plot_data;
+  if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
+  else {  plot_data = get_plot_data(all_data, year); }
+  var t;
+  if (typeof trans_duration === 'undefined') { t = transition_duration; }
+  else { t = trans_duration; }
+
+  var new_y_labels = plot_data.map(function(d) { return d.name; });
+
+  y.domain(new_y_labels);
+  
+  yAxis.scale(y);
+
+  chart.selectAll(".y").remove();
+  chart.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+
+  var rebound = chart.selectAll(".bar")
+    .data(plot_data, function(d) { return d.name; });
+  
+  rebound.exit().remove();
+  
+  rebound.enter()
+    .append("rect")
+    .attr("class", "bar");
+  
+  chart.selectAll(".bar")
+    .transition()
+    .duration(t)
+    .call(update_bars);
+
+  chart.selectAll(".tick-line").moveToFront();
+
+  function update_bars(selection) {
+    selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
+      .attr("x", function(d) { return x(Math.min(0, d.value)); })
+      .attr("y", function(d) { return y(d.name); })
+      .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
+      .attr("height", y.rangeBand());
+  }
+}
+
 
 function select_element(value_to_select, selector_id, accessor_fn) {
   var index_to_select = d3.select(selector_id)
@@ -277,21 +337,6 @@ function go_to_hash_state(all_data) {
     return true;
 }
 
-function set_url_hash() {
-  var selected_item = get_selected('#item_selector'),
-  selected_plot_id = get_selected('#plot_variable_selector')['id'],
-  selected_year = get_selected_year();
-  window.location.hash = convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
-}
-
-
-function case_sort(a, b) {
-  var a1 = a + ' ', b1 = b + ' '; // in case a and b are numbers
-  var A=a1.toLowerCase(), B=b1.toLowerCase();
-  if (A < B) { return -1; }
-  if (A > B) { return 1; }
-  return 0;
-}
 
 
 function populate_dropdown(id, data, text_accessor, data_accessor) {
@@ -309,33 +354,6 @@ function populate_dropdown(id, data, text_accessor, data_accessor) {
     .text(function(d) { return text_accessor(d); });
 }
 
-function add_span(class_name, text) {
-  d3.select("#xlabel")
-    .append("span")
-    .attr('class', class_name)
-    .text(text);
-}
-
-
-function set_xlabel_text() {
-  var selected_item = get_selected('#item_selector'),
-    selected_plot = get_selected('#plot_variable_selector');
-  d3.select("#xlabel").selectAll("span").remove();
-  add_span('description', selected_plot['title_text'][0]);
-  add_span('item', selected_item);
-  add_span('description', selected_plot['title_text'][1]);
-}
-
-
-function number_format(n) {
-  var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
-  var suffix = d3.formatPrefix(n);
-  return suffix.scale(n) + dict[suffix.symbol]
-}
-
-function dollar_format(n) { return '$' + number_format(n); }
-
-function percent_format(n) { return d3.format('.2p')(n); }
 
 function get_x_domain(all_data) {
   var available_years = get_available_years(all_data);
@@ -429,82 +447,6 @@ function get_unique(all_data, property) {
   return unique;
 }
 
-function update_bars(selection) {
-  selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
-    .attr("x", function(d) { return x(Math.min(0, d.value)); })
-    .attr("y", function(d) { return y(d.name); })
-    .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
-    .attr("height", y.rangeBand());
-}
-
-
-d3.selection.prototype.moveToFront = function() {
-  return this.each(function(){
-    this.parentNode.appendChild(this);
-  });
-};
-
-
-function draw_chart(all_data, year) {
-  var plot_data;
-  if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
-  else {  plot_data = get_plot_data(all_data, year); }
-
-  var x_format = get_selected('#plot_variable_selector')['x_format'],
-    new_y_labels = plot_data.map(function(d) { return d.name; });
-
-  x.domain(get_x_domain(all_data))
-  y.domain(new_y_labels);
-  
-  yAxis.scale(y);
-  xAxis.scale(x).tickFormat(x_format);
-
-  chart.selectAll(".y").remove();
-  chart.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
-
-  chart.select(".x")
-  .transition()
-  .duration(transition_duration)
-  .call(xAxis);
-  update_tick_lines();
-
-  var rebound = chart.selectAll(".bar")
-    .data(plot_data, function(d) { return d.name; });
-  
-  rebound.exit().remove();
-  
-  rebound.enter()
-    .append("rect")
-    .attr("class", "bar");
-  
-  chart.selectAll(".bar")
-    .transition()
-    .duration(transition_duration)
-    .call(update_bars);
-
-  chart.selectAll(".tick-line").moveToFront();
-  
-  set_xlabel_text();
-  
-}
-
-
-function update_tick_lines() {
-  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]),
-    tick_ln = chart.selectAll(".tick-line").data(x_ticks);
-  
-  tick_ln.enter().append("line").attr("class", "tick-line");
-  tick_ln.exit().remove();
-
-  chart.selectAll(".tick-line")
-    .transition(transition_duration)
-    .attr("x1", function(d) { return x(d); } )
-    .attr("x2", function(d) { return x(d); } )
-    .attr("y2", height);
-}
-
 
 function add_event_listeners(all_data) {
   d3.select("#item_cat_selector")
@@ -512,8 +454,9 @@ function add_event_listeners(all_data) {
       update_items(all_data);
       update_plot_variables();
       update_years(all_data);
+      draw_x_axis(all_data);
       draw_chart(all_data);
-      set_url_hash();
+      hash_fn.set_url_hash();
     });
 
 
@@ -521,21 +464,17 @@ function add_event_listeners(all_data) {
     .on("change", function() {
       update_plot_variables();
       update_years(all_data);
+      draw_x_axis(all_data);
       draw_chart(all_data);
-      set_url_hash();
+      hash_fn.set_url_hash();
     });
 
   d3.select("#plot_variable_selector")
     .on("change", function() { 
+      draw_x_axis(all_data);
       draw_chart(all_data);
-      set_url_hash();
+      hash_fn.set_url_hash();
     });
-
-  d3.select("#year_selector")
-    .on("change", function() { 
-      draw_chart(all_data);
-      set_url_hash();
-      });
 }
 
 function update_plot_variables() {
@@ -571,7 +510,6 @@ function get_available_items(all_data) {
 
 function update_years(all_data) {
   var available_years = get_available_years(all_data);
-  //xxx
   update_slider_years(available_years, all_data);
 
   populate_dropdown("#year_selector", available_years, function (d) { 
@@ -594,20 +532,7 @@ function get_available_years(all_data) {
 }
 
 
-function convert_to_slug(Text) {
-  return Text.toLowerCase()
-             .replace(/ /g,'-')
-             .replace(/[^\w-]+/g,'');
-}
 
-function get_item_slug_dict(unique_items) {
-  item_slug_dict = {};
-  for (var i = unique_items.length - 1; i >= 0; i--) {
-    var slug = convert_to_slug(unique_items[i]);
-    item_slug_dict[slug] = unique_items[i];
-  };
-  return item_slug_dict;
-}
 
 // slider functions start here
 
@@ -616,7 +541,6 @@ function update_slider_years(available_years, all_data) {
     .on("brushend", get_brushended(available_years, all_data));
   slider_xAxis.tickFormat(get_available_tick_labels(available_years));
   slider_axis.call(slider_xAxis);
-  console.log(available_years)
   d3.select("#play_button")
     .on("click", play(available_years, all_data));
 } 
@@ -628,27 +552,16 @@ function get_available_tick_labels(available_years) {
   }
 }
 
-function closest (num, arr) {
-    var curr = arr[0];
-    var diff = Math.abs (num - curr);
-    for (var val = 0; val < arr.length; val++) {
-        var newdiff = Math.abs (num - arr[val]);
-        if (newdiff < diff) {
-            diff = newdiff;
-            curr = arr[val];
-        }
-    }
-    return curr;
-}
+
 
 function brushed() {
-  var value = brush.extent()[0];
+  var year = brush.extent()[0];
   // continuous position updating on drag
   if (d3.event.sourceEvent) { // not a programmatic event
-    value = x_slider.invert(d3.mouse(this)[0]);
-    brush.extent([value, value]);
+    year = x_slider.invert(d3.mouse(this)[0]);
+    brush.extent([year, year]);
   }
-  handle.attr("cx", x_slider(value));
+  handle.attr("cx", x_slider(year));
 }
 
 function get_brushended(available_years, all_data) {
@@ -656,10 +569,8 @@ function get_brushended(available_years, all_data) {
     var year = closest(brush.extent()[0], available_years);
     handle.attr("cx", x_slider(year));
     brush.extent([year, year]);
-    console.log(year);
-    //xxx
     draw_chart(all_data, year);
-    set_url_hash();
+    hash_fn.set_url_hash();
   }
 }
 
@@ -677,14 +588,15 @@ function play(available_years, all_data) {
 
     d3.select(".slider").call(brush.event)
           .call(brush.extent([available_years[loop_start_ind-1], available_years[loop_start_ind-1]]))
+    draw_chart(all_data, start_year, 0);
 
     var trans = d3.select(".slider").call(brush.event);
     for (var i = loop_start_ind; i < available_years.length; i++) {
       trans = trans.transition() // chain the transitions
           .duration(transition_duration)
           .call(brush.extent([available_years[i], available_years[i]]))
-          .call(brush.event)
-          .call(function() { draw_chart(all_data, available_years[i]); });
+          .call(brush.event);
+          // .call(function() { draw_chart(all_data, available_years[i]); });
 
     }
     trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
@@ -694,7 +606,6 @@ function play(available_years, all_data) {
 function pause(available_years, all_data) {
   return function() {
     // cancel the draw transition
-
     d3.select(".slider").transition()
       .call(get_brushended(available_years, all_data));
     d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data));
@@ -704,6 +615,90 @@ function pause(available_years, all_data) {
 function get_selected_year() {
   return brush.extent()[0];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var hash_fn = {
+  convert_to_slug: function(Text) {
+    return Text.toLowerCase()
+               .replace(/ /g,'-')
+               .replace(/[^\w-]+/g,'');
+  },
+  get_item_slug_dict: function(unique_items) {
+    item_slug_dict = {};
+    for (var i = unique_items.length - 1; i >= 0; i--) {
+      var slug = hash_fn.convert_to_slug(unique_items[i]);
+      item_slug_dict[slug] = unique_items[i];
+    };
+    return item_slug_dict;
+  },
+  set_url_hash: function() {
+    var selected_item = get_selected('#item_selector'),
+    selected_plot_id = get_selected('#plot_variable_selector')['id'],
+    selected_year = get_selected_year();
+    window.location.hash = hash_fn.convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
+  }
+}
+
+
+
+// don't need to look at these
+
+function closest (num, arr) {
+    var curr = arr[0];
+    var diff = Math.abs (num - curr);
+    for (var val = 0; val < arr.length; val++) {
+        var newdiff = Math.abs (num - arr[val]);
+        if (newdiff < diff) {
+            diff = newdiff;
+            curr = arr[val];
+        }
+    }
+    return curr;
+}
+
+function case_sort(a, b) {
+  var a1 = a + ' ', b1 = b + ' '; // in case a and b are numbers
+  var A=a1.toLowerCase(), B=b1.toLowerCase();
+  if (A < B) { return -1; }
+  if (A > B) { return 1; }
+  return 0;
+}
+
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function number_format(n) {
+  var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
+  var suffix = d3.formatPrefix(n);
+  return suffix.scale(n) + dict[suffix.symbol]
+}
+
+function dollar_format(n) { return '$' + number_format(n); }
+
+function percent_format(n) { return d3.format('.2p')(n); }
 
 </script>
 

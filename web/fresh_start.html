@@ -1,0 +1,495 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Income Tax</title>
+  <link rel="stylesheet" type="text/css" href="income_tax.css"/>
+  <script src="d3.v3.min.js"></script>
+</head>
+
+<body>
+<div id='container'>
+
+<div>
+<div id='outer-xlabel'>
+  <div id='xlabel'></div>
+</div>
+<svg id='chart'></svg>
+</div>
+
+<div id='selectors'>
+<div class='sel'> 
+  <div>Tax Item</div>
+  <select id='item_selector'></select>
+</div>
+<div class='sel'>
+  <div>Chart Type</div>
+  <select id='plot_variable_selector'></select>
+</div>
+<div class='sel'>
+  <div>Tax Year</div>
+  <select id='year_selector'></select>
+</div>
+</div>
+
+<div id='explanation'>
+  <p>
+    All dollar amounts are inflation-adjusted to 2015 Canadian dollars. 
+  </p>
+  <p>
+    As a category, tax items include income, deductions, tax credits and tax payable. The <a href="http://www.cra-arc.gc.ca/menu-eng.html">Canadian Revenue Agency (CRA)</a> provides a <a href="http://www.cra-arc.gc.ca/gncy/stts/gb11/pst/fnl/dsctm-eng.html">description of items</a>. An effort was made to standardize item names to allow comparison between years. However, since 2004 the number of tax items has increased from 64 to 112. Some items have been broken up into sub categories, and many definitions have changed. For this reason, many item amounts cannot be compared over the whole 2004 to 2012 range, and some items included in this tool will will not be present in the current CRA item description page linked above.
+  </p>
+  <p>
+    Each bar represents an amount for Canadians within the labeled range of annual income. The following six charts can be explored for each tax item:
+    <ul>
+      <li><b>Total item amount</b>: This is the dollar total of all the amounts filed for a given item. </li>
+      <li><b>Number of returns filed with item</b>: This is the total number of filers for a given item.</li>
+      <li><b>Average item amount for all returns</b>: This is the average dollar amount for a given item for all returns - including filers and non-filers. This is useful for determining the average benefit that a Canadian in a given income class derived from a tax credit.</li>
+      <li><b>Average item amount among filers</b>: This is the average dollar amount for a given item among filers for that item.</li>
+      <li><b>Average item amount as percent of income</b>: This is the total item amount divided by the total assessed income. This is useful for determining the average benefit of a tax credit as a percent of income.</li>
+      <li><b>Percentage of returns filed with item</b>: This is the percentage of Canadians in each income category that filed for a particular item.</li>
+    </ul>  
+
+  </p>
+  <p>
+    * As of July 2015, the final data for the 2012 tax year had not yet been released. The CRA has provided <a href="http://www.cra-arc.gc.ca/gncy/stts/ntrm-eng.html">preliminary data</a> for 2012 that are <i>"based on approximately 95% of income tax and benefit returns excluding the reassessments for a given tax year."</i>
+  </p>
+</div>
+
+</div>
+</body>
+
+<script>
+
+var plot_variable = {
+  0: {'name': 'Total item amount', 'title_text': ['Value of all ', ''], 'numerator_unit': '$', 'denominator_unit': '-', 'x_format':dollar_format},
+  1: {'name': 'Number of returns filed with item', 'title_text': ['Number of returns filed with ', ''], 'numerator_unit': '#', 'denominator_unit': '-', 'x_format':number_format},
+  2: {'name': 'Average item amount for all returns', 'title_text': ['Average ', ' for all returns'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  3: {'name': 'Average item amount among filers', 'title_text': ['Average ', ' among filers'], 'numerator_unit': '$', 'denominator_unit': '#', 'x_format':dollar_format},
+  4: {'name': 'Average item amount as percent of income', 'title_text': ['Average ', ' as percent of income'], 'numerator_unit': '$', 'denominator_unit': '$', 'x_format':percent_format},
+  5: {'name': 'Percentage of returns filed with item', 'title_text': ['Percentage of returns filed with ', ''],  'numerator_unit': '#', 'denominator_unit': '#', 'x_format':percent_format}
+};
+
+var transition_duration = 500; // in ms
+
+
+function bar_chart() {
+
+  var year = 2004,
+    chart_type = 1;
+
+  var margin = {top: 40, right: 50, bottom: 50, left: 130},
+      width = 800 - margin.left - margin.right,
+      height = 550 - margin.top - margin.bottom;
+
+  function my(selection) {
+    selection.each(function(all_year_data) {
+
+      var curr_year_data_dirty = get_rows({ tax_year: year }, all_year_data)[0];
+      var curr_year_data = get_data_from_row(curr_year_data_dirty);
+      var item_name = all_year_data[0].item;
+      var x = d3.scale.linear()
+                .domain(get_x_domain(all_year_data))
+                .range([0, width]);
+
+      var y = d3.scale.ordinal()
+                .domain(curr_year_data.map(function(d) { return d.name; }))
+                .rangeRoundBands([height, 0], 0.2, 0); // not sure what's up with the 2nd and 3rd arguments
+
+      var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .tickFormat(plot_variable[chart_type]['x_format'])
+                    .orient("top");
+
+      var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient("left");
+
+      var chart = d3.select(this)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var bar = chart.selectAll(".bar")
+        .data(curr_year_data)
+        .enter()
+        .append("rect")
+        .attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
+        .attr("x", function(d) { return x(Math.min(0, d.value)); })
+        .attr("y", function(d) { return y(d.name); })
+        .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
+        .attr("height", y.rangeBand())
+        .attr("height", y.rangeBand());
+
+      chart.append("g")
+        .attr("class", "x axis")
+        .call(xAxis);
+
+      chart.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+      var ylabel = chart.append("g")
+        .attr("class", "y-label")
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .style("text-anchor", "middle")
+        .attr("x", -height/2)
+        .attr("y", -margin.left * 2./3)
+        .text("Annual Income");
+
+      var xlabel = d3.select("#xlabel");
+
+      xlabel.append("span").attr('class', 'description').text(plot_variable[chart_type]['title_text'][0]);
+      xlabel.append("span").attr('class', 'item').text(item_name);
+      xlabel.append("span").attr('class', 'description').text(plot_variable[chart_type]['title_text'][1]);
+
+      var x_ticks = xAxis.scale()
+                         .ticks(xAxis.ticks()[0]);
+
+      chart.selectAll(".tick-line")
+        .data(x_ticks)
+        .enter()
+        .append("line")
+        .attr("class", "tick-line")
+        .attr("x1", function(d) { return x(d); } )
+        .attr("x2", function(d) { return x(d); } )
+        .attr("y2", height);
+    })
+  }
+
+  my.year = function(value) {
+    if (!arguments.length) return year;
+    year = value;
+    return my;
+  };
+
+  my.chart_type = function(value) {
+    if (!arguments.length) return chart_type;
+    chart_type = value;
+    return my;
+  };
+
+  return my;
+}
+
+
+
+
+
+
+
+
+d3.json("../data/data.json", function(data) {
+  
+  var year = 2004;
+  var selected_item = 'age amount';
+  var selected_plot = 1;
+  var numerator_unit = '$';
+
+
+
+  var all_year_data = get_rows({ item_unit: numerator_unit, item_name: selected_item }, data);
+
+  var chart = bar_chart().year(2010);
+
+  d3.select("#chart")
+      .datum(all_year_data)
+      .call(chart)
+      // .transition()
+      // .duration(1000)
+      // .call(bar_chart().year(2004))
+
+  chart.transition().year(2004);
+
+  // console.log(curr_year_data_dirty);
+  // console.log(curr_year_data_clean);
+  // console.log(all_year_data);
+
+
+});
+
+
+function get_rows(arg, all_data) {
+  var valid_rows = [];
+  for (var i = all_data.length - 1; i >= 0; i--) {
+    if (arg.hasOwnProperty('tax_year') && all_data[i].tax_year != arg['tax_year']) { continue; }
+    if (arg.hasOwnProperty('item_unit') && all_data[i].type != arg['item_unit']) { continue; }
+    if (arg.hasOwnProperty('item_name') && all_data[i].item != arg['item_name']) { continue; }
+    valid_rows.push(all_data[i]);
+  };
+  return valid_rows;
+}
+function get_data_from_row(row) {
+  var row_data = [];
+  for (var prop in row) {
+    // kind of hacky but all the income data properties of row_data have a 'k' in them
+    if (prop.indexOf('$') != -1) {
+      row_data.push({'name': prop, 'value': +row[prop]}); 
+    }
+  };
+  return row_data
+}
+function get_x_domain(all_year_data) {
+  all_years_plot_data = [];
+  for (var i = 0; i < all_year_data.length; i++) {
+    var row_data = get_data_from_row(all_year_data[i]);
+    all_years_plot_data = all_years_plot_data.concat(row_data);
+  };
+  var extent = d3.extent(all_years_plot_data, function(d) { return d.value; } );
+  if (extent[0] > 0) { return [0, extent[1]]; } 
+  else { return extent; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var item_slug_dict;
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+function select_element(value_to_select, selector_id, accessor_fn) {
+  var index_to_select = d3.select(selector_id)
+    .selectAll('option')
+    .filter(function(d) { return accessor_fn(d) == value_to_select; })
+    .property('index');
+  d3.select(selector_id)
+    .property('selectedIndex', index_to_select);
+}
+function go_to_hash_state(all_data) {
+    var hash_state = window.location.hash.split('+');
+    var item = item_slug_dict[hash_state[0].substr(1)];
+    var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
+    var year = hash_state[2];
+    try {
+      select_element(item, '#item_selector', function(d) { return d; });
+      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
+    } 
+    catch(err) { return false; }
+    update_years(all_data);
+    try { select_element(year, '#year_selector', function(d) { return d; }); } 
+    catch(err) { return false; }
+    return true;
+}
+function set_url_hash() {
+  var selected_item = get_selected('#item_selector'),
+  selected_plot_id = get_selected('#plot_variable_selector')['id'],
+  selected_year = get_selected('#year_selector');
+  window.location.hash = convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
+}
+function case_sort(a, b) {
+  var a1 = a + ' ', b1 = b + ' '; // in case a and b are numbers
+  var A=a1.toLowerCase(), B=b1.toLowerCase();
+  if (A < B) { return -1; }
+  if (A > B) { return 1; }
+  return 0;
+}
+function populate_dropdown(id, data, text_accessor, data_accessor) {
+  var selection = d3.select(id)
+    .selectAll('option')
+    .data(data, function(d) { return data_accessor(d); });
+  var exit_selection = selection.exit().remove();
+  var enter_selection = selection.enter().append("option");
+  d3.select(id)
+    .selectAll('option')
+    .sort(case_sort)
+    .text(function(d) { return text_accessor(d); });
+}
+function add_span(class_name, text) {
+  d3.select("#xlabel")
+    .append("span")
+    .attr('class', class_name)
+    .text(text);
+}
+function set_xlabel_text() {
+  var selected_item = get_selected('#item_selector'),
+    selected_plot = get_selected('#plot_variable_selector');
+  d3.select("#xlabel").selectAll("span").remove();
+  add_span('description', selected_plot['title_text'][0]);
+  add_span('item', selected_item);
+  add_span('description', selected_plot['title_text'][1]);
+}
+
+function number_format(n) {
+  var dict = {'':'', 'k':'k', 'M':'M', 'G':'B', 'T':'T'};
+  var suffix = d3.formatPrefix(n);
+  return suffix.scale(n) + dict[suffix.symbol]
+}
+function dollar_format(n) { return '$' + number_format(n); }
+function percent_format(n) { return d3.format('.2p')(n); }
+
+function get_selected(id) {
+  var options = d3.select(id).selectAll('option');
+  var index = d3.select(id).property('selectedIndex');
+  return options[0][index].__data__;
+}
+function get_plot_data(all_data, year) {
+  // year is an optional argument
+  if (typeof year === 'undefined') { year = get_selected('#year_selector'); }
+  var selected_item = get_selected('#item_selector'),
+    selected_plot = get_selected('#plot_variable_selector');
+  var numerator_row = get_rows({ tax_year: year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
+  var numerator_data = get_data_from_row(numerator_row);
+  if (selected_plot.id == 0 || selected_plot.id == 1) { return numerator_data; }
+  if ( selected_plot.id == 2 || selected_plot.id == 5) {
+    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0];
+    var denominator_data = get_data_from_row(denominator_row);
+    return divide(numerator_data, denominator_data).reverse();
+  }
+  if (selected_plot.id == 3) {
+    var denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0];
+    var denominator_data = get_data_from_row(denominator_row);
+    return divide(numerator_data, denominator_data).reverse();
+  }
+  if (selected_plot.id == 4) {
+    var denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
+    var denominator_data = get_data_from_row(denominator_row);
+    return divide(numerator_data, denominator_data).reverse();
+  }
+  return null;
+}
+
+function divide(numerator_data, denominator_data) {
+  result = [];
+  for (var i = numerator_data.length - 1; i >= 0; i--) {
+    var column = numerator_data[i]['name'];
+    var denominator_value = denominator_data.filter(function(d) { return d['name'] == column; })[0]['value'];
+    result.push({'name': column, 'value': numerator_data[i]['value']/denominator_value });
+  };
+  return result;
+}
+
+function get_unique_items(all_data) {
+  var items_to_exclude = ['total number of returns', 'number of taxable returns', 'number of non-taxable returns'];
+  var unique_items = []; 
+  for (var i = all_data.length - 1; i >= 0; i--) {
+    if (items_to_exclude.indexOf(all_data[i].item) != -1 ) { continue; }
+    if (unique_items.indexOf(all_data[i].item) == -1) { unique_items.push(all_data[i].item); }
+  };
+  return unique_items;
+}
+
+
+
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+function draw_chart(all_data) {
+  var plot_data = get_plot_data(all_data),
+    x_format = get_selected('#plot_variable_selector')['x_format'],
+    new_y_labels = plot_data.map(function(d) { return d.name; });
+  x.domain(get_x_domain(all_data))
+  y.domain(new_y_labels);
+  
+  yAxis.scale(y);
+  xAxis.scale(x).tickFormat(x_format);
+  chart.selectAll(".y").remove();
+  chart.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+  chart.select(".x").transition(transition_duration).call(xAxis);
+  update_tick_lines();
+  var rebound = chart.selectAll(".bar")
+    .data(plot_data, function(d) { return d.name; });
+  
+  rebound.exit().remove();
+  
+  rebound.enter()
+    .append("rect")
+    .attr("class", "bar");
+  
+  chart.selectAll(".bar")
+    .transition(transition_duration)
+    .call(update_bars);
+  chart.selectAll(".tick-line").moveToFront();
+  
+  set_xlabel_text();
+  
+}
+function update_tick_lines() {
+  var x_ticks = xAxis.scale().ticks(xAxis.ticks()[0]),
+    tick_ln = chart.selectAll(".tick-line").data(x_ticks);
+  
+  tick_ln.enter().append("line").attr("class", "tick-line");
+  tick_ln.exit().remove();
+  chart.selectAll(".tick-line")
+    .transition(transition_duration)
+    .attr("x1", function(d) { return x(d); } )
+    .attr("x2", function(d) { return x(d); } )
+    .attr("y2", height);
+}
+function add_event_listeners(all_data) {
+  d3.select("#item_selector")
+    .on("change", function() {
+      update_plot_variables();
+      update_years(all_data);
+      draw_chart(all_data);
+      set_url_hash();
+    });
+  d3.select("#plot_variable_selector")
+    .on("change", function() { 
+      draw_chart(all_data);
+      set_url_hash();
+    });
+  d3.select("#year_selector")
+    .on("change", function() { 
+      draw_chart(all_data);
+      set_url_hash();
+      });
+}
+function update_plot_variables() {
+  populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
+}
+function update_years(all_data) {
+  var available_years = get_available_years(all_data);
+  populate_dropdown("#year_selector", available_years, function (d) { 
+    if (d != 2012) { return d; }
+    else { return d + '*'; }
+  }, function(d) { return d; });
+}
+function get_available_years(all_data) {
+  var selected_item = get_selected("#item_selector");
+  var available_years = [];  
+  for (var i = all_data.length - 1; i >= 0; i--) {
+    if (all_data[i].item == selected_item) {
+      if (available_years.indexOf(all_data[i].tax_year) == -1) {
+        available_years.push(all_data[i].tax_year);
+      }
+    }
+  }
+  return available_years.sort();
+}
+function convert_to_slug(Text) {
+  return Text.toLowerCase()
+             .replace(/ /g,'-')
+             .replace(/[^\w-]+/g,'');
+}
+function get_item_slug_dict(unique_items) {
+  item_slug_dict = {};
+  for (var i = unique_items.length - 1; i >= 0; i--) {
+    var slug = convert_to_slug(unique_items[i]);
+    item_slug_dict[slug] = unique_items[i];
+  };
+  return item_slug_dict;
+}
+</script>
+
+</html>
