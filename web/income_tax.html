@@ -99,11 +99,10 @@ var x = d3.scale.linear()
 var y = d3.scale.ordinal()
           .rangeRoundBands([height, 0], 0.2, 0); // not sure what's up with the 2nd and 3rd arguments
 
-var xAxis = d3.svg.axis(), 
-  yAxis = d3.svg.axis();
+var xAxis = d3.svg.axis().orient("top"),
+  yAxis = d3.svg.axis().orient("left");
 
  // slider initialization starts here
-  var available_years = [2004, 2005, 2008, 2010, 2011, 2012];
   var slider_margin = {top: 5, right: 20, bottom: 0, left: 20},
       slider_width = 600 - slider_margin.left - slider_margin.right,
       slider_height = 50 - slider_margin.bottom - slider_margin.top;
@@ -171,27 +170,20 @@ d3.json("../data/data.json", function(data) {
   update_plot_variables();
 
 
-  // if (window.location.hash) {
-  //   var success = go_to_hash_state(data);
-  //   if (!success) {
-  //     history.pushState('', document.title, window.location.pathname);
-  //     populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
-  //     update_plot_variables();
-  //     update_years(data);
-  //   }
-  // } 
-  // else {
-  //   update_years(data);
-  // }
-  update_years(data);
+// // try to go to the requested hash state if possible
+//   if (window.location.hash) {
+//     var success = hash_fn.go_to_hash_state(data);
+//     if (!success) { hash_fn.reset_hash(); }
+//   } 
+//   else {
+//     update_slider_years(data);
+//   }
+
+  update_slider_years(data);
 
   var init_data = get_plot_data(data);
 
-  x.domain(get_x_domain(data));
   y.domain(init_data.map(function(d) { return d.name; }));
-
-  xAxis.scale(x).orient("top");
-  yAxis.scale(y).orient("left");
 
   chart.append("g")
     .attr("class", "x axis");
@@ -313,30 +305,6 @@ function select_element(value_to_select, selector_id, accessor_fn) {
     .property('selectedIndex', index_to_select);
 }
 
-function remove_from_array(array, array_to_remove) {
-  for (var i = array_to_remove.length - 1; i >= 0; i--) {
-    var index = array.indexOf(array_to_remove[i]);
-    if (index > -1) { array.splice(index, 1); }
-  };
-  return array;
-}
-
-function go_to_hash_state(all_data) {
-    var hash_state = window.location.hash.split('+');
-    var item = item_slug_dict[hash_state[0].substr(1)];
-    var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
-    var year = hash_state[2];
-    try {
-      select_element(item, '#item_selector', function(d) { return d; });
-      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
-    } 
-    catch(err) { return false; }
-    update_years(all_data);
-    try { select_element(year, '#year_selector', function(d) { return d; }); } 
-    catch(err) { return false; }
-    return true;
-}
-
 
 
 function populate_dropdown(id, data, text_accessor, data_accessor) {
@@ -453,7 +421,7 @@ function add_event_listeners(all_data) {
     .on("change", function() {
       update_items(all_data);
       update_plot_variables();
-      update_years(all_data);
+      update_slider_years(all_data);
       draw_x_axis(all_data);
       draw_chart(all_data);
       hash_fn.set_url_hash();
@@ -463,7 +431,7 @@ function add_event_listeners(all_data) {
   d3.select("#item_selector")
     .on("change", function() {
       update_plot_variables();
-      update_years(all_data);
+      update_slider_years(all_data);
       draw_x_axis(all_data);
       draw_chart(all_data);
       hash_fn.set_url_hash();
@@ -507,17 +475,6 @@ function get_available_items(all_data) {
   }
 }
 
-
-function update_years(all_data) {
-  var available_years = get_available_years(all_data);
-  update_slider_years(available_years, all_data);
-
-  populate_dropdown("#year_selector", available_years, function (d) { 
-    if (d != 2012) { return d; }
-    else { return d + '*'; }
-  }, function(d) { return d; });
-}
-
 function get_available_years(all_data) {
   var selected_item = get_selected("#item_selector");
   var available_years = [];  
@@ -536,7 +493,8 @@ function get_available_years(all_data) {
 
 // slider functions start here
 
-function update_slider_years(available_years, all_data) {
+function update_slider_years(all_data) {
+  var available_years = get_available_years(all_data);
   brush.extent([available_years[0], available_years[0]])
     .on("brushend", get_brushended(available_years, all_data));
   slider_xAxis.tickFormat(get_available_tick_labels(available_years));
@@ -551,7 +509,6 @@ function get_available_tick_labels(available_years) {
     else { return ''; }
   }
 }
-
 
 
 function brushed() {
@@ -596,7 +553,6 @@ function play(available_years, all_data) {
           .duration(transition_duration)
           .call(brush.extent([available_years[i], available_years[i]]))
           .call(brush.event);
-          // .call(function() { draw_chart(all_data, available_years[i]); });
 
     }
     trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
@@ -652,6 +608,27 @@ var hash_fn = {
     selected_plot_id = get_selected('#plot_variable_selector')['id'],
     selected_year = get_selected_year();
     window.location.hash = hash_fn.convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
+  },
+  go_to_hash_state: function(all_data) {
+    var hash_state = window.location.hash.split('+');
+    var item = item_slug_dict[hash_state[0].substr(1)];
+    var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
+    var year = hash_state[2];
+    try {
+      select_element(item, '#item_selector', function(d) { return d; });
+      select_element(plot_variable_id, '#plot_variable_selector', function(d) { return d['id']; });
+    } 
+    catch(err) { return false; }
+    update_slider_years(all_data);
+    try { select_element(year, '#year_selector', function(d) { return d; }); } 
+    catch(err) { return false; }
+    return true;
+  },
+  reset_hash: function() {
+    history.pushState('', document.title, window.location.pathname);
+    populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
+    update_plot_variables();
+    update_slider_years(data);
   }
 }
 
@@ -678,6 +655,14 @@ function case_sort(a, b) {
   if (A < B) { return -1; }
   if (A > B) { return 1; }
   return 0;
+}
+
+function remove_from_array(array, array_to_remove) {
+  for (var i = array_to_remove.length - 1; i >= 0; i--) {
+    var index = array.indexOf(array_to_remove[i]);
+    if (index > -1) { array.splice(index, 1); }
+  };
+  return array;
 }
 
 d3.selection.prototype.moveToFront = function() {
