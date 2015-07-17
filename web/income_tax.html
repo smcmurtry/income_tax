@@ -83,6 +83,7 @@ var plot_variable = [
 var transition_duration = 700; // in ms
 var item_slug_dict;
 
+//---------------- bar chart initialization ---------------------------------------------------------------------------------
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
@@ -98,55 +99,53 @@ var y = d3.scale.ordinal()
 var xAxis = d3.svg.axis().orient("top"),
     yAxis = d3.svg.axis().orient("left");
 
- // slider initialization starts here
-  var slider_margin = {top: 5, right: 20, bottom: 0, left: 20},
-      slider_width = 600 - slider_margin.left - slider_margin.right,
-      slider_height = 50 - slider_margin.bottom - slider_margin.top;
+//---------------- slider initialization ---------------------------------------------------------------------------------
+var slider_margin = {top: 5, right: 20, bottom: 0, left: 20},
+    slider_width = 600 - slider_margin.left - slider_margin.right,
+    slider_height = 50 - slider_margin.bottom - slider_margin.top;
 
-  var x_slider = d3.scale.linear()
-                   .domain([2004, 2012])
-                   .range([0, slider_width])
-                   .clamp(true);
+var x_slider = d3.scale.linear()
+                 .domain([2004, 2012])
+                 .range([0, slider_width])
+                 .clamp(true);
 
-  var slider_xAxis = d3.svg.axis()
-                       .scale(x_slider)
-                       .orient("bottom")
-                       .tickSize(0)
-                       .tickPadding(12);
+var slider_xAxis = d3.svg.axis()
+                     .scale(x_slider)
+                     .orient("bottom")
+                     .tickSize(0)
+                     .tickPadding(12);
 
-  var brush = d3.svg.brush()
-                .x(x_slider)
-                .on("brush", brushed);
+var brush = d3.svg.brush()
+              .x(x_slider)
+              .on("brush", brushed);
 
-  var svg_slider = create_svg("#slider", slider_margin, slider_width, slider_height);
+var svg_slider = create_svg("#slider", slider_margin, slider_width, slider_height);
 
-  var slider_axis = svg_slider.append("g")
-                              .attr("class", "x axis")
-                              .attr("transform", "translate(0," + slider_height / 2 + ")")
-                              .call(slider_xAxis);
+var slider_axis = svg_slider.append("g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," + slider_height / 2 + ")")
+                            .call(slider_xAxis);
 
-  slider_axis.select(".domain")
-             .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-             .attr("class", "halo");
+slider_axis.select(".domain")
+           .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+           .attr("class", "halo");
 
-  var slider = svg_slider.append("g")
-                         .attr("class", "slider")
-                         .call(brush);
+var slider = svg_slider.append("g")
+                       .attr("class", "slider")
+                       .call(brush);
 
-  slider.selectAll(".extent,.resize").remove();
+slider.selectAll(".extent,.resize").remove();
 
-  slider.select(".background")
-        .attr("height", slider_height);
+slider.select(".background").attr("height", slider_height);
 
-  var handle = slider.append("circle")
-                     .attr("class", "handle")
-                     .attr("transform", "translate(0," + slider_height / 2 + ")")
-                     .attr("r", 9);
+var handle = slider.append("circle")
+                   .attr("class", "handle")
+                   .attr("transform", "translate(0," + slider_height / 2 + ")")
+                   .attr("r", 9);
 
-
+//---------------- data load ---------------------------------------------------------------------------------
 d3.json("../data/data.json", function(data) {
   item_slug_dict = hash_fn.get_item_slug_dict(get_unique(data, 'item'));
-
   add_event_listeners(data);
   update_categories(data);
   update_items(data);
@@ -162,10 +161,6 @@ d3.json("../data/data.json", function(data) {
 //   }
 
   update_slider_years(data);
-
-  var init_data = get_plot_data(data);
-
-  y.domain(init_data.map(function(d) { return d.name; }));
 
   chart.append("g")
     .attr("class", "x axis");
@@ -184,7 +179,7 @@ d3.json("../data/data.json", function(data) {
 
 });
 
-
+//---------------- data load ---------------------------------------------------------------------------------
 function draw_x_axis(all_data, trans_duration) {
   // update x axis with a transition
   var t;
@@ -193,13 +188,12 @@ function draw_x_axis(all_data, trans_duration) {
 
   var x_format = get_selected('#plot_variable_selector')['x_format'];
   x.domain(get_x_domain(all_data));
-
   xAxis.scale(x).tickFormat(x_format);
 
   chart.select(".x")
-    .transition()
-    .duration(t)
-    .call(xAxis);
+       .transition()
+       .duration(t)
+       .call(xAxis);
 
   update_tick_lines(t);
 
@@ -241,7 +235,6 @@ function draw_x_axis(all_data, trans_duration) {
   }
 }
 
-
 function draw_chart(all_data, year, trans_duration) {
   // redraw the bar chart with a transition
   var plot_data;
@@ -251,40 +244,34 @@ function draw_chart(all_data, year, trans_duration) {
   if (typeof trans_duration === 'undefined') { t = transition_duration; }
   else { t = trans_duration; }
 
-  var new_y_labels = plot_data.map(function(d) { return d.name; });
-  y.domain(new_y_labels);
+  var y_labels = plot_data.map(function(d) { return d.name; });
+  y.domain(y_labels);
   yAxis.scale(y);
 
   chart.selectAll(".y").remove();
-  chart.append("g")
-       .attr("class", "y axis")
-       .call(yAxis);
+  chart.append("g").attr("class", "y axis").call(yAxis);
 
   var rebound = chart.selectAll(".bar")
                      .data(plot_data, function(d) { return d.name; });
   
   rebound.exit().remove();
-  
-  rebound.enter()
-    .append("rect")
-    .attr("class", "bar");
+  rebound.enter().append("rect").attr("class", "bar");
   
   chart.selectAll(".bar")
-    .transition()
-    .duration(t)
-    .call(update_bars);
+       .transition()
+       .duration(t)
+       .call(update_bars);
 
   chart.selectAll(".tick-line").moveToFront();
 
   function update_bars(selection) {
     selection.attr("class", function(d) { return d.value < 0 ? "bar negative" : "bar positive"; })
-      .attr("x", function(d) { return x(Math.min(0, d.value)); })
-      .attr("y", function(d) { return y(d.name); })
-      .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
-      .attr("height", y.rangeBand());
+             .attr("x", function(d) { return x(Math.min(0, d.value)); })
+             .attr("y", function(d) { return y(d.name); })
+             .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
+             .attr("height", y.rangeBand());
   }
 }
-
 
 function populate_dropdown(id, data, text_accessor, data_accessor) {
   var selection = d3.select(id)
@@ -313,9 +300,9 @@ function get_plot_data(all_data, year) {
   if (typeof year === 'undefined') { year = get_selected_year(); }
 
   var selected_item = get_selected('#item_selector'),
-    selected_plot = get_selected('#plot_variable_selector');
+      selected_plot = get_selected('#plot_variable_selector'),
+      denominator_row;
   var numerator_row = get_rows({ tax_year: year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
-  var denominator_row;
 
   if (selected_plot.id == 0 || selected_plot.id == 1) { 
     return get_data_from_row(numerator_row); 
@@ -340,16 +327,6 @@ function get_data_from_row(row) {
   return row_data
 }
 
-function divide(numerator_data, denominator_data) {
-  result = [];
-  for (var i = numerator_data.length - 1; i >= 0; i--) {
-    var column = numerator_data[i]['name'];
-    var denominator_value = denominator_data.filter(function(d) { return d['name'] == column; })[0]['value'];
-    result.push({'name': column, 'value': numerator_data[i]['value']/denominator_value });
-  };
-  return result;
-}
-
 function get_rows(arg, all_data) {
   var valid_rows = [];
   for (var i = all_data.length - 1; i >= 0; i--) {
@@ -362,7 +339,6 @@ function get_rows(arg, all_data) {
   return valid_rows;
 }
 
-
 function add_event_listeners(all_data) {
   d3.select("#item_cat_selector")
     .on("change", function() {
@@ -372,7 +348,6 @@ function add_event_listeners(all_data) {
       draw_chart(all_data);
       hash_fn.set_url_hash();
     });
-
 
   d3.select("#item_selector")
     .on("change", function() {
@@ -421,8 +396,7 @@ function get_available_years(all_data) {
 
 
 
-// slider functions start here
-
+//---------------- slider stuff ---------------------------------------------------------------------------------
 function update_slider_years(all_data) {
   var available_years = get_available_years(all_data);
   brush.extent([available_years[0], available_years[0]])
@@ -439,7 +413,6 @@ function get_available_tick_labels(available_years) {
     else { return ''; }
   }
 }
-
 
 function brushed() {
   var year = brush.extent()[0];
@@ -483,7 +456,6 @@ function play(available_years, all_data) {
           .duration(transition_duration)
           .call(brush.extent([available_years[i], available_years[i]]))
           .call(brush.event);
-
     }
     trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
   }
@@ -502,14 +474,7 @@ function get_selected_year() {
   return brush.extent()[0];
 }
 
-
-
-
-
-
-
-
-
+//---------------- hash stuff ---------------------------------------------------------------------------------
 var hash_fn = {
   convert_to_slug: function(Text) {
     return Text.toLowerCase()
@@ -562,8 +527,7 @@ var hash_fn = {
 
 
 
-// don't need to look at these
-
+//---------------- generic stuff ---------------------------------------------------------------------------------
 function create_svg(id, margin, w, h) {
   return d3.select(id).append("svg")
            .attr("width", w + margin.left + margin.right)
@@ -583,6 +547,16 @@ function closest (num, arr) {
         }
     }
     return curr;
+}
+
+function divide(numerator_data, denominator_data) {
+  result = [];
+  for (var i = numerator_data.length - 1; i >= 0; i--) {
+    var column = numerator_data[i]['name'];
+    var denominator_value = denominator_data.filter(function(d) { return d['name'] == column; })[0]['value'];
+    result.push({'name': column, 'value': numerator_data[i]['value']/denominator_value });
+  };
+  return result;
 }
 
 function get_unique(data_rows, property) {
