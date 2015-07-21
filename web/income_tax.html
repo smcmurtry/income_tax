@@ -83,7 +83,7 @@ var plot_variable = [
 var transition_duration = 250, // in ms
     pause_duration = 1000;
 var item_slug_dict;
-
+var curr_avail_yrs;
 //---------------- bar chart initialization ---------------------------------------------------------------------------------
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
@@ -117,8 +117,8 @@ var slider_xAxis = d3.svg.axis()
                      .tickPadding(12);
 
 var brush = d3.svg.brush()
-              .x(x_slider)
-              .on("brush", brushed);
+              .x(x_slider);
+              // .on("brush", brushed);
 
 var svg_slider = create_svg("#slider", slider_margin, slider_width, slider_height);
 
@@ -151,7 +151,7 @@ d3.json("../data/data.json", function(data) {
   update_categories(data);
   update_items(data);
   populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
-
+  brush.on("brush", brushed(data));
 // // try to go to the requested hash state if possible
 //   if (window.location.hash) {
 //     var success = hash_fn.go_to_hash_state(data);
@@ -388,7 +388,9 @@ function update_categories(all_data) {
 function get_available_years(all_data) {
   var rows = get_rows({item_name: get_selected("#item_selector")}, all_data);
   unique_years = get_unique(rows, 'tax_year').map(function(d) { return +d; });
-  return unique_years.sort();
+  unique_years.sort();
+  curr_avail_yrs = unique_years;
+  return unique_years;
 }
 
 
@@ -414,23 +416,29 @@ function get_available_tick_labels(available_years) {
   }
 }
 
-function brushed() {
-  var year = brush.extent()[0];
-  // continuous position updating on drag
-  if (d3.event.sourceEvent) { // not a programmatic event
-    year = x_slider.invert(d3.mouse(this)[0]);
-    brush.extent([year, year]);
+function brushed(all_data) {
+  return function() {
+    var year = brush.extent()[0];
+    // continuous position updating on drag
+    if (d3.event.sourceEvent) { // not a programmatic event
+      year = x_slider.invert(d3.mouse(this)[0]);
+      brush.extent([year, year]);
+    } else {
+      handle.attr("cx", x_slider(year));
+      var closest_year = closest(year, curr_avail_yrs);
+      draw_chart(all_data, closest_year, 0);
+    }
   }
-  handle.attr("cx", x_slider(year));
 }
 
 function get_brushended(available_years, all_data) {
   return function brushended() {
     var year = closest(brush.extent()[0], available_years);
-    console.log('brushended ' + year)
+    // console.log('brushended ' + year)
+    // console.log('brushended handle ' + x_slider.invert(handle.attr("cx")))
     handle.attr("cx", x_slider(year));
-    brush.extent([year, year]);
-    draw_chart(all_data, year);
+    // brush.extent([year, year]);
+    // draw_chart(all_data, year);
     hash_fn.set_url_hash();
   }
 }
@@ -438,19 +446,21 @@ function get_brushended(available_years, all_data) {
 function play(available_years, all_data) {
   return function() {
     d3.select("#play_button")
-      .attr("class", "fa fa-pause")
-      .on("click", pause(available_years, all_data));
-    console.log('play ' + brush.extent()[0]);
+        .attr("class", "fa fa-pause")
+        .on("click", pause(available_years, all_data));
+    // console.log('play ' + brush.extent()[0]);
+    // console.log('play ' + x_slider.invert(handle.attr("cx")))
     var curr_year = closest(brush.extent()[0], available_years);
     var curr_ind = available_years.indexOf(curr_year);
     var start_ind;
     if (curr_ind == available_years.length - 1) { start_ind = 1; } 
     else { start_ind = curr_ind; } 
 
-    d3.select(".slider").call(brush.event)
-          .call(brush.extent([available_years[start_ind], available_years[start_ind]]));
+    d3.select(".slider")
+      .call(brush.extent([available_years[start_ind], available_years[start_ind]]))
+      .call(brush.event);
 
-    var trans = d3.select(".slider").call(brush.event);
+    var trans = d3.select(".slider");//.call(brush.event);
     if (start_ind != curr_ind) { 
       trans = trans.transition().duration(pause_duration);
     }
@@ -466,6 +476,7 @@ function play(available_years, all_data) {
     }
     trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
   }
+
 }
 
 function pause(available_years, all_data) {
@@ -473,6 +484,8 @@ function pause(available_years, all_data) {
     d3.select(".slider")
       .transition()  // cancel the draw transition
       .call(get_brushended(available_years, all_data));
+    d3.select(".extent").transition()
+    d3.selectAll(".resize").transition()
     d3.select("#play_button")
       .attr("class", "fa fa-play")
       .on("click", play(available_years, all_data));
@@ -482,6 +495,7 @@ function pause(available_years, all_data) {
 function get_selected_year() {
   return brush.extent()[0];
 }
+
 
 //---------------- hash stuff ---------------------------------------------------------------------------------
 var hash_fn = {
