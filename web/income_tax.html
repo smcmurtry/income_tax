@@ -257,13 +257,23 @@ function draw_chart(all_data, year, trans_duration) {
   var plot_data;
   if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
   else {
-    var old_year = Math.floor(year),
-        new_year = Math.ceil(year);
+    var closest_yr = closest(year, available_years);
+    var closest_index = available_years.indexOf(closest_yr);
+    var old_year, new_year;
+    if (closest_yr <= year) {
+      old_year = closest_yr;
+      new_year = available_years[closest_index+1];
+    } else {
+      old_year = available_years[closest_index-1];
+      new_year = closest_yr;
+    }
     var old_plot_data = get_plot_data(all_data, old_year);
     var new_plot_data = get_plot_data(all_data, new_year);
+    // new year is undefined at the end of the slider, which would mess up the interpolation factor
+    var f_interp = (typeof new_year === 'undefined' ? (year-old_year) : (year-old_year) / (new_year-old_year));
     plot_data = [];
     for (var i = 0; i < old_plot_data.length; i++) {
-      plot_data.push(d3.interpolateObject(old_plot_data[i], new_plot_data[i])(year - old_year));
+      plot_data.push(d3.interpolateObject(old_plot_data[i], new_plot_data[i])(f_interp));
     };
   }
   var t;
@@ -272,7 +282,8 @@ function draw_chart(all_data, year, trans_duration) {
 
   var y_labels = plot_data.map(function(d) { return d.name; });
   y.domain(y_labels);
-  yAxis.scale(y);
+  yAxis.scale(y)
+       .tickFormat(function(d) { return (d.indexOf('.') != -1 ? ' ' : d); }); // don't show the weirdly interpolated ylabels
 
   chart.selectAll(".y").remove();
   chart.append("g").attr("class", "y axis").call(yAxis);
@@ -502,7 +513,8 @@ function brushed(all_data) {
       currentValue = brush.extent()[0];
       handle.attr("cx", x_slider(currentValue));
     }
-    draw_chart(all_data, get_selected_year(), 0); //transitionDuration/2.);
+    draw_chart(all_data, get_selected_year(), 0);
+    hash_fn.set_url_hash();
   }
 }
 
@@ -544,7 +556,7 @@ var hash_fn = {
   set_url_hash: function() {
     var selected_item = get_selected('#item_selector'),
     selected_plot_id = get_selected('#plot_variable_selector')['id'],
-    selected_year = get_selected_year();
+    selected_year = closest(get_selected_year(), available_years);
     window.location.hash = hash_fn.convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
   },
   go_to_hash_state: function(all_data) {
