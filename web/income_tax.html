@@ -256,6 +256,9 @@ function draw_chart(all_data, year, trans_duration) {
   // redraw the bar chart with a transition
   var plot_data;
   if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
+  else if (year == closest(year, available_years)) {
+    plot_data = get_plot_data(all_data, year);
+  }
   else {
     var closest_yr = closest(year, available_years);
     var closest_index = available_years.indexOf(closest_yr);
