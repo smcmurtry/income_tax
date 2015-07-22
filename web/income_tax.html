@@ -83,7 +83,6 @@ var plot_variable = [
 var transition_duration = 250, // in ms
     pause_duration = 1000;
 var item_slug_dict;
-var curr_avail_yrs;
 //---------------- bar chart initialization ---------------------------------------------------------------------------------
 var margin = {top: 40, right: 50, bottom: 50, left: 130},
     width = 800 - margin.left - margin.right,
@@ -110,17 +109,27 @@ var x_slider = d3.scale.linear()
                  .range([0, slider_width])
                  .clamp(true);
 
+var brush = d3.svg.brush()
+              .x(x_slider);
+
+var handle,
+    playButton,
+    moving,
+    alpha = .4, // this determines how fast the handle moves when the user clicks/drags
+    currentValue,
+    transitionDuration = 750,
+    available_years,
+    chart_yr;
+
+playButton = d3.select("#play_button");
+
+var svg_slider = create_svg("#slider", slider_margin, slider_width, slider_height);
+
 var slider_xAxis = d3.svg.axis()
                      .scale(x_slider)
                      .orient("bottom")
                      .tickSize(0)
                      .tickPadding(12);
-
-var brush = d3.svg.brush()
-              .x(x_slider);
-              // .on("brush", brushed);
-
-var svg_slider = create_svg("#slider", slider_margin, slider_width, slider_height);
 
 var slider_axis = svg_slider.append("g")
                             .attr("class", "x axis")
@@ -144,13 +153,19 @@ var handle = slider.append("circle")
                    .attr("transform", "translate(0," + slider_height / 2 + ")")
                    .attr("r", 9);
 
+playButton.on("click", playPause);
+
 //---------------- data load ---------------------------------------------------------------------------------
 d3.json("../data/data.json", function(data) {
+
   item_slug_dict = hash_fn.get_item_slug_dict(get_unique(data, 'item'));
   add_event_listeners(data);
   update_categories(data);
   update_items(data);
   populate_dropdown("#plot_variable_selector", plot_variable, function (d) { return d.name; }, function (d) { return d.name; });
+  available_years = get_available_years(data); 
+  currentValue = available_years[0];
+  chart_yr = currentValue;
   brush.on("brush", brushed(data));
 // // try to go to the requested hash state if possible
 //   if (window.location.hash) {
@@ -162,6 +177,7 @@ d3.json("../data/data.json", function(data) {
 //   }
 
   update_slider_years(data);
+
 
   chart.append("g")
     .attr("class", "x axis");
@@ -240,7 +256,16 @@ function draw_chart(all_data, year, trans_duration) {
   // redraw the bar chart with a transition
   var plot_data;
   if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
-  else {  plot_data = get_plot_data(all_data, year); }
+  else {
+    var old_year = Math.floor(year),
+        new_year = Math.ceil(year);
+    var old_plot_data = get_plot_data(all_data, old_year);
+    var new_plot_data = get_plot_data(all_data, new_year);
+    plot_data = [];
+    for (var i = 0; i < old_plot_data.length; i++) {
+      plot_data.push(d3.interpolateObject(old_plot_data[i], new_plot_data[i])(year - old_year));
+    };
+  }
   var t;
   if (typeof trans_duration === 'undefined') { t = transition_duration; }
   else { t = trans_duration; }
@@ -305,14 +330,17 @@ function get_plot_data(all_data, year) {
       denominator_row;
   var numerator_row = get_rows({ tax_year: year, item_unit: selected_plot.numerator_unit, item_name: selected_item }, all_data)[0];
 
-  if (selected_plot.id == 0 || selected_plot.id == 1) { 
-    return get_data_from_row(numerator_row); 
-  } else if ( selected_plot.id == 2 || selected_plot.id == 5) {
-    denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0];
-  } else if (selected_plot.id == 3) {
-    denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0];
-  } else if (selected_plot.id == 4) {
-    denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
+  switch (selected_plot.id) {
+    case 0:
+    case 1:
+      return get_data_from_row(numerator_row); 
+    case 2:
+    case 5:
+      denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: 'total number of returns' }, all_data)[0]; break;
+    case 3:
+      denominator_row = get_rows({ tax_year: year, item_unit: '#', item_name: selected_item }, all_data)[0]; break;
+    case 4:
+      denominator_row = get_rows({ tax_year: year, item_unit: '$', item_name: 'total income assessed' }, all_data)[0];
   }
   return divide(get_data_from_row(numerator_row), get_data_from_row(denominator_row)).reverse();
 }
@@ -389,113 +417,114 @@ function get_available_years(all_data) {
   var rows = get_rows({item_name: get_selected("#item_selector")}, all_data);
   unique_years = get_unique(rows, 'tax_year').map(function(d) { return +d; });
   unique_years.sort();
-  curr_avail_yrs = unique_years;
+  available_years = unique_years;
   return unique_years;
 }
 
 
 
 //---------------- slider stuff ---------------------------------------------------------------------------------
+function get_selected_year() {
+  return x_slider.invert(handle.attr("cx"));
+}
+
 function update_slider_years(all_data) {
-  var available_years = get_available_years(all_data);
-  if (available_years.indexOf(brush.extent[0]) == -1) {
-      brush.extent([available_years[0], available_years[0]]);
-      handle.attr("cx", x_slider(available_years[0]));
-  } 
-  brush.on("brushend", get_brushended(available_years, all_data));
+  get_available_years(all_data);
+  pauseAction();
   slider_xAxis.tickFormat(get_available_tick_labels(available_years));
   slider_axis.call(slider_xAxis);
-  d3.select("#play_button")
-    .on("click", play(available_years, all_data));
-} 
 
-function get_available_tick_labels(available_years) {
-  return function(d) {
-    if (available_years.indexOf(d) != -1) { return d; } 
-    else { return ''; }
+  function get_available_tick_labels() {
+    return function(d) {
+      if (available_years.indexOf(d) != -1) { return d; } 
+      else { return ''; }
+    }
   }
+}
+
+function closest (num, arr) {
+    var curr = arr[0];
+    var diff = Math.abs (num - curr);
+    for (var val = 0; val < arr.length; val++) {
+        var newdiff = Math.abs (num - arr[val]);
+        if (newdiff < diff) {
+            diff = newdiff;
+            curr = arr[val];
+        }
+    }
+    return curr;
+}
+
+function playPause() {
+  if (playButton.attr("class") == "fa fa-pause") {
+    pauseAction();
+  } else {
+    playButton.attr("class", "fa fa-pause");
+    var transition = slider.transition(),
+        curr = available_years.indexOf(closest(x_slider.invert(handle.attr("cx")), available_years)),
+        sorted_years = (curr == available_years.length - 1 ? available_years : available_years.slice(curr, available_years.length));
+    for (var i = 0; i < sorted_years.length; i++) {
+      var t1 = (i == 0 ? 0 : transitionDuration);
+      var t2 = (curr != available_years.length - 1 && i == 0 ? 0 : transitionDuration);
+      transition = transition.transition()
+        .duration(t1)
+        .call(brush.extent([sorted_years[i], sorted_years[i]]))
+        .call(brush.event)
+        .transition()
+        .duration(t2)
+        .call(brush.event);
+    };
+    transition.each("end", function() { playButton.attr("class", "fa fa-play") });
+  }
+}
+
+function pauseAction() {
+  slider.interrupt();
+  var closest_yr = closest(x_slider.invert(handle.attr("cx")), available_years);
+  slider.transition()
+    .duration(0)
+    .call(brush.extent([closest_yr, closest_yr]))      
+    .call(brush.event)
+  playButton.attr("class", "fa fa-play");
 }
 
 function brushed(all_data) {
   return function() {
-    var year = brush.extent()[0];
-    // continuous position updating on drag
     if (d3.event.sourceEvent) { // not a programmatic event
-      year = x_slider.invert(d3.mouse(this)[0]);
-      brush.extent([year, year]);
+      if (d3.event.sourceEvent.target.parentNode === this) { // clicked on the brush
+        if (playButton.attr("class") == "fa fa-pause") {
+          pauseAction();
+        }
+        targetValue = closest(x_slider.invert(d3.mouse(this)[0]), available_years);
+        move();
+      }
     } else {
-      handle.attr("cx", x_slider(year));
-      var closest_year = closest(year, curr_avail_yrs);
-      draw_chart(all_data, closest_year, 0);
+      currentValue = brush.extent()[0];
+      handle.attr("cx", x_slider(currentValue));
     }
+    draw_chart(all_data, get_selected_year(), 0); //transitionDuration/2.);
   }
 }
 
-function get_brushended(available_years, all_data) {
-  return function brushended() {
-    var year = closest(brush.extent()[0], available_years);
-    // console.log('brushended ' + year)
-    // console.log('brushended handle ' + x_slider.invert(handle.attr("cx")))
-    handle.attr("cx", x_slider(year));
-    // brush.extent([year, year]);
-    // draw_chart(all_data, year);
-    hash_fn.set_url_hash();
-  }
+function move() {
+  var copyValue = currentValue; // detect interrupt
+  if (moving) return false;
+  moving = true;
+
+  d3.timer(function() {
+    if (copyValue !== currentValue) return !(moving = false);
+
+    copyValue = currentValue = Math.abs(currentValue - targetValue) < 1e-3
+        ? targetValue
+        : targetValue * alpha + currentValue * (1 - alpha);
+
+    slider
+        .call(brush.extent([currentValue, currentValue]))
+        .call(brush.event)
+
+    return !(moving = currentValue !== targetValue);
+  });
 }
-
-function play(available_years, all_data) {
-  return function() {
-    d3.select("#play_button")
-        .attr("class", "fa fa-pause")
-        .on("click", pause(available_years, all_data));
-    // console.log('play ' + brush.extent()[0]);
-    // console.log('play ' + x_slider.invert(handle.attr("cx")))
-    var curr_year = closest(brush.extent()[0], available_years);
-    var curr_ind = available_years.indexOf(curr_year);
-    var start_ind;
-    if (curr_ind == available_years.length - 1) { start_ind = 1; } 
-    else { start_ind = curr_ind; } 
-
-    d3.select(".slider")
-      .call(brush.extent([available_years[start_ind], available_years[start_ind]]))
-      .call(brush.event);
-
-    var trans = d3.select(".slider");//.call(brush.event);
-    if (start_ind != curr_ind) { 
-      trans = trans.transition().duration(pause_duration);
-    }
-    // console.log(start_year);
-    // console.log(available_years[loop_start_ind])
-    for (var i = start_ind+1; i < available_years.length; i++) {
-      trans = trans.transition() // chain the transitions
-                   .duration(transition_duration)
-                   .call(brush.extent([available_years[i], available_years[i]]))
-                   .call(brush.event)
-                   .transition() // add a delay since .delay() doesn't seem to work
-                   .duration(pause_duration);
-    }
-    trans.each("end", function() { d3.select("#play_button").attr("class", "fa fa-play").on("click", play(available_years, all_data)) });
-  }
-
-}
-
-function pause(available_years, all_data) {
-  return function() {
-    d3.select(".slider")
-      .transition()  // cancel the draw transition
-      .call(get_brushended(available_years, all_data));
-    d3.select(".extent").transition()
-    d3.selectAll(".resize").transition()
-    d3.select("#play_button")
-      .attr("class", "fa fa-play")
-      .on("click", play(available_years, all_data));
-  }
-}
-
-function get_selected_year() {
-  return brush.extent()[0];
-}
-
 
 //---------------- hash stuff ---------------------------------------------------------------------------------
 var hash_fn = {
