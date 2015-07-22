@@ -167,16 +167,17 @@ d3.json("../data/data.json", function(data) {
   currentValue = available_years[0];
   chart_yr = currentValue;
   brush.on("brush", brushed(data));
-// // try to go to the requested hash state if possible
-//   if (window.location.hash) {
-//     var success = hash_fn.go_to_hash_state(data);
-//     if (!success) { hash_fn.reset_hash(); }
-//   } 
-//   else {
-//     update_slider_years(data);
-//   }
+  // try to go to the requested hash state if possible
+  if (window.location.hash) {
+    var success = hash_fn.go_to_hash_state(data);
+    if (!success) { hash_fn.reset_hash(); }
+  } 
+  else {
+    update_slider_years(data);
+    pauseAction();
+  }
 
-  update_slider_years(data);
+  // update_slider_years(data);
 
 
   chart.append("g")
@@ -258,6 +259,7 @@ function draw_chart(all_data, year, trans_duration) {
   if (typeof year === 'undefined') { plot_data = get_plot_data(all_data); }
   else if (year == closest(year, available_years)) {
     plot_data = get_plot_data(all_data, year);
+    hash_fn.set_url_hash(); 
   }
   else {
     var closest_yr = closest(year, available_years);
@@ -387,6 +389,7 @@ function add_event_listeners(all_data) {
     .on("change", function() {
       update_items(all_data);
       update_slider_years(all_data);
+      pauseAction();
       draw_x_axis(all_data);
       draw_chart(all_data);
       hash_fn.set_url_hash();
@@ -394,6 +397,7 @@ function add_event_listeners(all_data) {
   d3.select("#item_selector")
     .on("change", function() {
       update_slider_years(all_data);
+      pauseAction();
       draw_x_axis(all_data);
       draw_chart(all_data);
       hash_fn.set_url_hash();
@@ -444,7 +448,6 @@ function get_selected_year() {
 
 function update_slider_years(all_data) {
   get_available_years(all_data);
-  pauseAction();
   slider_xAxis.tickFormat(get_available_tick_labels(available_years));
   slider_axis.call(slider_xAxis);
 
@@ -517,7 +520,6 @@ function brushed(all_data) {
       handle.attr("cx", x_slider(currentValue));
     }
     draw_chart(all_data, get_selected_year(), 0);
-    hash_fn.set_url_hash();
   }
 }
 
@@ -573,7 +575,12 @@ var hash_fn = {
     } 
     catch(err) { return false; }
     update_slider_years(all_data);
-    try { hash_fn.select_element(year, '#year_selector', function(d) { return d; }); } 
+    try { 
+      slider.transition()
+            .duration(0)
+            .call(brush.extent([year, year]))      
+            .call(brush.event);
+    } 
     catch(err) { return false; }
     return true;
   },
@@ -581,6 +588,7 @@ var hash_fn = {
     history.pushState('', document.title, window.location.pathname);
     populate_dropdown("#item_selector", unique_items, function(d) { return capitalizeFirstLetter(d); }, function(d) { return d; } );
     update_slider_years(data);
+    pauseAction();
   },
   select_element: function(value_to_select, selector_id, accessor_fn) {
     var index_to_select = d3.select(selector_id)
