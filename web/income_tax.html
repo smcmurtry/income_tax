@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Income Tax</title>
+  <title>Income Tax Explorer</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="income_tax.css"/>
   <script src="d3.v3.min.js"></script>
@@ -28,27 +28,27 @@
 <div id='selectors'>
 
 <div class='sel'> 
-  <div>Item Category</div>
-  <select id='item_cat_selector'></select>
+  <span class="dropdown_title">Filter Items:</span>
+  <select id='item_cat_selector' class='dropdown'></select>
 </div>
 
 <div class='sel'> 
-  <div>Tax Item</div>
-  <select id='item_selector'></select>
+  <span class="dropdown_title">Select Item:</span>
+  <select id='item_selector' class='dropdown'></select>
 </div>
 
 <div class='sel'>
-  <div>Chart Type</div>
-  <select id='plot_variable_selector'></select>
+  <span class="dropdown_title">Select Chart:</span>
+  <select id='plot_variable_selector' class='dropdown'></select>
 </div>
 </div>
 
 <div id='explanation'>
   <p>
-    All dollar amounts are inflation-adjusted to 2015 Canadian dollars. 
+    This charting tool allows you to explore how Canada's tax rules effect Canadians of different incomes. Just select a tax item and the type of chart you would like to look at above. Then move the slider to see changes from year to year. 
   </p>
   <p>
-    As a category, tax items include income, deductions, tax credits and tax payable. The <a href="http://www.cra-arc.gc.ca/menu-eng.html">Canadian Revenue Agency (CRA)</a> provides a <a href="http://www.cra-arc.gc.ca/gncy/stts/gb11/pst/fnl/dsctm-eng.html">description of items</a>. An effort was made to standardize item names to allow comparison between years. However, since 2004 the number of tax items has increased from 64 to 112. Some items have been broken up into sub categories, and many definitions have changed. For this reason, many item amounts cannot be compared over the whole 2004 to 2012 range, and some items included in this tool will will not be present in the current CRA item description page linked above.
+    Tax items include income, deductions, tax credits and tax payable. The <a href="http://www.cra-arc.gc.ca/menu-eng.html">Canadian Revenue Agency (CRA)</a> provides a <a href="http://www.cra-arc.gc.ca/gncy/stts/gb11/pst/fnl/dsctm-eng.html">description of items</a>. An effort was made to standardize item names to allow comparison between years. However, since 2004 the number of tax items has increased from 64 to 112, and some item definitions have changed. For this reason, not all item data is available for every year between 2004 and 2012. This is due to changes in tax rules over time.
   </p>
   <p>
     Each bar represents an amount for Canadians within the labeled range of annual income. The following six charts can be explored for each tax item:
@@ -62,9 +62,14 @@
     </ul>  
 
   </p>
-  <p>
-    * As of July 2015, the final data for the 2012 tax year had not yet been released. The CRA has provided <a href="http://www.cra-arc.gc.ca/gncy/stts/ntrm-eng.html">preliminary data</a> for 2012 that are <i>"based on approximately 95% of income tax and benefit returns excluding the reassessments for a given tax year."</i>
+    <p>
+    All dollar amounts are inflation-adjusted to 2015 Canadian dollars. 
   </p>
+  <p>
+    Note: As of July 2015, the final data for the 2012 tax year had not yet been released. The CRA has provided <a href="http://www.cra-arc.gc.ca/gncy/stts/ntrm-eng.html">preliminary data</a> for 2012 that are <i>"based on approximately 95% of income tax and benefit returns excluding the reassessments for a given tax year."</i>
+  </p>
+  <p>&copy; 2015 <a class='my-link' href="http://stephenmcmurtry.org/">Stephen McMurtry</a></p>
+
 </div>
 
 </div>
@@ -84,7 +89,7 @@ var transition_duration = 250, // in ms
     pause_duration = 1000;
 var item_slug_dict;
 //---------------- bar chart initialization ---------------------------------------------------------------------------------
-var margin = {top: 40, right: 50, bottom: 50, left: 130},
+var margin = {top: 40, right: 50, bottom: 0, left: 130},
     width = 800 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
@@ -100,8 +105,8 @@ var xAxis = d3.svg.axis().orient("top"),
     yAxis = d3.svg.axis().orient("left");
 
 //---------------- slider initialization ---------------------------------------------------------------------------------
-var slider_margin = {top: 5, right: 20, bottom: 0, left: 20},
-    slider_width = 600 - slider_margin.left - slider_margin.right,
+var slider_margin = {top: 5, right: 50, bottom: 0, left: 15},
+    slider_width = 630 - slider_margin.left - slider_margin.right,
     slider_height = 50 - slider_margin.bottom - slider_margin.top;
 
 var x_slider = d3.scale.linear()
@@ -176,9 +181,6 @@ d3.json("../data/data.json", function(data) {
     update_slider_years(data);
     pauseAction();
   }
-
-  // update_slider_years(data);
-
 
   chart.append("g")
     .attr("class", "x axis");
@@ -580,7 +582,7 @@ var hash_fn = {
             .duration(0)
             .call(brush.extent([year, year]))      
             .call(brush.event);
-    } 
+    }
     catch(err) { return false; }
     return true;
   },
@@ -676,7 +678,11 @@ function number_format(n) {
 
 function dollar_format(n) { return '$' + number_format(n); }
 
-function percent_format(n) { return d3.format('.2p')(n); }
+function percent_format(n) { 
+  var first_try = d3.format('.2r')(100.*n) + '%';
+  if (first_try.length < 10) { return first_try; }
+  else { return d3.format('%')(n); }
+}
 
 </script>
 

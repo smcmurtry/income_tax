@@ -84,6 +84,7 @@ body {
 #slider_container {
   width: 670px;
   margin-bottom: 50px;
+
 }
 
 #slider_container .axis {
@@ -117,12 +118,26 @@ body {
 }
 
 #play_button_container {
-  height: 55px;
+  /*height: 55px;*/
   float: left;
-  margin-top: 15px;
+  margin-top: 18px;
 }
 
 #play_button {
-  width: 30px;
+  width: 20px;
   cursor: pointer;
+}
+
+
+.dropdown {
+  /*margin-left: 10px;*/
+  width: 483px;
+
+}
+
+.dropdown_title {
+  width: 120px;
+  float: left;
+  font-size: 16px;
+  font-weight: 900;
 }
