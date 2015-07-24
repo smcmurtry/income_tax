@@ -3,9 +3,19 @@
 <head>
   <meta charset="utf-8">
   <title>Income Tax Explorer</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="income_tax.css"/>
   <script src="d3.v3.min.js"></script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59457353-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
 
 <body>
@@ -178,8 +188,7 @@ d3.json("../data/data.json", function(data) {
     if (!success) { hash_fn.reset_hash(); }
   } 
   else {
-    update_slider_years(data);
-    pauseAction();
+    var success = hash_fn.go_to_hash_state(data, '#total-tax-payable+4+2010');
   }
 
   chart.append("g")
@@ -566,8 +575,9 @@ var hash_fn = {
     selected_year = closest(get_selected_year(), available_years);
     window.location.hash = hash_fn.convert_to_slug(selected_item) + '+' + selected_plot_id + '+' + selected_year;
   },
-  go_to_hash_state: function(all_data) {
-    var hash_state = window.location.hash.split('+');
+  go_to_hash_state: function(all_data, hash_state) {
+    if (typeof hash_state === 'undefined') { hash_state = window.location.hash.split('+'); }
+    else { hash_state = hash_state.split('+'); }
     var item = item_slug_dict[hash_state[0].substr(1)];
     var plot_variable_id = plot_variable.filter(function(d) { return d['id'] == hash_state[1] })[0]['id'];
     var year = hash_state[2];
