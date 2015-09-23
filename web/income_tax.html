@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Income Tax Explorer</title>
-   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+  <meta name="description" content="A visualization tool to explore Canadian personal income tax data between 2004 and 2012.">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="income_tax.css"/>
   <script src="d3.v3.min.js"></script>
   <script>
@@ -15,7 +16,7 @@
   ga('create', 'UA-59457353-1', 'auto');
   ga('send', 'pageview');
 
-</script>
+  </script>
 </head>
 
 <body>
@@ -73,7 +74,7 @@
 
   </p>
     <p>
-    All dollar amounts are inflation-adjusted to 2015 Canadian dollars. 
+    All dollar amounts are inflation-adjusted to 2015 Canadian dollars. For details regarding how the data was prepared, see the <a href="http://nbviewer.ipython.org/github/smcmurtry/income_tax/blob/master/python/cleaning_historical_data.ipynb">python code</a>. 
   </p>
   <p>
     Note: As of July 2015, the final data for the 2012 tax year had not yet been released. The CRA has provided <a href="http://www.cra-arc.gc.ca/gncy/stts/ntrm-eng.html">preliminary data</a> for 2012 that are <i>"based on approximately 95% of income tax and benefit returns excluding the reassessments for a given tax year."</i>
